@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>EHBO op zak</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="De persoonlijke helft van de EHBO-doos: waar sta je, een pleisterkaart, de LMRA en een plek om iets op te schrijven.">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Vier weergaven, onderin een balk. Eén kolom, alles binnen duimbereik. */
+:root{
+  --paper:#F7F4EC; --card:#FFFDF8; --sunk:#F2EDE1;
+  --ink:#1C1B19; --soft:#5B564D; --line:#C2BBA9; --hair:#DCD5C4;
+  --rood:#C0442E; --oranje:#B06512; --geel:#8A6D0B; --groen:#4F7040; --blauw:#3A5A72;
+  --disp:'Fraunces',Georgia,serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#15130F; --card:#1F1C17; --sunk:#272319;
+  --ink:#F0EADC; --soft:#ADA391; --line:#403A2F; --hair:#2E2A22;
+  --rood:#E8755B; --oranje:#E8A14E; --geel:#D7B646; --groen:#93B27E; --blauw:#7FA6C2;
+  color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --paper:#15130F; --card:#1F1C17; --sunk:#272319;
+  --ink:#F0EADC; --soft:#ADA391; --line:#403A2F; --hair:#2E2A22;
+  --rood:#E8755B; --oranje:#E8A14E; --geel:#D7B646; --groen:#93B27E; --blauw:#7FA6C2;
+  color-scheme:dark;}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.5;margin:0}
+.wrap{max-width:30rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:1.5rem 7rem;display:flex;flex-direction:column;gap:1.125rem}
+h1,h2,h3{margin:0;font-family:var(--disp);font-weight:700;text-wrap:balance}
+h2{font-size:1.25rem}h3{font-size:1.0625rem;font-weight:600}
+p{margin:0}
+.lab{font-family:var(--mono);font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.card{background:var(--card);border:1px solid var(--hair);padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.top{display:flex;align-items:center;gap:.75rem}
+.top h1{font-size:1.5rem;line-height:1.05}
+.top p{font-size:.8125rem;color:var(--soft)}
+.zones{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}
+.zone{min-height:4.25rem;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--body);font-size:.8125rem;font-weight:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.375rem;cursor:pointer;padding:.5rem .25rem}
+.zone i{display:block;width:100%;height:.375rem;background:var(--z)}
+.zone[aria-pressed="true"]{border-color:var(--z);border-width:2px;background:var(--sunk)}
+:focus-visible{outline:2px solid var(--rood);outline-offset:2px}
+.advies{border-left:5px solid var(--z,var(--line));padding:.875rem}
+.rij{display:flex;flex-direction:column;gap:.25rem}
+.rij b{font-weight:500;font-size:.8125rem}
+.rij span{font-size:.875rem}
+.btn{min-height:2.75rem;padding:.625rem 1rem;border:1px solid var(--line);background:var(--sunk);color:var(--ink);font-family:var(--body);font-size:.875rem;font-weight:500;cursor:pointer}
+.btn.vol{background:var(--rood);border-color:var(--rood);color:#FFF8F2}
+.btn.breed{width:100%}
+.kies{display:flex;gap:.5rem}
+.kies .btn{flex:1}
+.kies .btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.kaart{background:var(--sunk);border:1px solid var(--hair);padding:.875rem;display:flex;flex-direction:column;gap:.5rem;min-height:8.5rem}
+.kaart h3{font-size:1.1875rem;line-height:1.15;font-weight:700}
+.kaart p{font-size:.9375rem}
+.kaart .nr{font-family:var(--mono);font-size:.6875rem;color:var(--soft);margin-top:auto}
+.adem{display:flex;flex-direction:column;align-items:center;gap:.75rem;padding:.5rem 0}
+.bol{width:7rem;height:7rem;border-radius:50%;border:2px solid var(--rood);display:flex;align-items:center;justify-content:center;transform:scale(.6);transition:transform 4s ease-in-out}
+.bol b{font-family:var(--mono);font-size:1.5rem;font-weight:500}
+.fase{font-family:var(--disp);font-size:1.0625rem;font-weight:600}
+@media (prefers-reduced-motion:reduce){.bol{transition:none;transform:scale(.85)}}
+.band{border-left:5px solid var(--z);background:var(--sunk);padding:.75rem .875rem;display:flex;flex-direction:column;gap:.25rem}
+.band b{font-family:var(--disp);font-size:1rem;font-weight:600}
+.band span{font-size:.8125rem;line-height:1.45}
+details.kl{border:1px solid var(--hair);background:var(--card)}
+details.kl>summary{min-height:3rem;display:flex;align-items:center;gap:.625rem;padding:.5rem .875rem;cursor:pointer;list-style:none;font-family:var(--disp);font-weight:600;font-size:1.0625rem}
+details.kl>summary::-webkit-details-marker{display:none}
+details.kl>summary i{width:.75rem;height:1.75rem;background:var(--z);flex:0 0 auto}
+details.kl>summary em{font-style:normal;font-size:.75rem;color:var(--soft);font-family:var(--body);font-weight:400}
+details.kl>summary::after{content:"+";margin-left:auto;font-family:var(--mono);color:var(--soft);font-size:1.25rem}
+details.kl[open]>summary::after{content:"\2212"}
+.kl .body{padding:0 .875rem .875rem;display:flex;flex-direction:column;gap:.75rem}
+label.lab{display:block;margin-bottom:.25rem}
+textarea{width:100%;min-height:3.75rem;background:var(--sunk);border:1px solid var(--hair);color:var(--ink);font-family:var(--body);font-size:.9375rem;line-height:1.45;padding:.5rem .625rem;resize:vertical}
+textarea::placeholder{color:var(--soft);opacity:.75}
+ol.lmra{list-style:none;margin:0;padding:0}
+.chk{width:100%;min-height:2.75rem;display:flex;gap:.75rem;align-items:flex-start;text-align:left;background:none;border:0;border-bottom:1px solid var(--hair);padding:.625rem .125rem;color:var(--ink);font-family:var(--body);font-size:.875rem;line-height:1.4;cursor:pointer}
+.chk em{flex:0 0 1.125rem;height:1.125rem;margin-top:.125rem;border:1.5px solid var(--line);display:block}
+.chk[aria-pressed="true"] em{background:var(--groen);border-color:var(--groen)}
+.chk[aria-pressed="true"] span{color:var(--soft);text-decoration:line-through}
+.chips{display:flex;flex-wrap:wrap;gap:.375rem}
+.chip{min-height:2.25rem;padding:.375rem .75rem;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--body);font-size:.8125rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--groen);border-color:var(--groen);color:var(--paper)}
+.melding{font-size:.8125rem;color:var(--soft);min-height:1.2rem}
+.voet{font-size:.8125rem;color:var(--soft);display:flex;flex-direction:column;gap:.5rem;border-top:1px solid var(--line);padding-top:1rem}
+.voet b{font-weight:500;color:var(--ink)}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--card);border-top:1px solid var(--line);
+ padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+nav div{max-width:30rem;margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+nav button{min-height:3.5rem;background:none;border:0;border-top:3px solid transparent;color:var(--soft);font-family:var(--body);font-size:.75rem;font-weight:500;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;padding:.25rem}
+nav button[aria-current="page"]{color:var(--ink);border-top-color:var(--rood)}
+nav svg{display:block}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <svg width="32" height="32" viewBox="0 0 34 34" role="img" aria-label="EHBO-kruis">
+      <rect x="12.5" y="2" width="9" height="30" rx="2" fill="var(--rood)"></rect>
+      <rect x="2" y="12.5" width="30" height="9" rx="2" fill="var(--rood)"></rect>
+    </svg>
+    <div><h1>EHBO op zak</h1><p id="ondertitel">Voor als het spannend wordt</p></div>
+  </header>
+
+  <!-- NU -->
+  <div id="v-nu">
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Begin hier</span>
+      <h2>Hoe sta je erbij?</h2>
+      <div class="zones" id="zones"></div>
+      <div class="advies card" id="advies" hidden></div>
+    </section>
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Pleister</span>
+      <h2>Trek een kaart</h2>
+      <div class="kies" role="group" aria-label="Hoeveel tijd heb je">
+        <button class="btn" type="button" data-tijd="60 sec" aria-pressed="true">60 seconden</button>
+        <button class="btn" type="button" data-tijd="10 min" aria-pressed="false">10 minuten</button>
+      </div>
+      <div class="kaart" id="kaart" aria-live="polite"></div>
+      <div id="ademblok" hidden>
+        <div class="adem"><div class="bol" id="bol"><b id="tel">4</b></div><p class="fase" id="fase">Adem in</p></div>
+        <button class="btn breed" type="button" id="ademknop">Start vier rondjes</button>
+      </div>
+      <button class="btn breed" type="button" id="nogeen">Nog een kaart</button>
+    </section>
+    <footer class="voet">
+      <p><b>Drie keer oranje of rood in één week</b> is geen pleisterprobleem, maar een planningsprobleem. Dat is het moment om het te zeggen, niet om harder te lopen.</p>
+      <p>Zodra deze pagina een vast adres heeft, komt daar een QR-code bij die op de kaarten in de doos gedrukt wordt.</p>
+      <p>De kaarten voor met je team, Zalf en Verband en Spiegel, zitten in de doos op kantoor.</p>
+    </footer>
+  </div>
+
+  <!-- PLAN -->
+  <div id="v-plan" hidden>
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Mijn signaleringsplan</span>
+      <h2>Vul dit in als het rustig is</h2>
+      <p style="font-size:.875rem;color:var(--soft)">Niet als het al oranje is. De voorbeelden zijn startpunten; schrijf je eigen woorden.</p>
+    </section>
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Er zijn twee manieren om uit je raam te vallen</span>
+      <div id="banden" style="display:flex;flex-direction:column;gap:.5rem"></div>
+    </section>
+    <div id="kleuren" style="display:flex;flex-direction:column;gap:.625rem;margin-bottom:1.125rem"></div>
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Dit helpt mij</span>
+      <div class="chips" id="chips"></div>
+      <label class="lab" for="eigenhulp">Iets van jezelf</label>
+      <textarea id="eigenhulp" placeholder="Wat werkt voor jou, en staat hier niet bij?"></textarea>
+    </section>
+    <footer class="voet"><p>Deel alleen de laatste twee regels met je team. Dan weet iedereen wat helpt, zonder dat je je hele binnenkant op tafel legt.</p></footer>
+  </div>
+
+  <!-- CHECK -->
+  <div id="v-check" hidden>
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">LMRA &middot; zestig seconden vooraf</span>
+      <h2>Voordat je begint</h2>
+      <p style="font-size:.875rem;color:var(--soft)">Voor een gesprek waar je tegenop ziet, een post die je nog niet snapt, of een handtekening.</p>
+      <ol class="lmra" id="lmra"></ol>
+      <p class="melding">Eén keer nee is geen stopteken. Het betekent: zeg het hardop.</p>
+      <button class="btn breed" type="button" id="reset">Begin opnieuw</button>
+    </section>
+    <footer class="voet"><p><b>Van de bouwplaats.</b> Daar hangt dezelfde lijst bij de ingang: weet ik wat mijn opdracht inhoudt, zijn alle maatregelen getroffen, heb ik het juiste gereedschap, de juiste bescherming, en is mijn werkomgeving veilig.</p></footer>
+  </div>
+
+  <!-- TERUGKIJKEN -->
+  <div id="v-terug" hidden>
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Voor jezelf</span>
+      <h2>Terugkijken</h2>
+      <p style="font-size:.875rem;color:var(--soft)">Blijft op deze telefoon. Niemand leest mee, en het gaat nergens heen.</p>
+    </section>
+    <div id="terugblokken" style="display:flex;flex-direction:column;gap:.625rem;margin-bottom:1.125rem"></div>
+    <section class="card" style="margin-bottom:1.125rem">
+      <button class="btn breed" type="button" id="kopieer">Kopieer alles naar klembord</button>
+      <p class="melding" id="kopiemelding" aria-live="polite"></p>
+    </section>
+    <footer class="voet"><p>Eén les is genoeg. Drie lessen worden er nul.</p></footer>
+  </div>
+</div>
+
+<nav aria-label="Onderdelen"><div id="nav"></div></nav>
+
+<script>
+var ZONES=[
+ {id:"groen",naam:"Groen",kleur:"var(--groen)",onder:"Ik heb overzicht",
+  merk:"Je denkt helder, je vraagt door, er zit lucht in je dag.",
+  nodig:"Doorgaan. En dit is het moment om je signaleringsplan in te vullen, nu het rustig is.",
+  doe:{tekst:"Naar mijn plan",actie:"plan"},
+  pm:["Ik denk helder, ik vraag door"],pn:["Doorgaan, en dit vel invullen"],pa:["Niets. Zeg ook eens hardop dat het goed gaat"]},
+ {id:"geel",naam:"Geel",kleur:"var(--geel)",onder:"Ik moet opletten",
+  merk:"Pauzes overslaan, korter antwoorden, 's nachts lijstjes maken.",
+  nodig:"Een pleister, op tijd weg, en één ding helemaal afmaken.",
+  doe:{tekst:"Trek een pleisterkaart",actie:"kaart"},
+  pm:["Pauzes overslaan, korter antwoorden"],pn:["Op tijd weg, één ding afmaken"],pa:["Vraag hoe het gaat, niet of het af is"]},
+ {id:"oranje",naam:"Oranje",kleur:"var(--oranje)",onder:"Het wordt te veel",
+  merk:"Slecht slapen, werk overdoen, camera uit, kort lontje.",
+  nodig:"Een pleister helpt even. Wat je echt nodig hebt is één gesprek over de planning: er moet iets weg.",
+  doe:{tekst:"Kopieer de openingszin",actie:"zin",zin:"Als dit erbij komt, gaat er iets anders af. Wat mag wachten?"},
+  pm:["Slecht slapen, werk overdoen, camera uit"],pn:["Eén gesprek over de planning"],pa:["Haal iets weg, bied niets extra's aan"]},
+ {id:"rood",naam:"Rood",kleur:"var(--rood)",onder:"Ik zit erdoorheen",
+  merk:"Ontploffen óf dichtklappen. Overal ja op zeggen om ervan af te zijn.",
+  nodig:"Stop met tekenen. Zeg het vandaag tegen iemand die je vertrouwt, en wacht niet tot het vrijdag is.",
+  doe:{tekst:"Kopieer de openingszin",actie:"zin",zin:"Ik sta nu drie weken achter elkaar in het oranje. Ik red dit niet met de kwaliteit die ik wil leveren."},
+  pm:["Ontploffen of dichtklappen, overal ja op zeggen"],pn:["Stoppen met tekenen, vandaag iemand bellen"],pa:["Neem werk over en begin zelf het gesprek"]}
+];
+var BANDEN=[
+ ["Boven het raam","var(--rood)","Vechten of vluchten. Veel spanning in je lijf, nadenken lukt slecht. Bij ons: snauwen in de review, of dat ene dossier blijven ontwijken."],
+ ["In het raam","var(--groen)","Hier wil je werken. Je kunt nadenken, plannen maken en een gesprek aangaan, ook een spannend gesprek."],
+ ["Onder het raam","var(--blauw)","Bevriezen of meebewegen. Meebewegen is het gevaarlijkst: het ziet eruit als meewerken. Je knikt mee, en pas later zie je wat je hebt laten gaan."]
+];
+var HULP=["Naar buiten","Bellen met iemand","Eén ding afmaken","Eten en drinken","Een uur eerder stoppen","Iemand laten meekijken","Muziek op","Lijstje leegschrijven"];
+var KAARTEN=[
+ {t:"60 sec",n:1,k:"Vierkant ademen",u:"Vier tellen in. Vier vasthouden. Vier uit. Vier vasthouden. Vier rondjes.",adem:true},
+ {t:"60 sec",n:2,k:"STOP",u:"Stop. Adem. Observeer wat er nu echt speelt. Pak dan door."},
+ {t:"60 sec",n:3,k:"Leegschrijven",u:"Zet zestig seconden lang alles op papier wat door je hoofd gaat. Niet ordenen, niet herlezen."},
+ {t:"60 sec",n:4,k:"Terug in de kamer",u:"Noem vijf dingen die je ziet, vier die je hoort, drie die je voelt. Je hoofd rende vooruit."},
+ {t:"60 sec",n:5,k:"Wat moet er écht vóór morgen 9:00?",u:"Schrijf maximaal drie dingen op. De rest is vandaag niet waar."},
+ {t:"60 sec",n:6,k:"Streep één ding weg",u:"Pak je lijst en haal er iets af dat vandaag niet hoeft. Echt doorstrepen."},
+ {t:"10 min",n:7,k:"Naar buiten, zonder telefoon",u:"Eén blok om, of één trap op en neer. Zet het bureaukaartje neer."},
+ {t:"10 min",n:8,k:"Bel iemand die niet op deze klant zit",u:"Twee minuten over iets anders telt ook."},
+ {t:"10 min",n:9,k:"De uitstelkaart",u:"Dit besluit hoeft nu niet. Wat verandert er over tien minuten? Meestal niets, behalve jij."},
+ {t:"10 min",n:10,k:"Eén ding afmaken",u:"Kies de kleinste taak op je lijst en rond hem helemaal af. Grip geeft rust terug."},
+ {t:"10 min",n:11,k:"Eet iets, drink iets",u:"Wanneer was je laatste pauze? Een uur doorwerken zonder lukt. Drie uur niet."}
+];
+var LMRA=["Weet ik wat ik nu ga doen? Kun je het in één zin zeggen?",
+ "Wat kan hier misgaan? Noem één ding concreet.",
+ "Heb ik alles: data, documentatie, toegang, tijd?",
+ "Wie kijkt mee als ik twijfel? Weet ik nu al wie ik bel?",
+ "Kan ik dit nú goed doen, of is mijn hoofd te vol?"];
+var TERUG=[
+ ["Het moment","Beschrijf eerst alleen wat een camera zou zien.",
+  [["t1","Wat gebeurde er?","Het moment dat je bijbleef"],["t2","Wat deed ik?",""],["t3","Wat deed ik niet, terwijl ik het wel dacht?",""]]],
+ ["De oorzaak, bij mij","Vraag drie keer door: en waardóór kwam dat?",
+  [["t4","Welke gewoonte van mij speelde mee?",""],["t5","Wat wilde ik vermijden?",""]]],
+ ["De oorzaak, in de opdracht","Niet wat jij fout deed, maar wat dit waarschijnlijk maakte.",
+  [["t6","Wat in de planning of bezetting speelde mee?",""],["t7","Wat wist ik te laat, en waardoor?",""]]],
+ ["De oorzaak, in de omgeving","Het deel waar je zelf niet over gaat, en dat toch meetelt.",
+  [["t8","Wat maakte het lastig om iets te zeggen?",""],["t9","Wie had dit kunnen zien en deed niets?",""]]],
+ ["De les","Eén les is genoeg.",
+  [["t10","Wat doe ik de volgende keer anders?",""],["t11","Wat vraag ik eerder?",""]]],
+ ["Wat ik nodig had, en van wie","De vraag die het verschil maakt tussen een les en een verwijt aan jezelf.",
+  [["t12","Wat had ik nodig?",""],["t13","Van wie had ik dat kunnen krijgen?",""],["t14","Heb ik erom gevraagd? Zo nee, waardoor niet?",""]]],
+ ["Naar het team","Je kiest zelf wat je deelt.",
+  [["t15","Dit deel ik",""],["t16","Dit hou ik voor mezelf",""]]]
+];
+var VIEWS=[["nu","Nu","M3 12h4l2-6 3 12 2-6h5"],
+ ["plan","Plan","M4 4h12v14H4zM7 8h6M7 11h6M7 14h4"],
+ ["check","Check","M3 10l4 4 10-10"],
+ ["terugkijken","Terug","M4 10a6 6 0 1 1 2 4.5M4 6v4h4"]];
+
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function bewaar(k,v){try{localStorage.setItem("ehbo."+k,v)}catch(e){}}
+function lees(k){try{return localStorage.getItem("ehbo."+k)||""}catch(e){return ""}}
+
+/* navigatie */
+var navBox=document.getElementById("nav"),huidig="nu";
+var DIV={nu:"v-nu",plan:"v-plan",check:"v-check",terugkijken:"v-terug"};
+VIEWS.forEach(function(v){
+  var b=el("button");b.type="button";b.dataset.v=v[0];
+  var s=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  s.setAttribute("width","20");s.setAttribute("height","20");s.setAttribute("viewBox","0 0 20 20");
+  s.setAttribute("aria-hidden","true");s.setAttribute("fill","none");
+  s.setAttribute("stroke","currentColor");s.setAttribute("stroke-width","1.6");
+  s.setAttribute("stroke-linecap","round");s.setAttribute("stroke-linejoin","round");
+  var p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute("d",v[2]);s.appendChild(p);
+  b.appendChild(s);b.appendChild(el("span",null,v[1]));
+  b.addEventListener("click",function(){ga(v[0])});
+  navBox.appendChild(b);
+});
+function ga(naam){
+  if(!DIV[naam])naam="nu";
+  huidig=naam;
+  for(var k in DIV)document.getElementById(DIV[k]).hidden=(k!==naam);
+  Array.prototype.forEach.call(navBox.children,function(b){
+    if(b.dataset.v===naam)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
+  try{if(location.hash.slice(1)!==naam)history.replaceState(null,"","#"+naam)}catch(e){}
+  window.scrollTo(0,0);
+}
+
+/* zones */
+var zoneBox=document.getElementById("zones"),advies=document.getElementById("advies");
+ZONES.forEach(function(z){
+  var b=el("button","zone");b.type="button";b.setAttribute("aria-pressed","false");b.style.setProperty("--z",z.kleur);
+  b.appendChild(el("i"));b.appendChild(el("span",null,z.naam));
+  b.addEventListener("click",function(){kiesZone(z,b)});
+  zoneBox.appendChild(b);
+});
+function kiesZone(z,knop){
+  Array.prototype.forEach.call(zoneBox.children,function(c){c.setAttribute("aria-pressed",String(c===knop))});
+  advies.hidden=false;advies.innerHTML="";advies.style.setProperty("--z",z.kleur);
+  advies.appendChild(el("span","lab",z.naam+" \u00b7 "+z.onder));
+  var r1=el("div","rij");r1.appendChild(el("b",null,"Dit merk je misschien"));r1.appendChild(el("span",null,z.merk));
+  var r2=el("div","rij");r2.appendChild(el("b",null,"Wat je nu nodig hebt"));r2.appendChild(el("span",null,z.nodig));
+  advies.appendChild(r1);advies.appendChild(r2);
+  var b=el("button","btn vol breed",z.doe.tekst);b.type="button";
+  b.addEventListener("click",function(){
+    if(z.doe.actie==="kaart"){trek();document.getElementById("kaart").scrollIntoView({block:"center"})}
+    else if(z.doe.actie==="plan"){ga("plan")}
+    else{kopieer(z.doe.zin,b)}
+  });
+  advies.appendChild(b);
+  bewaar("zone",z.id);
+}
+
+/* pleister */
+var tijd="60 sec",kaartBox=document.getElementById("kaart"),laatste=-1;
+Array.prototype.forEach.call(document.querySelectorAll("[data-tijd]"),function(b){
+  b.addEventListener("click",function(){
+    tijd=b.dataset.tijd;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-tijd]"),function(x){x.setAttribute("aria-pressed",String(x===b))});
+    trek();});
+});
+function trek(){
+  var pool=KAARTEN.filter(function(k){return k.t===tijd}),k,p=0;
+  do{k=pool[Math.floor(Math.random()*pool.length)];p++}while(k.n===laatste&&p<8);
+  laatste=k.n;
+  kaartBox.innerHTML="";
+  kaartBox.appendChild(el("span","lab",k.t));
+  kaartBox.appendChild(el("h3",null,k.k));
+  kaartBox.appendChild(el("p",null,k.u));
+  kaartBox.appendChild(el("span","nr",k.n+" van 11"));
+  document.getElementById("ademblok").hidden=!k.adem;
+  stopAdem();
+}
+document.getElementById("nogeen").addEventListener("click",trek);
+
+/* ademtimer */
+var bol=document.getElementById("bol"),tel=document.getElementById("tel"),fase=document.getElementById("fase"),
+    knop=document.getElementById("ademknop"),loop=null,stap=0,sec=4,
+    FASEN=[["Adem in",.95],["Vasthouden",.95],["Adem uit",.6],["Vasthouden",.6]];
+function stopAdem(){if(loop){clearInterval(loop);loop=null}stap=0;sec=4;bol.style.transform="scale(.6)";tel.textContent="4";fase.textContent="Adem in";knop.textContent="Start vier rondjes"}
+knop.addEventListener("click",function(){
+  if(loop){stopAdem();return}
+  knop.textContent="Stoppen";stap=0;sec=4;zetFase();
+  loop=setInterval(function(){
+    sec--;
+    if(sec<=0){stap++;if(stap>=16){stopAdem();fase.textContent="Klaar";return}sec=4;zetFase()}
+    tel.textContent=String(sec);},1000);
+});
+function zetFase(){var f=FASEN[stap%4];fase.textContent=f[0]+" \u00b7 rondje "+(Math.floor(stap/4)+1);bol.style.transform="scale("+f[1]+")";tel.textContent="4"}
+
+/* plan */
+var bandBox=document.getElementById("banden");
+BANDEN.forEach(function(b){
+  var d=el("div","band");d.style.setProperty("--z",b[1]);
+  d.appendChild(el("b",null,b[0]));d.appendChild(el("span",null,b[2]));
+  bandBox.appendChild(d);
+});
+var klBox=document.getElementById("kleuren");
+ZONES.forEach(function(z){
+  var d=el("details","kl");d.style.setProperty("--z",z.kleur);
+  var s=el("summary");s.appendChild(el("i"));
+  var w=el("span");w.appendChild(document.createTextNode(z.naam+" "));
+  var e=el("em",null,z.onder);w.appendChild(e);
+  s.appendChild(w);d.appendChild(s);
+  var b=el("div","body");
+  [["Wat merk ik bij mijzelf",z.pm[0],"m"],["Wat heb ik nodig",z.pn[0],"n"],["Wat kunnen anderen doen",z.pa[0],"a"]].forEach(function(v){
+    var id="p-"+z.id+"-"+v[2],lb=el("label","lab",v[0]);lb.setAttribute("for",id);
+    var t=el("textarea");t.id=id;t.placeholder=v[1];t.value=lees(id);
+    t.addEventListener("input",function(){bewaar(id,t.value)});
+    var wr=el("div");wr.appendChild(lb);wr.appendChild(t);b.appendChild(wr);
+  });
+  d.appendChild(b);klBox.appendChild(d);
+});
+var chipBox=document.getElementById("chips");
+HULP.forEach(function(h,i){
+  var b=el("button","chip",h);b.type="button";
+  var id="h"+i,aan=lees(id)==="1";
+  b.setAttribute("aria-pressed",String(aan));
+  b.addEventListener("click",function(){
+    var nu=b.getAttribute("aria-pressed")==="true";
+    b.setAttribute("aria-pressed",String(!nu));bewaar(id,!nu?"1":"");});
+  chipBox.appendChild(b);
+});
+var eh=document.getElementById("eigenhulp");eh.value=lees("eigenhulp");
+eh.addEventListener("input",function(){bewaar("eigenhulp",eh.value)});
+
+/* lmra */
+var lijst=document.getElementById("lmra");
+LMRA.forEach(function(v){
+  var li=el("li"),b=el("button","chk");b.type="button";b.setAttribute("aria-pressed","false");
+  b.appendChild(el("em"));b.appendChild(el("span",null,v));
+  b.addEventListener("click",function(){b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true")});
+  li.appendChild(b);lijst.appendChild(li);
+});
+document.getElementById("reset").addEventListener("click",function(){
+  Array.prototype.forEach.call(lijst.querySelectorAll(".chk"),function(b){b.setAttribute("aria-pressed","false")});
+});
+
+/* terugkijken */
+var tBox=document.getElementById("terugblokken"),ALLE=[];
+TERUG.forEach(function(blok,i){
+  var d=el("details","kl");d.style.setProperty("--z","var(--blauw)");
+  if(i===0)d.open=true;
+  var s=el("summary");s.appendChild(el("i"));s.appendChild(el("span",null,blok[0]));d.appendChild(s);
+  var b=el("div","body");
+  b.appendChild(el("p","melding",blok[1]));
+  blok[2].forEach(function(v){
+    ALLE.push(v);
+    var id="v-"+v[0],lb=el("label","lab",v[1]);lb.setAttribute("for",id);
+    var t=el("textarea");t.id=id;if(v[2])t.placeholder=v[2];t.value=lees(v[0]);
+    t.addEventListener("input",function(){bewaar(v[0],t.value)});
+    var wr=el("div");wr.appendChild(lb);wr.appendChild(t);b.appendChild(wr);
+  });
+  d.appendChild(b);tBox.appendChild(d);
+});
+function kopieer(tekst,knop){
+  var m=document.getElementById("kopiemelding");
+  function ok(){if(m)m.textContent="Gekopieerd";if(knop)knop.textContent="Gekopieerd"}
+  function mis(){if(m)m.textContent="Kopi\u00ebren lukte niet. Selecteer de tekst zelf.";if(knop)knop.textContent="Selecteer de tekst zelf"}
+  try{navigator.clipboard.writeText(tekst).then(ok,mis)}catch(e){mis()}
+}
+document.getElementById("kopieer").addEventListener("click",function(){
+  var uit=ALLE.map(function(v){var e=document.getElementById("v-"+v[0]);return v[1]+"\n"+((e&&e.value)||"\u2014")}).join("\n\n");
+  kopieer(uit,null);
+});
+
+/* start */
+trek();
+var vorige=lees("zone");
+if(vorige){var i=ZONES.map(function(z){return z.id}).indexOf(vorige);if(i>-1)kiesZone(ZONES[i],zoneBox.children[i])}
+ga((location.hash||"#nu").slice(1));
+</script>
+
+</body>
+</html>
