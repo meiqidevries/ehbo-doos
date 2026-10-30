@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>EHBO met je team</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="De teamhelft van de EHBO-doos: vier sessies, de kaarten uit Zalf, Verband en Spiegel, en de handleiding voor wie leiding geeft.">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Iedereen op zijn eigen telefoon. Een sessie is een route, geen inhoudsopgave. */
+:root{
+  --paper:#F7F4EC; --card:#FFFDF8; --sunk:#F2EDE1;
+  --ink:#1C1B19; --soft:#5B564D; --line:#C2BBA9; --hair:#DCD5C4;
+  --rood:#C0442E; --oranje:#B06512; --geel:#8A6D0B; --groen:#4F7040; --blauw:#3A5A72; --paars:#6E4A7E;
+  --disp:'Fraunces',Georgia,serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#15130F; --card:#1F1C17; --sunk:#272319;
+  --ink:#F0EADC; --soft:#ADA391; --line:#403A2F; --hair:#2E2A22;
+  --rood:#E8755B; --oranje:#E8A14E; --geel:#D7B646; --groen:#93B27E; --blauw:#7FA6C2; --paars:#B894C6;
+  color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --paper:#15130F; --card:#1F1C17; --sunk:#272319;
+  --ink:#F0EADC; --soft:#ADA391; --line:#403A2F; --hair:#2E2A22;
+  --rood:#E8755B; --oranje:#E8A14E; --geel:#D7B646; --groen:#93B27E; --blauw:#7FA6C2; --paars:#B894C6;
+  color-scheme:dark;}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.5;margin:0}
+.wrap{max-width:34rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:1.5rem 1.5rem;display:flex;flex-direction:column;gap:1.125rem}
+.wrap.sessie{padding-bottom:7rem}
+h1,h2,h3{margin:0;font-family:var(--disp);font-weight:700;text-wrap:balance}
+h1{font-size:1.5rem;line-height:1.05}
+h2{font-size:1.25rem}
+h3{font-size:1.0625rem;font-weight:600}
+p{margin:0}
+ul{margin:0;padding-left:1.1rem}
+li{margin:0 0 .4rem}
+li:last-child{margin-bottom:0}
+.lab{font-family:var(--mono);font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.card{background:var(--card);border:1px solid var(--hair);padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.top{display:flex;align-items:center;gap:.75rem}
+.top p{font-size:.8125rem;color:var(--soft)}
+:focus-visible{outline:2px solid var(--rood);outline-offset:2px}
+.btn{min-height:2.75rem;padding:.625rem 1rem;border:1px solid var(--line);background:var(--sunk);color:var(--ink);font-family:var(--body);font-size:.875rem;font-weight:500;cursor:pointer;text-align:left}
+.btn.vol{background:var(--rood);border-color:var(--rood);color:#FFF8F2}
+.btn.breed{width:100%}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* startscherm */
+.hub{display:flex;flex-direction:column;gap:.625rem}
+.moment{width:100%;background:var(--card);border:1px solid var(--hair);border-left:5px solid var(--k,var(--line));padding:.875rem 1rem;display:flex;flex-direction:column;gap:.25rem;cursor:pointer;font-family:var(--body);color:var(--ink);text-align:left}
+.moment b{font-family:var(--disp);font-weight:700;font-size:1.0625rem}
+.moment span{font-size:.8125rem;color:var(--soft)}
+.moment em{font-family:var(--mono);font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--k,var(--soft));font-style:normal}
+.extra{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.625rem}
+.extra .btn{text-align:center}
+
+/* sessie */
+.balk{height:.25rem;background:var(--hair);display:flex}
+.balk i{background:var(--k,var(--rood));transition:width .2s}
+.sesskop{display:flex;justify-content:space-between;align-items:baseline;gap:.75rem}
+.sesskop .lab{color:var(--k,var(--soft))}
+.stap{background:var(--card);border:1px solid var(--hair);padding:1.125rem;display:flex;flex-direction:column;gap:.875rem;min-height:14rem}
+.stap h2{font-size:1.375rem;line-height:1.15}
+.stap p{font-size:1rem}
+.lees{border-left:5px solid var(--k,var(--rood));background:var(--sunk);padding:.875rem 1rem;display:flex;flex-direction:column;gap:.5rem}
+.lees q{font-family:var(--disp);font-weight:600;font-size:1.25rem;line-height:1.3;quotes:"\201C" "\201D"}
+.lees .lab{color:var(--soft)}
+.vragen{display:flex;flex-direction:column;gap:.625rem}
+.vragen div{display:flex;gap:.625rem;font-size:1rem}
+.vragen b{font-family:var(--mono);font-size:.75rem;color:var(--soft);padding-top:.2rem;font-weight:500}
+.tip{font-size:.8125rem;color:var(--soft)}
+.klok{display:flex;align-items:center;gap:.75rem}
+.klok output{font-family:var(--mono);font-size:1.5rem;min-width:4.5rem}
+.voet{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);
+ padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.voet div{max-width:34rem;margin:0 auto;display:flex;gap:.625rem;padding-block:.625rem}
+.voet .btn{flex:1;text-align:center}
+
+/* kaarten */
+.filters{display:flex;flex-wrap:wrap;gap:.375rem}
+.chip{font-family:var(--body);font-size:.75rem;padding:.375rem .625rem;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;min-height:2rem}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.kaart{background:var(--sunk);border:1px solid var(--hair);padding:1.125rem;display:flex;flex-direction:column;gap:.625rem;min-height:11rem}
+.kaart h3{font-family:var(--disp);font-size:1.3125rem;line-height:1.2;font-weight:700}
+.kaart .nr{font-family:var(--mono);font-size:.6875rem;color:var(--soft);margin-top:auto}
+.gevolg{border-top:1px solid var(--hair);padding-top:.625rem;display:flex;flex-direction:column;gap:.2rem}
+.gevolg b{font-family:var(--mono);font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rood);font-weight:500}
+.gevolg span{font-size:.875rem}
+
+/* leiding */
+.rij{display:flex;flex-direction:column;gap:.25rem;padding-block:.625rem;border-top:1px solid var(--hair)}
+.rij:first-of-type{border-top:0;padding-top:0}
+.rij b{font-family:var(--disp);font-size:1rem;font-weight:600}
+.rij span{font-size:.9375rem}
+.rij i{font-size:.8125rem;color:var(--soft);font-style:normal}
+.sloop{display:flex;gap:.75rem;font-size:.9375rem}
+.sloop b{font-family:var(--mono);font-size:.875rem;color:var(--rood);font-weight:500}
+
+.terug{background:none;border:0;padding:.25rem 0;color:var(--soft);font-family:var(--body);font-size:.8125rem;cursor:pointer;text-align:left;min-height:2.25rem}
+.slot{font-size:.8125rem;color:var(--soft);border-top:1px solid var(--line);padding-top:1rem;display:flex;flex-direction:column;gap:.5rem}
+.slot a{color:var(--rood)}
+#printblok{display:none}
+@media print{
+  body{background:#fff}
+  .wrap,.voet,.terug{display:none!important}
+  #printblok{display:block;padding:0 0 0 0;color:#000}
+  #printblok h2{font-family:Georgia,serif;font-size:16pt;margin:0 0 4pt}
+  #printblok h3{font-family:Georgia,serif;font-size:12pt;margin:12pt 0 2pt;page-break-after:avoid}
+  #printblok p,#printblok li{font-size:10pt;line-height:1.35;margin:0 0 3pt}
+  #printblok .pq{font-style:italic}
+}
+@media (min-width:60rem){
+  .wrap{max-width:46rem}
+  .voet div{max-width:46rem}
+  .stap h2{font-size:1.625rem}
+  .stap p,.vragen div{font-size:1.0625rem}
+  .lees q{font-size:1.5rem}
+}
+@media (prefers-reduced-motion:reduce){.balk i{transition:none}}
+</style>
+
+<div class="wrap" id="wrap">
+
+  <header class="top">
+    <svg width="34" height="34" viewBox="0 0 38 38" aria-hidden="true">
+      <rect x="14" y="2" width="10" height="34" rx="2" fill="var(--rood)"></rect>
+      <rect x="2" y="14" width="34" height="10" rx="2" fill="var(--rood)"></rect>
+    </svg>
+    <div>
+      <h1 id="kop">EHBO met je team</h1>
+      <p id="onderkop">De helft van de doos die je samen gebruikt</p>
+    </div>
+  </header>
+
+  <!-- START -->
+  <div id="v-home">
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Hoe dit werkt</span>
+      <p style="font-size:.9375rem">Iedereen opent deze pagina op zijn eigen telefoon. Eén iemand leest voor en zegt bij welke stap jullie zitten. Je tikt zelf door naar die stap.</p>
+      <p class="tip">Er wordt niets opgeslagen en niets verstuurd. Wat hier gezegd wordt, blijft in de kamer.</p>
+    </section>
+    <div class="hub" id="hub"></div>
+    <div class="extra" style="margin-top:.625rem">
+      <button class="btn" type="button" data-ga="kaarten">Losse kaarten</button>
+      <button class="btn" type="button" data-ga="leiding">Voor wie leiding geeft</button>
+    </div>
+    <div class="slot" style="margin-top:1.125rem">
+      <p><b>Dit is de teamhelft.</b> Wat je alleen doet — de thermometer, een pleister, je eigen reflectie — staat op <a href="../">de persoonlijke pagina</a>.</p>
+      <p>Busje Oranje · NBA Werkprogramma Ethiek, Cultuur &amp; Gedrag</p>
+    </div>
+  </div>
+
+  <!-- SESSIE -->
+  <div id="v-sessie" hidden>
+    <button class="terug" type="button" data-ga="home">&larr; Terug naar start</button>
+    <div class="sesskop" style="margin-bottom:.5rem">
+      <span class="lab" id="s-naam"></span>
+      <span class="lab" id="s-tel"></span>
+    </div>
+    <div class="balk" style="margin-bottom:.875rem"><i id="s-balk" style="width:0"></i></div>
+    <div class="stap" id="s-stap" aria-live="polite"></div>
+    <button class="btn breed" type="button" id="s-print" style="margin-top:.875rem;text-align:center">Print deze sessie</button>
+  </div>
+
+  <!-- KAARTEN -->
+  <div id="v-kaarten" hidden>
+    <button class="terug" type="button" data-ga="home">&larr; Terug naar start</button>
+    <div class="kies extra" style="margin-bottom:.75rem">
+      <button class="btn" type="button" data-set="zalf" aria-pressed="true">Zalf</button>
+      <button class="btn" type="button" data-set="verband" aria-pressed="false">Verband</button>
+    </div>
+    <button class="btn breed" type="button" data-set="spiegel" aria-pressed="false" style="text-align:center;margin-bottom:.875rem">Spiegel</button>
+    <p class="tip" id="k-uitleg" style="margin-bottom:.75rem"></p>
+    <div class="filters" id="k-filters" style="margin-bottom:.875rem"></div>
+    <div class="kaart" id="k-kaart" aria-live="polite"></div>
+    <button class="btn breed vol" type="button" id="k-volgende" style="margin-top:.875rem;text-align:center">Volgende kaart</button>
+  </div>
+
+  <!-- LEIDING -->
+  <div id="v-leiding" hidden>
+    <button class="terug" type="button" data-ga="home">&larr; Terug naar start</button>
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Het hele idee in één alinea</span>
+      <p style="font-size:.9375rem">Deze doos maakt je team niet weerbaarder. Hij maakt zichtbaar wat er al was. Elk vak vraagt iemand iets te doen wat ongemakkelijk is: toegeven dat het te veel wordt, een fout melden, een vraag stellen die niemand stelt. Of dat veilig is, bepaal jij. Niet met wat je zegt over de doos, maar met wat er gebeurt de eerste keer dat iemand hem gebruikt.</p>
+    </section>
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Jij gaat eerst</span>
+      <div id="l-rijen"></div>
+    </section>
+    <section class="card" style="margin-bottom:1.125rem">
+      <span class="lab">Vier manieren om het te slopen</span>
+      <div id="l-sloop" style="display:flex;flex-direction:column;gap:.625rem"></div>
+    </section>
+    <section class="card">
+      <span class="lab">Het ritme</span>
+      <div id="l-ritme" style="display:flex;flex-direction:column;gap:.625rem"></div>
+    </section>
+  </div>
+
+</div>
+
+<div class="voet" id="voet" hidden><div>
+  <button class="btn" type="button" id="s-vorige">Vorige</button>
+  <button class="btn vol" type="button" id="s-volgende">Volgende</button>
+</div></div>
+
+<div id="printblok"></div>
+
+<script>
+(function(){
+'use strict';
+
+var V = 'Vertel erbij wanneer je dat zag.';
+var P = 'Reik hem uit en vertel wat er gebeurde.';
+var Z = 'Schrijf het op, geef hem af, en zeg het erbij.';
+
+var ZALF = [
+ ['Vakwerk','Vroeg door toen doorlopen een stuk makkelijker was',V,0],
+ ['Vakwerk','Rook dat er iets niet klopte voordat het cijfer het liet zien',V,0],
+ ['Vakwerk','Legde iets ingewikkelds uit zonder het simpeler te maken dan het is',V,0],
+ ['Vakwerk','De aansluiting die niemand anders vond',P,1],
+ ['Lef','Zei hardop: dit weet ik niet',V,0],
+ ['Lef','Maakte een eigen fout zichtbaar voordat iemand hem vond',V,0],
+ ['Lef','Zei nee, en legde uit waarom',V,0],
+ ['Lef','Zei het tóch, terwijl het stil bleef in de kamer',P,1],
+ ['Rugdekking','Nam werk over zonder dat erom gevraagd werd',V,0],
+ ['Rugdekking','Ving het op toen ik er even niet was',V,0],
+ ['Rugdekking','Stond naast me in een gesprek waar ik tegenop zag',V,0],
+ ['Rugdekking','Redder van de donderdagavond',P,1],
+ ['Sfeer','Maakte het lichter op een dag dat het zwaar was',V,0],
+ ['Sfeer','Vroeg hoe het ging en wachtte echt op het antwoord',V,0],
+ ['Sfeer','Zorgde dat de nieuwe zich op dag één welkom voelde',V,0],
+ ['Sfeer','Het beste slechte grapje van dit seizoen',P,1],
+ ['Onzichtbaar','Deed het saaie stuk zonder erover te klagen',V,0],
+ ['Onzichtbaar','Hield het dossier op orde waar niemand naar keek',V,0],
+ ['Onzichtbaar','Werk waar je pas iets van merkt als het er niet is',P,1],
+ ['Groei','Deed deze week iets wat een half jaar geleden nog niet lukte',V,0],
+ ['Groei','Vroeg om feedback en deed er daarna echt iets mee',V,0],
+ ['Groei','Grootste sprong sinds de vorige busy season',P,1],
+ ['Zelf invullen','Voor iets wat op geen enkele kaart past',Z,0],
+ ['Zelf invullen','Voor iemand buiten je eigen team',Z,0]
+];
+
+var VERBAND = [
+ ['Ik twijfel aan het werk','Ik wil iets checken voordat we doorgaan.',1,'Als je het niet zegt','Het dossier draagt straks een oordeel dat niet van jou is.'],
+ ['Ik twijfel aan het werk','Ik snap de onderbouwing van deze post nog niet. Kun je me meenemen?',1,'Als je het niet vraagt','Je tekent voor iets wat je niet kunt navertellen.'],
+ ['Ik twijfel aan het werk','Volgens mij missen we hier iets. Mag ik het hardop denken?',1,'Als je het niet zegt','Het blijft knagen, en je komt het terug tegen in de review.'],
+ ['Ik twijfel aan het werk','Dit klopt met de specificatie, maar niet met wat ik bij de klant zag.',1,'Als je het niet zegt','De scherpste signalen zijn de signalen die niemand hardop maakt.'],
+ ['Ik heb een fout gemaakt','Ik heb iets gemist en wil het nu melden.',1,'Als je wacht','Een herstelbare slordigheid groeit uit tot een foutherstel.'],
+ ['Ik heb een fout gemaakt','Dit heb ik verkeerd gedaan. Dit heb ik al hersteld, en dit heb ik nodig.',1,'Als je het alleen doet','Je lost het half op, onder tijdsdruk, zonder tweede paar ogen.'],
+ ['Ik heb een fout gemaakt','Ik heb te laat gezien dat dit niet klopte.',1,'Als je wacht','Hoe langer het duurt, hoe meer het over jou gaat in plaats van over het dossier.'],
+ ['Ik heb een fout gemaakt','Ik heb iets getekend waar ik achteraf niet gerust op ben.',1,'De zwaarste kaart','Hij ligt in de doos omdat dit voorkomt, en omdat zwijgen hier het duurst is.'],
+ ['Het gaat over de druk','Ik merk dat de druk hoog is. Kunnen we prioriteren wat echt vóór vrijdag moet?',1,'Als je het niet zegt','Alles blijft even urgent, dus niets wordt goed gedaan.'],
+ ['Het gaat over de druk','Als dit erbij komt, gaat er iets anders af. Wat mag wachten?',1,'Als je het niet zegt','Je stilte wordt gelezen als ruimte in je agenda.'],
+ ['Het gaat over de druk','Ik red deze deadline niet met de kwaliteit die ik wil leveren.',1,'Als je het niet zegt','Je haalt de deadline wel, en levert iets in waar je niet achter staat.'],
+ ['Het gaat over de druk','Ik sta nu drie weken achter elkaar in het oranje.',1,'Als je het niet zegt','Het signaleringsplan werkt alleen als iemand het hoort.'],
+ ['Naar boven','Mag ik je feedback geven op hoe de review ging?',1,'Als je het niet zegt','Volgend jaar gaat de review precies zo.'],
+ ['Naar boven','Ik heb je opmerking anders opgevat dan je hem waarschijnlijk bedoelde.',1,'Als je het niet zegt','Een misverstand groeit uit tot een oordeel, over jou of over hem.'],
+ ['Naar boven','Ik wil iets zeggen waar ik een beetje bang voor ben.',1,'Waarom deze kaart bestaat','De zin die alle andere zinnen makkelijker maakt.'],
+ ['Als je feedback krijgt','Dank je. Kun je me één voorbeeld geven?',1,'Als je het niet vraagt','Kritiek blijft een gevoel in plaats van werk dat je kunt aanpakken.'],
+ ['Als je feedback krijgt','Ik hoor wat je zegt. Mag ik er een nacht over nadenken?',1,'Als je het niet zegt','Je reageert vanuit je eerste reflex, en dat is zelden je beste.'],
+ ['Als je feedback krijgt','Wat heb ik deze week gedaan waardoor jij iets niet hebt gezegd?',1,'Voor wie leiding geeft','Je hoort alleen wat makkelijk te zeggen is, en denkt dat het meevalt.'],
+ ['Samen voorbereiden','Wat is onze boodschap in één zin?',0,'Waarom deze vraag','Krijgen we die zin hier niet rond, dan is het gesprek te vroeg gepland.'],
+ ['Samen voorbereiden','Wat is onze ondergrens in dit gesprek?',0,'Waarom deze vraag','Zonder vooraf afgesproken ondergrens schuift die tijdens het gesprek vanzelf op.'],
+ ['Samen voorbereiden','Wat gaat de klant hierop zeggen, en wat doen wij dan?',0,'Waarom deze vraag','De tegenwerping die je niet hebt bedacht, is de tegenwerping waar je voor zwicht.'],
+ ['Samen voorbereiden','Wie zegt het? En wie vult aan, en wie houdt even zijn mond?',0,'Waarom deze vraag','Twee mensen die allebei de helft zeggen, brengen samen geen boodschap over.'],
+ ['Samen voorbereiden','Wat is het ergste dat kan gebeuren, en kunnen we daarmee leven?',0,'Waarom deze vraag','Hardop uitgesproken blijkt het ergste meestal kleiner dan de angst ervoor.'],
+ ['Samen voorbereiden','Wie spreekt wie na afloop, en wanneer?',0,'Waarom deze vraag','Zonder afspraak blijft degene die het gesprek voerde er in zijn eentje mee zitten.']
+];
+
+var SPIEGEL = [
+ ['Opdrachtacceptatie','Welke reden om deze opdracht niet te doen negeren wij?'],
+ ['Opdrachtacceptatie','Wat zou een buitenstaander verdacht vinden aan onze relatie met deze klant?'],
+ ['Opdrachtacceptatie','Welke rode vlag hebben wij al genormaliseerd?'],
+ ['Risicoanalyse','Welke conclusie hebben wij onbewust al getrokken?'],
+ ['Risicoanalyse','Welk risico krijgt minder aandacht omdat het ongemakkelijk is?'],
+ ['Risicoanalyse','Wat zien wij niet omdat we dénken dat we deze klant kennen?'],
+ ['Bewijs verzamelen','Welke vraag blijven wij uitstellen?'],
+ ['Bewijs verzamelen','Wat zouden we ontdekken als we nog één keer doorvragen?'],
+ ['Bewijs verzamelen','Wat nemen wij aan zonder het te toetsen?'],
+ ['Klantcontact','Welke boodschap durven wij niet hardop uit te spreken?'],
+ ['Klantcontact','Waar worden wij milder omdat we de relatie willen behouden?'],
+ ['Klantcontact','Welke druk voelen wij maar benoemen wij niet?'],
+ ['Teamdynamiek','Welke twijfel zit in deze kamer maar wordt niet uitgesproken?'],
+ ['Teamdynamiek','Welke overtuiging delen wij allemaal en maakt ons daardoor kwetsbaar?'],
+ ['Teamdynamiek','Waar verwarren wij consensus met kwaliteit?'],
+ ['Oordeelsvorming','Als wij ongelijk hebben, waarop dan?'],
+ ['Oordeelsvorming','Waar zijn wij zekerder dan het bewijs rechtvaardigt?'],
+ ['Oordeelsvorming','Wat hopen wij dat niet waar is?'],
+ ['Rapportage','Welke boodschap verzachten wij om gedoe te voorkomen?'],
+ ['Rapportage','Wat laten wij weg omdat het gevoelig ligt?'],
+ ['Rapportage','Zou deze rapportage standhouden op de voorpagina van de krant?'],
+ ['Professionele moed','Wat weten wij eigenlijk al, maar durven wij nog niet te zeggen?'],
+ ['Professionele moed','Welke keuze voelt comfortabel maar niet juist?'],
+ ['Professionele moed','Wat zouden toekomstige auditors ons verwijten?']
+];
+
+var BIJSLUITER = [
+ ['1 · De gebeurtenis','Boven water',['Wat ging er goed, en waaraan lag dat precies?','Waar liep het vast, en wanneer merkten we dat voor het eerst?','Hoeveel tijd zat er tussen dat eerste signaal en het moment dat we iets deden?']],
+ ['2 · Het patroon','Eén laag dieper',['Is dit de eerste keer, of de derde?','Bij welke andere opdracht zagen we ditzelfde gebeuren?','Wat gebeurt er volgend jaar opnieuw als wij niets veranderen?']],
+ ['3 · De structuur','Waar het ontstaat',['Wat in onze planning, bezetting of afspraken maakte dit mogelijk?','Welke afspraak hadden we gemaakt die in de praktijk niet werkte?','Wie moest iets oplossen dat eigenlijk niet van hem was?','Waar hebben we hard gewerkt om iets te compenseren in plaats van het op te lossen?']],
+ ['4 · De aannames','Het diepst',['Wat vinden wij hier inmiddels normaal dat een buitenstaander raar zou vinden?','Welke onuitgesproken regel gold er in dit team?','Wat dachten we dat niet kon, zonder het ooit te vragen?']]
+];
+
+var LEIDING = [
+ ['1. Thermometer','Jij zet als eerste een streepje, en niet altijd in het groen.','Zolang jij altijd groen staat, staat niemand oranje.'],
+ ['2. Pleister','Jij neemt zichtbaar een time-out en zet het bureaukaartje neer.','Een pauze die de leidinggevende nooit neemt, bestaat niet.'],
+ ['3. Zalf','Jij geeft de eerste kaart, met het verhaal erbij. En je neemt er een aan zonder hem weg te wuiven.','Complimenten gaan omlaag vanzelf. Omhoog alleen als jij laat zien dat het mag.'],
+ ['4. Verband','Jij trekt als eerste een kaart uit “als je feedback krijgt”.','Veiligheid ontstaat niet doordat juniors moediger worden.'],
+ ['5. Spiegel','Jij leest de kaart voor, laat de stilte vallen, en geeft als eerste een antwoord dat je niet goed uitkomt.','Wie als eerste praat, bepaalt wat de rest nog durft te zeggen.'],
+ ['6. Bijsluiter','Jij houdt laag 3 en 4 open: de structuur en de aannames.','Zodra jij zegt “het liep uit omdat zij te laat aanleverden”, is de evaluatie voorbij.']
+];
+
+var SLOOP = [
+ 'Je maakt het verplicht. Een verplichte complimentenronde is gewoon een vergadering.',
+ 'Je legt iets vast. Eén antwoord dat terugkomt in een dossier of beoordeling, en niemand gebruikt de doos nog.',
+ 'Je vraagt wel, maar doet niets. Spreken zonder gevolg is één keer spreken.',
+ 'Je pakt hem alleen als het misgaat. Dan is het een alarmbel geworden, geen gereedschap.'
+];
+
+var RITME = [
+ ['Elke teamstart · 2 minuten','Eén kaart uit Zalf of Verband.'],
+ ['Bij elke fase van de opdracht','Eén Spiegelkaart, voorlezen en stil zijn.'],
+ ['Wekelijks in busy season','De thermometer, anoniem, en kijk naar de verdeling.'],
+ ['Na afloop · 30 minuten','De bijsluiter met het team. Altijd, ook als het goed ging.']
+];
+
+var SESSIES = [
+{id:'start',naam:'Start van de opdracht',duur:'20 min',kleur:'--blauw',
+ intro:'Voordat het dossier er is. Nu kunnen de antwoorden nog iets veranderen.',
+ stappen:[
+  {k:'Voordat je begint',b:'Iedereen heeft deze pagina open op zijn eigen telefoon. Eén iemand leest voor en zegt bij welke stap jullie zitten.',tip:'Er wordt niets vastgelegd. Deze vragen zijn geen controlemiddel: zodra een antwoord in een dossier belandt, komt het eerlijke antwoord niet meer.'},
+  {k:'Waarom nu, en niet straks',lees:['Ethiek wordt zelden een besluit. Het schuift op, vraag voor vraag, tot niemand nog kan zeggen waar het misging.','Voorlezen'],b:'Daarom staan deze vragen aan het begin van de opdracht en niet in de evaluatie.'},
+  {k:'Opdrachtacceptatie',b:'Kies één vraag, lees hem voor, en laat de stilte vallen.',set:['spiegel','Opdrachtacceptatie'],sec:120},
+  {k:'Risicoanalyse',b:'Nog één vraag. Voorlezen, stil zijn, en niemand hoeft zijn antwoord af te maken.',set:['spiegel','Risicoanalyse'],sec:120},
+  {k:'De zin die de rest makkelijker maakt',lees:['Ik wil iets zeggen waar ik een beetje bang voor ben.','Uit Verband'],b:'Spreek af dat deze zin in dit team mag, zonder toelichting vooraf. Wie hem hoort bedankt eerst, vraagt door, en komt er binnen een week op terug met wat hij ermee heeft gedaan.'},
+  {k:'Het stapeltje begint bovenaan',b:'Veiligheid ontstaat doordat degene met de meeste macht als eerste iets ongemakkelijks vraagt. De begeleider geeft dus als eerste een antwoord dat hem niet goed uitkomt.',tip:'Veiligheid ontstaat niet doordat juniors moediger worden.'},
+  {k:'Afsluiten',b:'Eén afspraak uit dit gesprek. Wie bewaakt hem, en wanneer kijken we of hij werkte?'}
+ ]},
+{id:'week',naam:'Week-afsluiting in busy season',duur:'15 min',kleur:'--oranje',
+ intro:'Een kwartier aan het eind van een overleg dat toch al staat.',
+ stappen:[
+  {k:'Voordat je begint',b:'Iedereen heeft deze pagina open. Eén iemand leest voor.',tip:'Kijk straks naar de verdeling, niet naar wie.'},
+  {k:'Het rondje',b:'Iedereen noemt zijn kleur van deze week: groen, geel, oranje of rood. Niemand licht toe.',sec:60,tip:'Toelichten maakt er een gesprek van. Dit is een meting.'},
+  {k:'Kijk naar de verdeling',b:'Niet naar wie er oranje staat, maar naar hoeveel. Drie keer oranje of rood in één week is geen pleisterprobleem maar een planningsprobleem.'},
+  {k:'Eén zin uit Verband',b:'Kies een zin die iemand deze week had kunnen gebruiken. Lees hem voor en vraag wie hem herkent.',set:['verband','Het gaat over de druk']},
+  {k:'Eén kaart uit Zalf',b:'Reik één kaart uit, met het verhaal erbij. Een kaart zonder verhaal is een sticker.',set:['zalf',''],tip:'Eén per teamstart is genoeg, anders slijt het.'},
+  {k:'Afsluiten',b:'Wat gaat er volgende week af? Een afsluiting die alleen dingen toevoegt, maakt het drukker.'}
+ ]},
+{id:'klant',naam:'Een lastig klantgesprek voorbereiden',duur:'20 min',kleur:'--rood',
+ intro:'Zes vragen die je samen beantwoordt, vóór het gesprek.',
+ stappen:[
+  {k:'Voordat je begint',b:'Niemand gaat in zijn eentje een lastig klantgesprek in. Deze zes vragen horen bij elkaar; sla er geen over.',tip:'Schrijf in elk geval de antwoorden op vraag 1 en 2 op.'},
+  {k:'Vraag 1 van 6',kaart:['verband',19]},
+  {k:'Vraag 2 van 6',kaart:['verband',20]},
+  {k:'Vraag 3 van 6',kaart:['verband',21]},
+  {k:'Vraag 4 van 6',kaart:['verband',22]},
+  {k:'Vraag 5 van 6',kaart:['verband',23]},
+  {k:'Vraag 6 van 6',kaart:['verband',24]},
+  {k:'Afsluiten',b:'Herhaal hardop: de boodschap in één zin, de ondergrens, wie het zegt, en wie wie spreekt na afloop.'}
+ ]},
+{id:'terug',naam:'Na afloop',duur:'30 min',kleur:'--groen',
+ intro:'De opdracht nabespreken langs vier lagen. Ook als het goed ging.',
+ stappen:[
+  {k:'Eén afspraak vooraf',b:'Je werkt van boven naar beneden. Wat er gebeurde is het makkelijkste deel; wat het veroorzaakte zit eronder.',tip:'Laag 3 en 4 gaan over hoe wij het hebben georganiseerd, niet over wie wat te laat aanleverde.'},
+  {k:BIJSLUITER[0][0],b:BIJSLUITER[0][1],vragen:BIJSLUITER[0][2]},
+  {k:BIJSLUITER[1][0],b:BIJSLUITER[1][1],vragen:BIJSLUITER[1][2]},
+  {k:BIJSLUITER[2][0],b:BIJSLUITER[2][1],vragen:BIJSLUITER[2][2]},
+  {k:BIJSLUITER[3][0],b:BIJSLUITER[3][1],vragen:BIJSLUITER[3][2]},
+  {k:'En dan: één ingreep',b:'Wat is de kleinste verandering met het grootste effect? Wie regelt die, en wanneer kijken we of het werkte?'},
+  {k:'Wat we niet meer doen',b:'Een evaluatie die alleen dingen toevoegt, maakt het volgend jaar drukker. Schrap er ook iets.'}
+ ]}
+];
+
+/* ---------- gereedschap ---------- */
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function sessie(id){for(var i=0;i<SESSIES.length;i++){if(SESSIES[i].id===id)return SESSIES[i];}return null;}
+
+var SETS={zalf:ZALF,verband:VERBAND,spiegel:SPIEGEL};
+var SETINFO={
+ zalf:{lab:'Zalf · 24 kaarten',uit:'Complimenten in zeven soorten. De enige regel: geen kaart zonder verhaal erbij.',f:function(c){return c[0];}},
+ verband:{lab:'Verband · 24 kaarten',uit:'Openingszinnen voor binnen het team, en zes vragen om samen een klantgesprek voor te bereiden.',f:function(c){return c[0];}},
+ spiegel:{lab:'Spiegel · 24 kaarten',uit:'Drie ethiekvragen per fase van de opdracht. Voorlezen, stilte laten vallen, niets vastleggen.',f:function(c){return c[0];}}
+};
+
+function kaartHTML(set,i,geenLab){
+  var c=SETS[set][i], n=i+1, tot=SETS[set].length, h='';
+  if(set==='zalf'){
+    if(!geenLab||c[3]) h+='<span class="lab">'+(geenLab?'':esc(c[0]))+(c[3]?(geenLab?'':' &middot; ')+'prijs':'')+'</span>';
+    h+='<h3>'+esc(c[1])+'</h3>';
+    h+='<p style="font-size:.9375rem">'+esc(c[2])+'</p>';
+  }else if(set==='verband'){
+    if(!geenLab) h+='<span class="lab">'+esc(c[0])+'</span>';
+    h+='<h3>'+(c[2]?'&ldquo;'+esc(c[1])+'&rdquo;':esc(c[1]))+'</h3>';
+    h+='<div class="gevolg"><b>'+esc(c[3])+'</b><span>'+esc(c[4])+'</span></div>';
+  }else{
+    if(!geenLab) h+='<span class="lab">'+esc(c[0])+'</span>';
+    h+='<h3>'+esc(c[1])+'</h3>';
+  }
+  h+='<span class="nr">'+n+' / '+tot+'</span>';
+  return h;
+}
+
+/* ---------- startscherm ---------- */
+(function(){
+  var h='';
+  for(var i=0;i<SESSIES.length;i++){var s=SESSIES[i];
+    h+='<button class="moment" type="button" data-sessie="'+s.id+'" style="--k:var('+s.kleur+')">'+
+       '<em>'+esc(s.duur)+'</em><b>'+esc(s.naam)+'</b><span>'+esc(s.intro)+'</span></button>';
+  }
+  $('hub').innerHTML=h;
+})();
+
+/* ---------- handleiding ---------- */
+(function(){
+  var h='';
+  for(var i=0;i<LEIDING.length;i++){h+='<div class="rij"><b>'+esc(LEIDING[i][0])+'</b><span>'+esc(LEIDING[i][1])+'</span><i>'+esc(LEIDING[i][2])+'</i></div>';}
+  $('l-rijen').innerHTML=h;
+  h='';
+  for(i=0;i<SLOOP.length;i++){h+='<div class="sloop"><b>'+(i+1)+'</b><span>'+esc(SLOOP[i])+'</span></div>';}
+  $('l-sloop').innerHTML=h;
+  h='';
+  for(i=0;i<RITME.length;i++){h+='<div class="rij"><b>'+esc(RITME[i][0])+'</b><span>'+esc(RITME[i][1])+'</span></div>';}
+  $('l-ritme').innerHTML=h;
+})();
+
+/* ---------- sessie ---------- */
+var SES=null, IX=0, klok=null;
+
+function stopKlok(){if(klok){clearInterval(klok);klok=null;}}
+
+function tekenStap(){
+  var s=SES.stappen[IX], h='';
+  $('s-naam').textContent=SES.naam;
+  $('s-tel').textContent='stap '+(IX+1)+' van '+SES.stappen.length;
+  $('s-balk').style.width=Math.round((IX+1)/SES.stappen.length*100)+'%';
+  h+='<h2>'+esc(s.k)+'</h2>';
+  if(s.b) h+='<p>'+esc(s.b)+'</p>';
+  if(s.lees) h+='<div class="lees"><span class="lab">'+esc(s.lees[1])+'</span><q>'+esc(s.lees[0])+'</q></div>';
+  if(s.vragen){h+='<div class="vragen">';for(var i=0;i<s.vragen.length;i++){h+='<div><b>'+(i+1)+'</b><span>'+esc(s.vragen[i])+'</span></div>';}h+='</div>';}
+  if(s.kaart){h+='<div class="kaart">'+kaartHTML(s.kaart[0],s.kaart[1]-1)+'</div>';}
+  if(s.set){
+    var set=s.set[0], filt=s.set[1], lijst=[];
+    for(i=0;i<SETS[set].length;i++){if(!filt||SETS[set][i][0]===filt)lijst.push(i);}
+    if(!filt){
+      var pick=lijst[Math.floor(Math.random()*lijst.length)];
+      h+='<div class="kaart">'+kaartHTML(set,pick)+'</div>';
+      h+='<button class="btn breed" type="button" id="s-andere" style="text-align:center">Andere kaart</button>';
+    }else{
+      for(i=0;i<lijst.length;i++){h+='<div class="kaart" style="min-height:0">'+kaartHTML(set,lijst[i],1)+'</div>';}
+    }
+  }
+  if(s.sec) h+='<div class="klok"><button class="btn" type="button" id="s-klok">Start '+(s.sec>=60?(s.sec/60)+' min':s.sec+' sec')+'</button><output id="s-tijd">'+fmt(s.sec)+'</output></div>';
+  if(s.tip) h+='<p class="tip">'+esc(s.tip)+'</p>';
+  $('s-stap').innerHTML=h;
+  stopKlok();
+  if($('s-klok')) $('s-klok').addEventListener('click',function(){loopKlok(s.sec);});
+  if($('s-andere')) $('s-andere').addEventListener('click',tekenStap);
+  $('s-vorige').disabled=(IX===0);
+  $('s-volgende').textContent=(IX===SES.stappen.length-1)?'Klaar':'Volgende';
+  if(location.hash!=='#'+SES.id+'-'+(IX+1)) history.replaceState(null,'','#'+SES.id+'-'+(IX+1));
+  window.scrollTo(0,0);
+}
+
+function fmt(s){var m=Math.floor(s/60),r=s%60;return m+':'+(r<10?'0':'')+r;}
+
+function loopKlok(sec){
+  stopKlok();
+  var rest=sec, out=$('s-tijd'), knop=$('s-klok');
+  if(!out) return;
+  knop.textContent='Stop';
+  out.textContent=fmt(rest);
+  klok=setInterval(function(){
+    rest--;
+    if(rest<=0){stopKlok();out.textContent='klaar';knop.textContent='Opnieuw';return;}
+    out.textContent=fmt(rest);
+  },1000);
+  knop.onclick=function(){stopKlok();out.textContent=fmt(sec);knop.textContent='Start opnieuw';knop.onclick=function(){loopKlok(sec);};};
+}
+
+function startSessie(id,ix){
+  var s=sessie(id); if(!s) return toon('home');
+  SES=s; IX=Math.max(0,Math.min(ix||0,s.stappen.length-1));
+  document.documentElement.style.setProperty('--k','var('+s.kleur+')');
+  $('v-sessie').style.setProperty('--k','var('+s.kleur+')');
+  toon('sessie');
+  tekenStap();
+}
+
+/* ---------- losse kaarten ---------- */
+var KSET='zalf', KFILT='', KIX=0;
+
+function tekenFilters(){
+  var soorten=[], lijst=SETS[KSET];
+  for(var i=0;i<lijst.length;i++){if(soorten.indexOf(lijst[i][0])<0)soorten.push(lijst[i][0]);}
+  var h='<button class="chip" type="button" data-f="" aria-pressed="'+(KFILT===''?'true':'false')+'">Alle</button>';
+  for(i=0;i<soorten.length;i++){h+='<button class="chip" type="button" data-f="'+esc(soorten[i])+'" aria-pressed="'+(KFILT===soorten[i]?'true':'false')+'">'+esc(soorten[i])+'</button>';}
+  $('k-filters').innerHTML=h;
+  $('k-uitleg').textContent=SETINFO[KSET].uit;
+}
+function kLijst(){var r=[],l=SETS[KSET];for(var i=0;i<l.length;i++){if(!KFILT||l[i][0]===KFILT)r.push(i);}return r;}
+function tekenKaart(){
+  var l=kLijst(); if(!l.length){$('k-kaart').innerHTML='';return;}
+  if(KIX>=l.length)KIX=0;
+  $('k-kaart').innerHTML=kaartHTML(KSET,l[KIX]);
+}
+$('k-volgende').addEventListener('click',function(){KIX++;tekenKaart();});
+$('k-filters').addEventListener('click',function(e){
+  var b=e.target.closest('[data-f]'); if(!b)return;
+  KFILT=b.getAttribute('data-f'); KIX=0; tekenFilters(); tekenKaart();
+});
+Array.prototype.forEach.call(document.querySelectorAll('[data-set]'),function(b){
+  b.addEventListener('click',function(){
+    KSET=b.getAttribute('data-set'); KFILT=''; KIX=0;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-set]'),function(o){o.setAttribute('aria-pressed',o===b?'true':'false');});
+    tekenFilters(); tekenKaart();
+  });
+});
+
+/* ---------- navigatie ---------- */
+var VIEWS={home:'v-home',sessie:'v-sessie',kaarten:'v-kaarten',leiding:'v-leiding'};
+function toon(naam){
+  for(var k in VIEWS){$(VIEWS[k]).hidden=(k!==naam);}
+  $('voet').hidden=(naam!=='sessie');
+  $('wrap').classList.toggle('sessie',naam==='sessie');
+  $('kop').textContent = naam==='kaarten' ? 'Losse kaarten' : (naam==='leiding' ? 'Voor wie leiding geeft' : 'EHBO met je team');
+  $('onderkop').textContent = naam==='kaarten' ? 'Zalf, Verband en Spiegel om doorheen te bladeren'
+    : (naam==='leiding' ? 'Het onderdeel dat de zes vakken verbindt' : 'De helft van de doos die je samen gebruikt');
+  if(naam!=='sessie'){stopKlok();window.scrollTo(0,0);}
+}
+
+$('hub').addEventListener('click',function(e){
+  var b=e.target.closest('[data-sessie]'); if(!b)return;
+  location.hash='#'+b.getAttribute('data-sessie')+'-1';
+});
+Array.prototype.forEach.call(document.querySelectorAll('[data-ga]'),function(b){
+  b.addEventListener('click',function(){
+    var d=b.getAttribute('data-ga');
+    location.hash = d==='home' ? '' : '#'+d;
+    if(d==='home' && location.hash==='') lees();
+  });
+});
+$('s-vorige').addEventListener('click',function(){if(IX>0){IX--;tekenStap();}});
+$('s-volgende').addEventListener('click',function(){
+  if(IX<SES.stappen.length-1){IX++;tekenStap();} else {location.hash='';lees();}
+});
+document.addEventListener('keydown',function(e){
+  if($('v-sessie').hidden) return;
+  if(e.key==='ArrowRight'&&IX<SES.stappen.length-1){IX++;tekenStap();}
+  if(e.key==='ArrowLeft'&&IX>0){IX--;tekenStap();}
+});
+
+function lees(){
+  var h=(location.hash||'').replace('#','');
+  if(!h){toon('home');return;}
+  if(h==='kaarten'){toon('kaarten');tekenFilters();tekenKaart();return;}
+  if(h==='leiding'){toon('leiding');return;}
+  var d=h.split('-'), s=sessie(d[0]);
+  if(s){startSessie(d[0],(parseInt(d[1],10)||1)-1);return;}
+  toon('home');
+}
+window.addEventListener('hashchange',lees);
+
+/* ---------- printen ---------- */
+$('s-print').addEventListener('click',function(){
+  if(!SES) return;
+  var h='<h2>'+esc(SES.naam)+' &middot; '+esc(SES.duur)+'</h2><p>'+esc(SES.intro)+'</p>';
+  for(var i=0;i<SES.stappen.length;i++){
+    var s=SES.stappen[i];
+    h+='<h3>'+(i+1)+'. '+esc(s.k)+'</h3>';
+    if(s.b)h+='<p>'+esc(s.b)+'</p>';
+    if(s.lees)h+='<p class="pq">&ldquo;'+esc(s.lees[0])+'&rdquo;</p>';
+    if(s.vragen){h+='<ul>';for(var j=0;j<s.vragen.length;j++)h+='<li>'+esc(s.vragen[j])+'</li>';h+='</ul>';}
+    if(s.kaart){var c=SETS[s.kaart[0]][s.kaart[1]-1];h+='<p class="pq">'+esc(c[1])+'</p><p>'+esc(c[3])+': '+esc(c[4])+'</p>';}
+    if(s.set){var set=s.set[0],f=s.set[1];h+='<ul>';
+      for(j=0;j<SETS[set].length;j++){if(!f||SETS[set][j][0]===f)h+='<li>'+esc(SETS[set][j][1])+'</li>';}h+='</ul>';}
+    if(s.sec)h+='<p>Tijd: '+fmt(s.sec)+'</p>';
+    if(s.tip)h+='<p>'+esc(s.tip)+'</p>';
+  }
+  h+='<p>Busje Oranje &middot; EHBO-doos &middot; er wordt niets vastgelegd</p>';
+  $('printblok').innerHTML=h;
+  window.print();
+});
+
+lees();
+})();
+</script>
+</body>
+</html>
