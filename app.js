@@ -378,10 +378,14 @@ $('deelknop').addEventListener('click', function () { kopieer($('deeltekst').tex
 deelTekst();
 
 /* ================= CHECK: LMRA ================= */
-var lmraAntw = [];
+var lmraAntw = [], LMRA_ICO = ['doel', 'gevaar', 'gereedschap', 'meekijken', 'nu'];
+function ico(naam) { return (T.ico && T.ico[naam]) || ''; }
+if ($('c-tek')) $('c-tek').innerHTML = (T.check && T.check.intro) || '';
 LMRA.forEach(function (v, i) {
   var d = el('div', 'vraag');
-  var kop = el('div', 'kop'); kop.appendChild(el('b', null, String(i + 1))); kop.appendChild(el('h3', null, v[0])); d.appendChild(kop);
+  var kop = el('div', 'kop'); kop.appendChild(el('b', null, String(i + 1))); kop.appendChild(el('h3', null, v[0]));
+  var pic = el('span', 'pic'); pic.innerHTML = ico(LMRA_ICO[i]); kop.appendChild(pic); d.appendChild(kop);
+  var hm = el('span', 'helm'); hm.innerHTML = ico('helm'); $('lmra-helmen').appendChild(hm);
   d.appendChild(el('p', 'zacht', v[1]));
   if (v[2]) d.appendChild(el('p', 'vb', v[2]));
   if (i === 4) { var l = el('button', 'btn klein', 'Bekijk waar ik nu sta'); l.type = 'button'; l.style.alignSelf = 'flex-start'; l.addEventListener('click', function () { ga('nu'); }); d.appendChild(l); }
@@ -416,17 +420,18 @@ function lmraTekst() {
 function lmraUitkomst() {
   var u = $('lmra-uitkomst'), vg = $('lmra-voortgang'), nee = [], klaar = 0, i, h;
   for (i = 0; i < LMRA.length; i++) { if (lmraAntw[i]) klaar++; if (lmraAntw[i] === 'nee') nee.push(i); }
+  Array.prototype.forEach.call($('lmra-helmen').children, function (x, n) { x.className = 'helm' + (lmraAntw[n] ? ' ' + lmraAntw[n] : ''); });
   vg.hidden = !klaar || klaar === LMRA.length;
   vg.textContent = klaar + ' van ' + LMRA.length + ' beantwoord. Na de vijfde vraag volgt je conclusie.';
   if (klaar < LMRA.length) { u.hidden = true; lmraKlaar = false; return; }
   var ja = LMRA.length - nee.length;
   if (!nee.length) {
     u.style.setProperty('--z', 'var(--groen)');
-    h = '<span class="lab">Conclusie · 5 keer ja</span><h3>Je kunt beginnen</h3><p>Je weet wat je gaat doen, wat er mis kan gaan, wat je nodig hebt en wie er meekijkt. Ga je onderweg toch twijfelen, doe de check dan opnieuw.</p>';
+    h = '<div class="staptek">' + ((T.check && T.check.go) || '') + '</div><span class="lab">Conclusie · 5 keer ja</span><h3>Je kunt beginnen</h3><p>Je weet wat je gaat doen, wat er mis kan gaan, wat je nodig hebt en wie er meekijkt. Ga je onderweg toch twijfelen, doe de check dan opnieuw.</p>';
   } else {
     var zwaar = nee.length >= 3;
     u.style.setProperty('--z', zwaar ? 'var(--rood)' : 'var(--oranje)');
-    h = '<span class="lab">Conclusie · ' + ja + ' keer ja, ' + nee.length + ' keer nee</span><h3>' + (zwaar ? 'Begin hier nu niet aan' : 'Nog niet beginnen') + '</h3>';
+    h = '<div class="staptek">' + ((T.check && T.check[zwaar ? 'stop' : 'wacht']) || '') + '</div><span class="lab">Conclusie · ' + ja + ' keer ja, ' + nee.length + ' keer nee</span><h3>' + (zwaar ? 'Begin hier nu niet aan' : 'Nog niet beginnen') + '</h3>';
     h += '<p>' + (zwaar ? 'Drie of meer keer nee: dit werk kan nu niet goed gedaan worden. Bespreek het eerst met je senior of manager, en regel daarna:' : 'Eén keer nee betekent niet automatisch stoppen. Regel wel eerst wat ontbreekt:') + '</p><div class="lijst">';
     nee.forEach(function (n) { h += '<div class="rij"><b>' + (n + 1) + '. ' + esc(LMRA[n][0]) + '</b><span>' + esc(LMRA_ACTIE[n]) + '</span></div>'; });
     h += '</div><p class="zacht">Zeg het hardop tegen je team. Daar draait een LMRA om: iedereen weet waar het risico zit vóórdat het werk begint.</p>';
@@ -435,6 +440,7 @@ function lmraUitkomst() {
   if (nee.indexOf(4) >= 0) h += '<button class="btn" type="button" data-ga="nu">Neem een time-out</button><button class="btn" type="button" data-ga="kaarten-verband-3">Een zin om het te zeggen</button>';
   h += '<button class="btn" type="button" id="lmra-kopieer">Kopieer de conclusie</button></div>';
   u.innerHTML = h; u.hidden = false;
+  if (!lmraKlaar && !nee.length) confetti();
   if (!lmraKlaar && u.scrollIntoView) setTimeout(function () { u.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60);
   lmraKlaar = true;
 }
@@ -444,18 +450,31 @@ $('reset').addEventListener('click', function () {
 });
 
 /* ================= TERUG: reflectie voor jezelf ================= */
+var TERUG_ICO = ['camera', 'ik', 'opdracht', 'omgeving', 'les', 'nodig', 'delen'], terugBlokken = [];
+if ($('t-tek')) $('t-tek').innerHTML = T.terugkijk || '';
+function terugStatus() {
+  var n = 0, les = false;
+  TERUG.forEach(function (blok, i) {
+    var vol = blok[2].some(function (v) { return lees(v[0]).trim() !== ''; });
+    if (vol) n++; if (i === 4 && vol) les = true;
+    if (terugBlokken[i]) terugBlokken[i].classList.toggle('vol', vol);
+  });
+  var t = $('t-voortgang'); if (!t) return;
+  t.textContent = les ? 'Je hebt een les. Meer hoeft niet.' : (n ? n + ' van ' + TERUG.length + ' blokken ingevuld.' : 'Begin bij het moment. Eén blok is al genoeg.');
+}
 TERUG.forEach(function (blok, i) {
-  var d = el('details', 'kl'); if (i === 0) d.open = true;
-  var s = el('summary'); s.appendChild(el('span', null, blok[0])); d.appendChild(s);
+  var d = el('details', 'kl'); if (i === 0) d.open = true; terugBlokken.push(d);
+  var s = el('summary'), pic = el('span', 'pic'); pic.innerHTML = ico(TERUG_ICO[i]); s.appendChild(pic); s.appendChild(el('span', null, blok[0])); s.appendChild(el('b', 'vink', '✓')); d.appendChild(s);
   var body = el('div', 'body'); body.appendChild(el('p', 'zacht', blok[1]));
   blok[2].forEach(function (v) {
     var veld = el('div', 'veld'), lb = el('label', null, v[1]); lb.setAttribute('for', v[0]);
     var t = el('textarea'); t.id = v[0]; t.value = lees(v[0]);
-    t.addEventListener('input', function () { bewaar(v[0], t.value); });
+    t.addEventListener('input', function () { bewaar(v[0], t.value); terugStatus(); });
     veld.appendChild(lb); veld.appendChild(t); body.appendChild(veld);
   });
   d.appendChild(body); $('terugblokken').appendChild(d);
 });
+terugStatus();
 $('kopieer').addEventListener('click', function () {
   var uit = [];
   TERUG.forEach(function (blok) {
@@ -471,7 +490,7 @@ $('wis').addEventListener('click', function () {
   var b = $('wis');
   if (!wisStap) { wisStap = 1; b.textContent = 'Zeker weten? Tik nog een keer om alles te wissen'; clearTimeout(wisTimer); wisTimer = setTimeout(function () { wisStap = 0; b.textContent = 'Wis mijn aantekeningen'; }, 5000); return; }
   clearTimeout(wisTimer); wisStap = 0; b.textContent = 'Wis mijn aantekeningen';
-  TERUG.forEach(function (blok) { blok[2].forEach(function (v) { bewaar(v[0], ''); $(v[0]).value = ''; }); });
+  TERUG.forEach(function (blok) { blok[2].forEach(function (v) { bewaar(v[0], ''); $(v[0]).value = ''; }); }); terugStatus();
   toast('Je aantekeningen zijn gewist.');
 });
 

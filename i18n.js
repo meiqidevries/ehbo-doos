@@ -27,6 +27,7 @@
     [/^(\d+) van (\d+) hebben gekozen$/, function (m) { return m[1] + ' of ' + m[2] + ' have chosen'; }],
     [/^(\d+) kaart(?:en)? gegeven$/, function (m) { return mv(m[1], 'card', 'cards') + ' given'; }],
     [/^(\d+) deelnemers?$/, function (m) { return mv(m[1], 'participant', 'participants'); }],
+    [/^(\d+) van (\d+) blokken ingevuld\.$/, function (m) { return m[1] + ' of ' + m[2] + ' blocks filled in.'; }],
     [/^(\d+) complimente?n?$/, function (m) { return mv(m[1], 'compliment', 'compliments'); }],
     [/^(\d+) gekozen zin(?:nen)?$/, function (m) { return mv(m[1], 'chosen line', 'chosen lines'); }],
     [/^(\d+) antwoord(?:en)?$/, function (m) { return mv(m[1], 'answer', 'answers'); }],

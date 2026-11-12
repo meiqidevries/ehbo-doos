@@ -301,6 +301,20 @@ button.ovz{cursor:pointer;min-height:2.75rem}
 .confetti i{position:absolute;top:-1rem;width:.5rem;height:.875rem;opacity:.9;animation:val 2.1s ease-in forwards}
 @keyframes val{to{top:105%;transform:rotate(540deg)}}
 @media (prefers-reduced-motion:reduce){.confetti{display:none}}
+.tek.ico{width:1.75rem;height:1.75rem}
+.vraag .kop{align-items:center}
+.vraag .kop h3{flex:1;min-width:0}
+.pic{flex:0 0 auto;color:var(--soft);line-height:0}
+.helmen{display:flex;gap:.5rem;justify-content:center}
+.helm{color:var(--line);line-height:0;transition:color .2s,transform .2s}
+.helm .tek.ico{width:2rem;height:2rem}
+.helm.ja{color:var(--groen);transform:translateY(-3px)}
+.helm.nee{color:var(--oranje)}
+.pic .tek,.helm .tek{color:inherit}
+details.kl>summary .vink{font-family:var(--body);font-weight:700;color:var(--groen);visibility:hidden}
+details.kl.vol>summary .vink{visibility:visible}
+.kl.vol .lamp{fill:var(--geel);fill-opacity:.45;stroke:var(--geel)}
+.melding.conclusie .staptek{align-self:flex-start;width:8rem}
 </style>
 </head>
 <body>
@@ -377,12 +391,14 @@ button.ovz{cursor:pointer;min-height:2.75rem}
   <!-- CHECK: LMRA -->
   <div class="view" id="v-check" hidden>
     <section class="card">
+      <div class="staptek" id="c-tek"></div>
       <span class="lab">LMRA &middot; zestig seconden vooraf</span>
       <h2>Voordat je begint</h2>
       <p class="zacht">De Last Minute Risico Analyse van de bouwplaats, vertaald naar de controlepraktijk.</p>
       <p style="font-size:.9375rem"><b style="font-weight:500">Wanneer?</b> Vóór een gesprek waar je tegenop ziet. Vóór een post die je nog niet begrijpt. Vóór je iets aftekent. En voordat je een (AI-)tool gebruikt op klantgegevens.</p>
     </section>
     <div id="lmra" class="lijst"></div>
+    <div class="helmen" id="lmra-helmen" aria-hidden="true"></div>
     <p class="zacht" id="lmra-voortgang" hidden></p>
     <section class="melding conclusie" id="lmra-uitkomst" hidden aria-live="polite"></section>
     <button class="btn breed" type="button" id="reset">Begin opnieuw</button>
@@ -478,11 +494,13 @@ button.ovz{cursor:pointer;min-height:2.75rem}
   <!-- TERUG: reflectie voor jezelf -->
   <div class="view" id="v-terug" hidden>
     <section class="card">
+      <div class="staptek" id="t-tek"></div>
       <span class="lab">Bijsluiter &middot; voor jezelf</span>
       <h2>Terugkijken</h2>
       <p class="zacht">Dit is alleen voor jou. Het blijft op dit toestel, komt niet in een dossier en telt niet mee in je beoordeling. Je kiest zelf of je er later iets van deelt.</p>
     </section>
     <section class="card" id="t-gekregen" hidden></section>
+    <p class="zacht" id="t-voortgang" aria-live="polite"></p>
     <div id="terugblokken" class="lijst"></div>
     <section class="card">
       <button class="btn breed" type="button" id="kopieer">Kopieer mijn aantekeningen</button>
