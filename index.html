@@ -325,6 +325,7 @@ nav svg{display:block}
     <section class="card">
       <span class="lab">Doe mee met een sessie</span>
       <p class="zacht">Heeft je begeleider een live sessie gestart? Scan de QR-code, of vul hier de code in.</p>
+      <p class="zacht" style="order:9">Zelf een live sessie starten? Kies hieronder een sessie; bovenaan staat dan de knop <b style="font-weight:500">Start live sessie</b>.</p>
       <form id="meedoen" class="rijtje" autocomplete="off">
         <input type="text" id="codeveld" inputmode="text" autocapitalize="characters" spellcheck="false" maxlength="12" placeholder="K7M2-QXPA" aria-label="Sessiecode" style="flex:2 1 10rem;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase">
         <button class="btn vol" type="submit">Doe mee</button>
@@ -356,12 +357,16 @@ nav svg{display:block}
       <div class="sesskop" style="margin-bottom:.5rem"><span class="lab" id="s-naam"></span><span class="lab" id="s-tel"></span></div>
       <div class="balk"><i id="s-balk" style="width:0"></i></div>
     </div>
+    <section class="card" id="s-livekaart">
+      <span class="lab">Begeleid je deze sessie?</span>
+      <p class="zacht" id="s-liveuitleg">Start een live sessie: je krijgt een code en een QR-code. Iedereen doet mee op de eigen telefoon en ziet elkaars inbreng zonder namen, pas als jij die laat zien.</p>
+      <button class="btn vol breed" type="button" id="s-startlive">Start live sessie</button>
+    </section>
     <div class="stap" id="s-stap"></div>
     <div class="rijtje" id="s-extra">
-      <button class="btn" type="button" id="s-startlive">Start live sessie</button>
       <button class="btn" type="button" id="s-print">Print deze sessie</button>
     </div>
-    <p class="zacht" id="s-liveuitleg">Live: iedereen doet mee op de eigen telefoon via een code. Je ziet elkaars inbreng zonder namen, en pas als de begeleider die laat zien.</p>
+    <p class="zacht" id="s-geenlive" hidden>Een live sessie starten kan niet in deze browser. Samen op één scherm werkt de sessie wel.</p>
   </div>
 
   <!-- KAARTEN -->

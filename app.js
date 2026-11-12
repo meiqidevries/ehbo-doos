@@ -581,6 +581,8 @@ function tekenLive() {
   var L = liveHier(), balk = $('s-live'), uit = $('s-uitnodiging');
   $('s-startlive').hidden = !!L || !Live.beschikbaar();
   $('s-liveuitleg').hidden = !!L || !Live.beschikbaar();
+  $('s-livekaart').hidden = !!L || !Live.beschikbaar();
+  $('s-geenlive').hidden = Live.beschikbaar();
   $('s-print').hidden = !!L && !L.host;
   if (!L) { balk.hidden = true; uit.hidden = true; return; }
   balk.hidden = false;
