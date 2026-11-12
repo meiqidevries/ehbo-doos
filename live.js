@@ -24,7 +24,9 @@
   } catch (e) {}
 
   var ALFABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // zonder I, L, O, 0 en 1: die lees je verkeerd over
-  var MAX_TEKST = 280, MAX_PER_STAP = 5, MAX_BERICHT = 2200;
+  var MAX_TEKST = 280, MAX_PER_STAP = 5, MAX_BERICHT = 2200, MAX_KAARTEN = 3;
+  // Soorten inbreng en hoe lang de waarde mag zijn. 'kies' is alleen voor de begeleider.
+  var SOORTEN = { kleur: 12, tekst: MAX_TEKST, zin: 4, kies: 4, zalf: 400, namen: 300 };
   var enc = new TextEncoder(), dec = new TextDecoder();
   var S = null;            // de lopende sessie, of null
   var luisteraars = [];
@@ -163,8 +165,9 @@
         break;
       case 'in':
         if (typeof m.id !== 'string' || m.id.indexOf(m.c + ':') !== 0 || S.weg[m.id]) break;
-        if (m.k !== 'kleur' && m.k !== 'tekst') break;
-        var v = String(m.v == null ? '' : m.v).slice(0, MAX_TEKST);
+        if (!SOORTEN[m.k]) break;
+        if ((m.k === 'kies' || m.k === 'namen') && S.hostId && m.c !== S.hostId) break;
+        var v = String(m.v == null ? '' : m.v).slice(0, SOORTEN[m.k]);
         if (!v) break;
         var had = S.items[m.id], n = +m.n || 0;
         if (had && had.n > n) break;
@@ -172,7 +175,8 @@
         meld('in');
         break;
       case 'weg':
-        if (typeof m.id !== 'string' || m.id.indexOf(m.c + ':') !== 0) break;
+        // je eigen inbreng trek je zelf terug; de begeleider mag ook een kaart van een ander weghalen
+        if (typeof m.id !== 'string' || (m.id.indexOf(m.c + ':') !== 0 && !(S.hostId && m.c === S.hostId))) break;
         S.weg[m.id] = 1; delete S.items[m.id]; meld('in');
         break;
       case 'toon':
@@ -279,6 +283,63 @@
     stuur({ t: 'in', id: id, s: stap, k: 'tekst', v: tekst, n: n }); meld('in');
     return true;
   }
+  // Verband: iedereen kiest één zin, zonder naam. Opnieuw kiezen vervangt de vorige keuze.
+  function kiesZin(stap, nr) {
+    if (!S) return;
+    var id = S.ik + ':z' + stap, n = Date.now();
+    S.items[id] = { s: stap, k: 'zin', v: String(nr), c: S.ik, n: n };
+    stuur({ t: 'in', id: id, s: stap, k: 'zin', v: String(nr), n: n }); meld('in');
+  }
+  // Zalf: een kaart voor een collega, met toelichting. De waarde is [kaartnummer, voor wie, wat je zag, van wie].
+  function geef(stap, nr, voor, verhaal, van) {
+    if (!S) return false;
+    if (mijn(stap, 'zalf').length >= MAX_KAARTEN) return false;
+    var v = JSON.stringify([nr | 0, String(voor || '').trim().slice(0, 40), String(verhaal || '').trim().slice(0, 220), String(van || '').trim().slice(0, 30)]);
+    var id = S.ik + ':g' + stap + '.' + (++S.teller) + willekeurig(3, ALFABET), n = Date.now();
+    S.items[id] = { s: stap, k: 'zalf', v: v, c: S.ik, n: n };
+    stuur({ t: 'in', id: id, s: stap, k: 'zalf', v: v, n: n }); meld('in');
+    return true;
+  }
+  // Spiegel: de begeleider zet één vraag op ieders scherm.
+  function kies(stap, nr) {
+    if (!S || !S.host) return;
+    var id = S.ik + ':h' + stap, n = Date.now();
+    S.items[id] = { s: stap, k: 'kies', v: String(nr), c: S.ik, n: n };
+    stuur({ t: 'in', id: id, s: stap, k: 'kies', v: String(nr), n: n }); meld('in');
+  }
+  function gekozen(stap) {
+    if (!S) return 0;
+    var best = null;
+    Object.keys(S.items).forEach(function (id) {
+      var it = S.items[id];
+      if (it.s === stap && it.k === 'kies' && (!S.hostId || it.c === S.hostId) && (!best || it.n > best.n)) best = it;
+    });
+    return best ? (parseInt(best.v, 10) || 0) : 0;
+  }
+  // Zalf: de begeleider kan de voornamen van het team klaarzetten, zodat niemand hoeft te typen.
+  function zetNamen(stap, tekst) {
+    if (!S || !S.host) return;
+    var v = String(tekst || '').trim().slice(0, 300), id = S.ik + ':n' + stap, n = Date.now();
+    if (!v) return;
+    S.items[id] = { s: stap, k: 'namen', v: v, c: S.ik, n: n };
+    stuur({ t: 'in', id: id, s: stap, k: 'namen', v: v, n: n }); meld('in');
+  }
+  function namen(stap) {
+    if (!S) return [];
+    var best = null;
+    Object.keys(S.items).forEach(function (id) {
+      var it = S.items[id];
+      if (it.k === 'namen' && (!S.hostId || it.c === S.hostId) && (!best || it.n > best.n)) best = it;
+    });
+    if (!best) return [];
+    var r = [];
+    best.v.split(/[,;\n]+/).forEach(function (x) { x = x.trim().slice(0, 40); if (x && r.indexOf(x) < 0 && r.length < 24) r.push(x); });
+    return r;
+  }
+  function haalWeg(id) {
+    if (!S || !S.host) return;
+    S.weg[id] = 1; delete S.items[id]; stuur({ t: 'weg', id: id }); meld('in');
+  }
   function trekIn(id) {
     if (!S || id.indexOf(S.ik + ':') !== 0) return;
     S.weg[id] = 1; delete S.items[id]; stuur({ t: 'weg', id: id }); meld('in');
@@ -297,11 +358,12 @@
     beschikbaar: beschikbaar, nieuweCode: nieuweCode, normCode: normCode, toonCode: toonCode,
     start: start, doeMee: doeMee, hervat: hervat, stop: stop,
     zetStap: zetStap, laatZien: laatZien, stem: stem, antwoord: antwoord, trekIn: trekIn,
+    kiesZin: kiesZin, geef: geef, kies: kies, gekozen: gekozen, haalWeg: haalWeg, zetNamen: zetNamen, namen: namen,
     inbreng: inbreng, mijn: mijn,
     sessie: function () { return S; },
     aantal: function () { return S ? Object.keys(S.wie).length : 0; },
     zichtbaar: function (stap) { return !!(S && S.toon[stap]); },
     op: function (fn) { luisteraars.push(fn); },
-    MAX_TEKST: MAX_TEKST, MAX_PER_STAP: MAX_PER_STAP
+    MAX_TEKST: MAX_TEKST, MAX_PER_STAP: MAX_PER_STAP, MAX_KAARTEN: MAX_KAARTEN
   };
 })();

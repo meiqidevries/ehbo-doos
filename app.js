@@ -145,10 +145,12 @@ var SESSIES = [
   stappen: [
    { k: 'Voordat je begint', b: 'Eén iemand begeleidt en leest voor. Doen jullie dit live, dan volgt ieders telefoon vanzelf de stap van de begeleider.', tip: 'Antwoorden leg je niet vast. Deze vragen zijn geen controlemiddel: belandt een antwoord in een dossier of beoordeling, dan worden de antwoorden daarna voorzichtiger.' },
    { k: 'Waarom nu, en niet achteraf', lees: ['Ethische grenzen worden zelden in één besluit overschreden. Ze schuiven op, vraag voor vraag, tot niemand meer kan aanwijzen waar het misging.', 'Lees voor'], b: 'Daarom stel je deze vragen aan het begin van de opdracht, wanneer het antwoord nog iets kan veranderen.' },
-   { k: 'Opdrachtacceptatie', b: 'Kies één vraag en lees die voor. Laat daarna twee minuten stilte vallen; pas dan praten jullie.', set: ['spiegel', 'Opdrachtacceptatie'], sec: 120, inb: ['tekst', ANONIEM] },
-   { k: 'Risicoanalyse', b: 'Nog één vraag. Voorlezen, twee minuten stilte, en niemand hoeft een antwoord af te maken.', set: ['spiegel', 'Risicoanalyse'], sec: 120, inb: ['tekst', ANONIEM] },
+   { k: 'Spiegel: één vraag bij de acceptatie', b: 'De begeleider kiest één vraag en leest die voor. Laat daarna twee minuten stilte vallen; pas dan praten jullie.', spiegel: 'Opdrachtacceptatie', sec: 120, inb: ['tekst', ANONIEM] },
+   { k: 'Spiegel: nog één vraag', opt: 1, b: 'Als er tijd is. Voorlezen, twee minuten stilte, en niemand hoeft een antwoord af te maken.', spiegel: 'Risicoanalyse', sec: 120, inb: ['tekst', ANONIEM] },
    { k: 'De zin die de rest makkelijker maakt', lees: ['Ik wil iets zeggen waar ik een beetje bang voor ben.', 'Uit Verband'], b: 'Spreek af dat deze zin in dit team altijd mag. Wie hem hoort, bedankt eerst, vraagt door, en komt er binnen een week op terug met wat ermee is gedaan.' },
+   { k: 'Verband: welke zin wil jij hier kunnen zeggen?', opt: 1, b: 'Iedereen kiest één zin die in dit team makkelijker gezegd zou moeten kunnen worden. Bespreek daarna de zin die het vaakst is gekozen.', inb: ['zin', 'Kies één zin. Er gaat geen naam mee.', ''] },
    { k: 'De leidinggevende begint', b: 'Een team wordt veiliger wanneer degene met de meeste invloed als eerste iets ongemakkelijks vraagt. De begeleider geeft daarom als eerste een antwoord dat ook voor de begeleider zelf ongemakkelijk is.', tip: 'Veiligheid ontstaat niet doordat junioren moediger worden, maar doordat de leidinggevende laat zien dat het kan.' },
+   { k: 'Zalf: begin met een compliment', opt: 1, b: 'Iedereen kan een collega een kaart geven, met erbij wat je zag. Denk aan de vorige opdracht, of aan de voorbereiding van deze.', inb: ['geef', 'Kies een kaart en geef die aan een collega.'], tip: 'Eén prijs per teamoverleg is genoeg, anders verliezen ze hun waarde.' },
    { k: 'Afsluiten', b: 'Eén afspraak uit dit gesprek. Wie bewaakt die afspraak, en wanneer kijken jullie of die heeft gewerkt?', inb: ['tekst', 'Welke afspraak neem jij mee?'] }
   ] },
 { id: 'week', naam: 'Weekafsluiting in de busy season', duur: '15 min', kleur: 'var(--oranje)',
@@ -157,8 +159,9 @@ var SESSIES = [
    { k: 'Voordat je begint', b: 'Een kwartier, aan het eind van een overleg dat al gepland staat. Eén iemand begeleidt.', tip: 'Kijk straks naar de verdeling, niet naar personen.' },
    { k: 'Het rondje', b: 'Iedereen geeft aan welke kleur deze week had: groen, geel, oranje of rood. Zonder toelichting.', sec: 60, inb: ['kleur', 'Welke kleur had jouw week?'], tip: 'Live gaat dit anoniem: iedereen kiest op de eigen telefoon en de begeleider laat daarna de verdeling zien. Zonder live sessie noemt ieder hardop een kleur.' },
    { k: 'Kijk naar de verdeling', b: 'Niet wíé er in oranje of rood staat, maar hoeveel. Staat iemand drie keer in één week in oranje of rood, dan is het geen pleisterprobleem meer, maar een planningsprobleem.', uitslag: 1 },
-   { k: 'Eén zin uit Verband', b: 'Kies een zin die iemand deze week had kunnen gebruiken. Lees die voor en vraag wie hem herkent.', set: ['verband', 'Het gaat over de druk'] },
-   { k: 'Eén kaart uit Zalf', b: 'Geef één compliment, met het verhaal erbij. Een kaart zonder verhaal is een sticker.', set: ['zalf', ''], tip: 'Eén prijs per teamoverleg is genoeg, anders verliezen ze hun waarde.' },
+   { k: 'Verband: welke zin had jij kunnen gebruiken?', b: 'Iedereen kiest één zin die deze week van pas was gekomen. Bespreek daarna de zin die het vaakst is gekozen: wat hield ons tegen om dit te zeggen?', inb: ['zin', 'Kies één zin. Er gaat geen naam mee.', 'Het gaat over de druk'] },
+   { k: 'Zalf: geef een kaart', b: 'Geef een collega een compliment, met erbij wat je zag. Een kaart zonder toelichting is een sticker.', inb: ['geef', 'Kies een kaart en geef die aan een collega.'], tip: 'Eén prijs per teamoverleg is genoeg, anders verliezen ze hun waarde.' },
+   { k: 'Spiegel: één vraag', opt: 1, b: 'Als er tijd is: de begeleider kiest één vraag die past bij de fase waarin de opdracht zit. Voorlezen, twee minuten stilte, en dan pas praten.', spiegel: 'Teamdynamiek', sec: 120, inb: ['tekst', ANONIEM] },
    { k: 'Afsluiten', b: 'Wat gaat er volgende week van de lijst af? Een afsluiting die alleen dingen toevoegt, maakt de week drukker.', inb: ['tekst', 'Wat kan er wat jou betreft af?'] }
   ] },
 { id: 'klant', naam: 'Een lastig klantgesprek voorbereiden', duur: '20 min', kleur: 'var(--rood)',
@@ -166,6 +169,7 @@ var SESSIES = [
   stappen: [
    { k: 'Voordat je begint', b: 'Niemand hoeft alleen een lastig klantgesprek in. Deze zes vragen beantwoord je mét je team, vóór het gesprek.', tip: 'De vragen horen bij elkaar; sla er geen over.' },
    klantvraag(1, 19), klantvraag(2, 20), klantvraag(3, 21), klantvraag(4, 22), klantvraag(5, 23), klantvraag(6, 24),
+   { k: 'Spiegel: één vraag over het klantcontact', opt: 1, b: 'Als er tijd is: de begeleider kiest één vraag. Voorlezen, twee minuten stilte, en dan pas praten.', spiegel: 'Klantcontact', sec: 120, inb: ['tekst', ANONIEM] },
    { k: 'Afsluiten', b: 'Herhaal hardop: de boodschap in één zin, de ondergrens, wie het woord voert, en wie wie spreekt na afloop.' }
   ] },
 { id: 'terug', naam: 'Na afloop: de opdracht nabespreken', duur: '30 min', kleur: 'var(--groen)',
@@ -174,7 +178,9 @@ var SESSIES = [
    { k: 'Eén afspraak vooraf', b: 'Je werkt van boven naar beneden: wat er gebeurde is het makkelijkste deel, wat het veroorzaakte zit eronder. Doe dit ook als het goed ging.', tip: 'Laag 3 en 4 gaan over hoe wij het hebben georganiseerd, niet over wie wat te laat aanleverde.' },
    laag(0), laag(1), laag(2), laag(3),
    { k: 'En dan: één ingreep', b: 'Wat is de kleinste verandering met het grootste effect? Wie regelt die, en wanneer kijken we of het werkte?', inb: ['tekst', 'Welke ingreep stel jij voor?'] },
-   { k: 'Wat we níét meer doen', b: 'Een evaluatie die alleen dingen toevoegt, maakt het volgend jaar drukker. Spreek daarom ook af waarmee jullie stoppen.', inb: ['tekst', 'Waarmee kunnen we stoppen?'] }
+   { k: 'Wat we níét meer doen', b: 'Een evaluatie die alleen dingen toevoegt, maakt het volgend jaar drukker. Spreek daarom ook af waarmee jullie stoppen.', inb: ['tekst', 'Waarmee kunnen we stoppen?'] },
+   { k: 'Spiegel: één vraag achteraf', opt: 1, b: 'Als er tijd is: de begeleider kiest één vraag. Voorlezen, twee minuten stilte, en dan pas praten.', spiegel: 'Professionele moed', sec: 120, inb: ['tekst', ANONIEM] },
+   { k: 'Zalf: sluit af met een compliment', opt: 1, b: 'Iedereen kan een collega een kaart geven, met erbij wat je zag in deze opdracht.', inb: ['geef', 'Kies een kaart en geef die aan een collega.'] }
   ] }
 ];
 function sessie(id) { for (var i = 0; i < SESSIES.length; i++) if (SESSIES[i].id === id) return SESSIES[i]; return null; }
@@ -357,15 +363,48 @@ LMRA.forEach(function (v, i) {
   });
   d.appendChild(jn); $('lmra').appendChild(d);
 });
-function lmraUitkomst() {
-  var u = $('lmra-uitkomst'), nee = 0, klaar = 0;
-  for (var i = 0; i < LMRA.length; i++) { if (lmraAntw[i]) klaar++; if (lmraAntw[i] === 'nee') nee++; }
-  if (!klaar) { u.hidden = true; return; }
-  u.hidden = false;
-  if (nee) { u.style.setProperty('--z', 'var(--oranje)'); u.innerHTML = '<b style="font-weight:500">Eén keer nee betekent niet automatisch stoppen.</b> Zeg het hardop en regel wat ontbreekt voordat je verdergaat. Daar draait een LMRA om: iedereen weet waar het risico zit vóórdat het werk begint.'; }
-  else if (klaar === LMRA.length) { u.style.setProperty('--z', 'var(--groen)'); u.textContent = 'Vijf keer ja. Je kunt beginnen.'; }
-  else u.hidden = true;
+var LMRA_ACTIE = [
+ 'Schrijf in één zin op wat er straks af moet zijn. Lukt dat niet, vraag het dan eerst na bij degene die je de opdracht gaf.',
+ 'Benoem één concreet risico voordat je begint. Weet je er geen, vraag dan een collega wat hier meestal misgaat.',
+ 'Vraag eerst op wat ontbreekt: gegevens, documentatie, toegang of tijd. Begin niet met de helft.',
+ 'Spreek nu af wie je belt als je twijfelt, en wanneer die persoon bereikbaar is.',
+ 'Je staat in oranje of rood. Verzet of verdeel dit werk, of neem eerst een time-out, en zeg het tegen je teamleider.'
+];
+var lmraKlaar = false;
+function lmraTekst() {
+  var nee = [], r = 'LMRA · ';
+  LMRA.forEach(function (v, i) { if (lmraAntw[i] === 'nee') nee.push(i); });
+  if (!nee.length) return r + 'vijf keer ja. Ik kan beginnen.';
+  r += (LMRA.length - nee.length) + ' keer ja, ' + nee.length + ' keer nee. Eerst regelen:\n';
+  nee.forEach(function (i) { r += '- ' + LMRA[i][0] + ' ' + LMRA_ACTIE[i] + '\n'; });
+  return r;
 }
+function lmraUitkomst() {
+  var u = $('lmra-uitkomst'), vg = $('lmra-voortgang'), nee = [], klaar = 0, i, h;
+  for (i = 0; i < LMRA.length; i++) { if (lmraAntw[i]) klaar++; if (lmraAntw[i] === 'nee') nee.push(i); }
+  vg.hidden = !klaar || klaar === LMRA.length;
+  vg.textContent = klaar + ' van ' + LMRA.length + ' beantwoord. Na de vijfde vraag volgt je conclusie.';
+  if (klaar < LMRA.length) { u.hidden = true; lmraKlaar = false; return; }
+  var ja = LMRA.length - nee.length;
+  if (!nee.length) {
+    u.style.setProperty('--z', 'var(--groen)');
+    h = '<span class="lab">Conclusie · 5 keer ja</span><h3>Je kunt beginnen</h3><p>Je weet wat je gaat doen, wat er mis kan gaan, wat je nodig hebt en wie er meekijkt. Ga je onderweg toch twijfelen, doe de check dan opnieuw.</p>';
+  } else {
+    var zwaar = nee.length >= 3;
+    u.style.setProperty('--z', zwaar ? 'var(--rood)' : 'var(--oranje)');
+    h = '<span class="lab">Conclusie · ' + ja + ' keer ja, ' + nee.length + ' keer nee</span><h3>' + (zwaar ? 'Begin hier nu niet aan' : 'Nog niet beginnen') + '</h3>';
+    h += '<p>' + (zwaar ? 'Drie of meer keer nee: dit werk kan nu niet goed gedaan worden. Bespreek het eerst met je senior of manager, en regel daarna:' : 'Eén keer nee betekent niet automatisch stoppen. Regel wel eerst wat ontbreekt:') + '</p><div class="lijst">';
+    nee.forEach(function (n) { h += '<div class="rij"><b>' + (n + 1) + '. ' + esc(LMRA[n][0]) + '</b><span>' + esc(LMRA_ACTIE[n]) + '</span></div>'; });
+    h += '</div><p class="zacht">Zeg het hardop tegen je team. Daar draait een LMRA om: iedereen weet waar het risico zit vóórdat het werk begint.</p>';
+  }
+  h += '<div class="rijtje">';
+  if (nee.indexOf(4) >= 0) h += '<button class="btn" type="button" data-ga="nu">Neem een time-out</button><button class="btn" type="button" data-ga="kaarten-verband-3">Een zin om het te zeggen</button>';
+  h += '<button class="btn" type="button" id="lmra-kopieer">Kopieer de conclusie</button></div>';
+  u.innerHTML = h; u.hidden = false;
+  if (!lmraKlaar && u.scrollIntoView) setTimeout(function () { u.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60);
+  lmraKlaar = true;
+}
+$('lmra-uitkomst').addEventListener('click', function (e) { if (e.target.closest('#lmra-kopieer')) kopieer(lmraTekst(), 'Conclusie gekopieerd'); });
 $('reset').addEventListener('click', function () {
   lmraAntw = []; alle('#lmra .janee .btn', function (b) { b.setAttribute('aria-pressed', 'false'); }); lmraUitkomst(); window.scrollTo(0, 0);
 });
@@ -465,6 +504,7 @@ function tekenStap() {
   $('s-naam').textContent = SES.naam;
   $('s-tel').textContent = 'stap ' + (IX + 1) + ' van ' + SES.stappen.length;
   $('s-balk').style.width = Math.round((IX + 1) / SES.stappen.length * 100) + '%';
+  if (s.opt) h += '<span class="lab opt">Optioneel · overslaan kan met Volgende</span>';
   h += '<h2>' + esc(s.k) + '</h2>';
   if (s.b) h += '<p>' + esc(s.b) + '</p>';
   if (s.lees) h += '<div class="lees"><span class="lab">' + esc(s.lees[1]) + '</span><q>' + esc(s.lees[0]) + '</q></div>';
@@ -478,6 +518,7 @@ function tekenStap() {
       h += '<button class="btn breed" type="button" id="s-andere">Andere kaart</button>';
     } else lijst.forEach(function (n) { h += '<div class="kaart compact" style="--k:' + SETINFO[set].kleur + '">' + kaartHTML(set, n, 1) + '</div>'; });
   }
+  if (s.spiegel) h += '<div id="s-spiegel" class="lijst"></div>';
   if (s.sec) h += '<div class="klok"><button class="btn" type="button" id="s-klok">Start ' + (s.sec >= 60 ? (s.sec / 60) + ' min' : s.sec + ' sec') + '</button><output id="s-tijd">' + fmt(s.sec) + '</output></div>';
   h += '<div id="s-inbreng"></div>';
   if (s.tip) h += '<p class="tip">' + esc(s.tip) + '</p>';
@@ -485,7 +526,7 @@ function tekenStap() {
   stopKlok();
   if ($('s-klok')) $('s-klok').addEventListener('click', function () { loopKlok(s.sec); });
   if ($('s-andere')) $('s-andere').addEventListener('click', tekenStap);
-  inbrengDelen = null; bouwInbreng();
+  inbrengDelen = null; kaartDelen = null; spiegelDelen = null; bouwSpiegel(); bouwInbreng();
   tekenLive(); tekenVoet();
   var doel = '#sessie-' + SES.id + '-' + (IX + 1);
   if (location.hash !== doel) { try { history.replaceState(null, '', doel); } catch (e) {} }
@@ -508,8 +549,11 @@ function bouwInbreng() {
   var box = $('s-inbreng'); if (!box) return;
   box.innerHTML = ''; inbrengDelen = null;
   var s = SES.stappen[IX], L = liveHier();
-  if (!L) return;
   var soort = s.inb ? s.inb[0] : (s.uitslag != null ? 'uitslag' : null);
+  kaartDelen = null;
+  if (soort === 'zin') { bouwZin(box, s); return; }
+  if (soort === 'geef') { bouwGeef(box, s); return; }
+  if (!L) return;
   if (!soort) return;
   var w = el('div', 'inbreng'), d = { soort: soort, stap: s.uitslag != null ? s.uitslag : IX };
   if (soort === 'kleur') {
@@ -543,6 +587,7 @@ function bouwInbreng() {
   box.appendChild(w); inbrengDelen = d; ververInbreng();
 }
 function ververInbreng() {
+  ververSpiegel(); ververKaart();
   var d = inbrengDelen, L = liveHier(); if (!d || !L) return;
   var zichtbaar = Live.zichtbaar(d.stap), h = '';
   if (d.soort === 'kleur' || d.soort === 'uitslag') {
@@ -573,7 +618,249 @@ function ververInbreng() {
     d.toon.disabled = antw.length === 0;
   }
 }
-$('s-stap').addEventListener('click', function (e) { var b = e.target.closest('[data-weg]'); if (b) Live.trekIn(b.getAttribute('data-weg')); });
+$('s-stap').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-weg]'); if (b) { Live.trekIn(b.getAttribute('data-weg')); return; }
+  b = e.target.closest('[data-haal]'); if (b) { Live.haalWeg(b.getAttribute('data-haal')); return; }
+  b = e.target.closest('[data-bewaar]'); if (b) bewaarKaart(b.getAttribute('data-bewaar'));
+});
+
+/* --- kaarten in een sessie ---
+ * Spiegel: de begeleider kiest één vraag, die op ieders scherm komt.
+ * Verband: iedereen kiest zelf één zin, zonder naam; daarna zie je welke zinnen het vaakst gekozen zijn.
+ * Zalf:    iedereen geeft een collega een kaart, met erbij wat je zag. */
+var kaartDelen = null, spiegelDelen = null, geefVan = '';
+function soortenVan(set, zonder) { var r = []; SETS[set].forEach(function (c) { if (r.indexOf(c[0]) < 0 && c[0] !== zonder) r.push(c[0]); }); return r; }
+function chipRij(waarden, huidig, metAlle, op) {
+  var rij = el('div', 'chips');
+  (metAlle ? [''] : []).concat(waarden).forEach(function (w) {
+    var b = el('button', 'chip', w || 'Alle'); b.type = 'button'; b.setAttribute('aria-pressed', String(w === huidig));
+    b.addEventListener('click', function () { Array.prototype.forEach.call(rij.children, function (x) { x.setAttribute('aria-pressed', String(x === b)); }); op(w); });
+    rij.appendChild(b);
+  });
+  return rij;
+}
+
+function bouwSpiegel() {
+  var box = $('s-spiegel'), s = SES.stappen[IX]; spiegelDelen = null;
+  if (!box || !s.spiegel) return;
+  var d = { thema: s.spiegel, lokaal: 0 };
+  d.gekozen = el('div', 'lijst'); box.appendChild(d.gekozen);
+  d.kiezer = el('div', 'kiezer');
+  d.kiezer.appendChild(el('span', 'lab', 'Kies een fase of thema, en daarna één vraag'));
+  d.kiezer.appendChild(chipRij(soortenVan('spiegel'), d.thema, false, function (t) { d.thema = t; ververSpiegel(); }));
+  d.lijst = el('div', 'keuzelijst'); d.kiezer.appendChild(d.lijst);
+  d.lijst.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-nr]'); if (!b) return;
+    var nr = +b.getAttribute('data-nr'), L = liveHier();
+    if (L && L.host) Live.kies(IX, nr); else { d.lokaal = nr; ververSpiegel(); }
+  });
+  box.appendChild(d.kiezer);
+  spiegelDelen = d; ververSpiegel();
+}
+function ververSpiegel() {
+  var d = spiegelDelen; if (!d || !$('s-spiegel')) return;
+  var L = liveHier(), nr = L ? Live.gekozen(IX) : d.lokaal, magKiezen = !L || L.host, h = '';
+  if (nr && SETS.spiegel[nr - 1]) {
+    h = '<div class="kaart groot" style="--k:' + SETINFO.spiegel.kleur + '">' + kaartHTML('spiegel', nr - 1) + '</div>';
+    if (L) h += '<p class="tip">' + (L.host ? 'Deze vraag staat nu op ieders scherm. Lees hem voor en start de stilte.' : 'De begeleider heeft deze vraag gekozen.') + '</p>';
+  } else if (!magKiezen) h = '<p class="melding">De begeleider kiest een vraag. Die verschijnt hier vanzelf.</p>';
+  d.gekozen.innerHTML = h;
+  d.kiezer.hidden = !magKiezen;
+  h = '';
+  SETS.spiegel.forEach(function (c, n) {
+    if (c[0] === d.thema) h += '<button type="button" class="kies" data-nr="' + (n + 1) + '" aria-pressed="' + (nr === n + 1) + '"><span>' + esc(c[1]) + '</span></button>';
+  });
+  d.lijst.innerHTML = h;
+}
+
+function bouwZin(box, s) {
+  var w = el('div', 'inbreng'), d = { soort: 'zin', stap: IX, filt: s.inb[2] || '', lokaal: 0 };
+  w.appendChild(el('span', 'lab', s.inb[1]));
+  d.kiesdeel = el('div', 'kiesdeel'); w.appendChild(d.kiesdeel);
+  d.kiesdeel.appendChild(chipRij(soortenVan('verband', 'Samen voorbereiden'), d.filt, true, function (f) { d.filt = f; ververKaart(); }));
+  d.lijst = el('div', 'keuzelijst'); d.kiesdeel.appendChild(d.lijst);
+  d.meer = el('button', 'btn breed', 'Kies opnieuw'); d.meer.type = 'button'; d.meer.addEventListener('click', function () { d.open = true; ververKaart(); }); w.appendChild(d.meer);
+  d.lijst.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-nr]'); if (!b) return;
+    var nr = +b.getAttribute('data-nr');
+    if (liveHier()) Live.kiesZin(IX, nr); else { d.lokaal = nr; ververKaart(); }
+  });
+  d.detail = el('div'); w.appendChild(d.detail);
+  d.teller = el('p', 'teller'); w.appendChild(d.teller);
+  d.uit = el('div', 'lijst'); w.appendChild(d.uit);
+  d.toon = el('button', 'btn vol breed', 'Laat de keuzes zien'); d.toon.type = 'button';
+  d.toon.addEventListener('click', function () { Live.laatZien(d.stap); });
+  w.appendChild(d.toon);
+  d.voet = el('p', 'tip'); w.appendChild(d.voet);
+  box.appendChild(w); kaartDelen = d; ververKaart();
+}
+function parseGeef(x) {
+  try { var a = JSON.parse(x.v); return { id: x.id, eigen: x.eigen, nr: a[0] | 0, voor: String(a[1] || ''), verhaal: String(a[2] || ''), van: String(a[3] || '') }; } catch (e) { return null; }
+}
+function bouwGeef(box, s) {
+  var L = liveHier(), w = el('div', 'inbreng'), d = { soort: 'geef', stap: IX, filt: '', nr: 0, namen: '' };
+  w.appendChild(el('span', 'lab', s.inb[1]));
+  if (L && L.host) {
+    var nr = el('div', 'namen');
+    nr.appendChild(el('span', 'veldlab', 'Namen van het team (mag leeg blijven)'));
+    var rij = el('div', 'rijtje');
+    d.namenVeld = el('input'); d.namenVeld.type = 'text'; d.namenVeld.maxLength = 300; d.namenVeld.placeholder = 'Sanne, Tim, Noor'; d.namenVeld.setAttribute('aria-label', 'Namen van het team');
+    d.namenVeld.value = Live.namen(IX).join(', ');
+    var zet = el('button', 'btn', 'Zet klaar'); zet.type = 'button';
+    zet.addEventListener('click', function () { if (!d.namenVeld.value.trim()) return; Live.zetNamen(IX, d.namenVeld.value); toast('De namen staan klaar op ieders telefoon.'); });
+    rij.appendChild(d.namenVeld); rij.appendChild(zet); nr.appendChild(rij);
+    nr.appendChild(el('p', 'tip', 'Dan kan iedereen een naam aantikken in plaats van typen.'));
+    w.appendChild(nr);
+  }
+  d.kiesdeel = el('div', 'kiesdeel'); w.appendChild(d.kiesdeel);
+  d.meer = el('button', 'btn breed', 'Nog een kaart geven'); d.meer.type = 'button'; d.meer.addEventListener('click', function () { d.open = true; ververKaart(); }); w.appendChild(d.meer);
+  d.kiesdeel.appendChild(chipRij(soortenVan('zalf'), '', true, function (f) { d.filt = f; ververKaart(); }));
+  d.lijst = el('div', 'keuzelijst'); d.kiesdeel.appendChild(d.lijst);
+  d.lijst.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-nr]'); if (!b) return;
+    d.nr = +b.getAttribute('data-nr'); ververKaart();
+    if (d.gekozen.scrollIntoView) d.gekozen.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  });
+  d.gekozen = el('div'); d.kiesdeel.appendChild(d.gekozen);
+  d.form = el('div', 'geefform');
+  d.form.appendChild(el('span', 'veldlab', 'Voor wie?'));
+  d.voorChips = el('div', 'chips'); d.form.appendChild(d.voorChips);
+  d.voorChips.addEventListener('click', function (e) { var b = e.target.closest('[data-naam]'); if (b) { d.voor.value = b.getAttribute('data-naam'); ververKaart(); } });
+  d.voor = el('input'); d.voor.type = 'text'; d.voor.maxLength = 40; d.voor.placeholder = 'Voornaam'; d.voor.setAttribute('aria-label', 'Voor wie is deze kaart'); d.voor.autocomplete = 'off';
+  d.form.appendChild(d.voor);
+  d.form.appendChild(el('span', 'veldlab', 'Wat zag je? Een kaart zonder toelichting is een sticker.'));
+  d.verhaal = el('textarea'); d.verhaal.maxLength = 220; d.verhaal.placeholder = 'Bijvoorbeeld: dinsdag bleef je doorvragen bij de voorraad, terwijl de klant er al klaar mee was.'; d.verhaal.setAttribute('aria-label', 'Wat zag je');
+  d.form.appendChild(d.verhaal);
+  d.form.appendChild(el('span', 'veldlab', 'Van (mag leeg blijven)'));
+  d.van = el('input'); d.van.type = 'text'; d.van.maxLength = 30; d.van.placeholder = 'Je voornaam, of laat leeg'; d.van.value = geefVan; d.van.setAttribute('aria-label', 'Van wie'); d.van.autocomplete = 'off';
+  d.form.appendChild(d.van);
+  var geef = el('button', 'btn vol breed', 'Geef deze kaart'); geef.type = 'button';
+  geef.addEventListener('click', function () {
+    var voor = d.voor.value.trim(), verhaal = d.verhaal.value.trim();
+    if (!d.nr) { toast('Kies eerst een kaart.'); return; }
+    if (!voor) { toast('Voor wie is deze kaart?'); d.voor.focus(); return; }
+    if (!verhaal) { toast('Vertel erbij wat je zag.'); d.verhaal.focus(); return; }
+    geefVan = d.van.value.trim();
+    if (Live.geef(IX, d.nr, voor, verhaal, geefVan)) { d.nr = 0; d.voor.value = ''; d.verhaal.value = ''; d.open = false; toast('Kaart gegeven.'); ververKaart(); }
+    else toast('Je kunt per ronde maximaal ' + Live.MAX_KAARTEN + ' kaarten geven.');
+  });
+  d.form.appendChild(geef);
+  d.kiesdeel.appendChild(d.form);
+  d.eigen = el('div', 'lijst'); w.appendChild(d.eigen);
+  d.teller = el('p', 'teller'); w.appendChild(d.teller);
+  d.uit = el('div', 'lijst'); w.appendChild(d.uit);
+  d.toon = el('button', 'btn vol breed', 'Laat de kaarten zien'); d.toon.type = 'button';
+  d.toon.addEventListener('click', function () { Live.laatZien(d.stap); });
+  w.appendChild(d.toon);
+  d.voet = el('p', 'tip'); w.appendChild(d.voet);
+  box.appendChild(w); kaartDelen = d; ververKaart();
+}
+function gegevenHTML(k, L, zichtbaar) {
+  var c = SETS.zalf[k.nr - 1]; if (!c) return '';
+  return '<div class="gegeven"><b>' + esc(c[1]) + '</b><span>' + esc(k.verhaal) + '</span>' + (k.van ? '<i>van ' + esc(k.van) + '</i>' : '') +
+    '<div class="acties">' + (zichtbaar ? '<button type="button" data-bewaar="' + esc(k.id) + '">bewaar</button>' : '') +
+    (k.eigen ? '<button type="button" data-weg="' + esc(k.id) + '">trek terug</button>' : (L && L.host ? '<button type="button" data-haal="' + esc(k.id) + '">haal weg</button>' : '')) + '</div></div>';
+}
+function ververKaart() {
+  var d = kaartDelen; if (!d || !$('s-inbreng')) return;
+  var L = liveHier(), h = '', zichtbaar = L ? Live.zichtbaar(d.stap) : false, dicht = zichtbaar && !d.open;
+  d.kiesdeel.hidden = dicht; d.meer.hidden = !dicht;
+  if (d.soort === 'zin') {
+    var eigen = L ? Live.mijn(d.stap, 'zin')[0] : null, mijnNr = L ? (eigen ? +eigen.v : 0) : d.lokaal;
+    SETS.verband.forEach(function (c, n) {
+      if (c[0] === 'Samen voorbereiden' || (d.filt && c[0] !== d.filt)) return;
+      h += '<button type="button" class="kies" data-nr="' + (n + 1) + '" aria-pressed="' + (mijnNr === n + 1) + '"><span>&ldquo;' + esc(c[1]) + '&rdquo;</span></button>';
+    });
+    d.lijst.innerHTML = h;
+    var mc = SETS.verband[mijnNr - 1];
+    d.detail.innerHTML = mc ? '<div class="gevolg los"><b>' + esc(mc[3]) + '</b><span>' + esc(mc[4]) + '</span></div>' : '';
+    if (!L) {
+      d.teller.hidden = true; d.toon.hidden = true; d.uit.innerHTML = '';
+      d.voet.textContent = 'In een live sessie kiest iedereen zonder naam op de eigen telefoon, en zie je daarna welke zinnen het vaakst gekozen zijn.';
+      return;
+    }
+    var keuzes = Live.inbreng(d.stap, 'zin');
+    d.teller.hidden = false;
+    d.teller.textContent = keuzes.length + ' van ' + Live.aantal() + ' hebben gekozen';
+    h = '';
+    if (zichtbaar) {
+      var tel = {}, volg = [];
+      keuzes.forEach(function (x) { var n = +x.v; if (!SETS.verband[n - 1]) return; if (!tel[n]) { tel[n] = 0; volg.push(n); } tel[n]++; });
+      volg.sort(function (a, b) { return tel[b] - tel[a] || a - b; });
+      volg.forEach(function (n, i) {
+        var c = SETS.verband[n - 1];
+        h += '<div class="tel' + (i === 0 ? ' top' : '') + '"><b>' + tel[n] + '×</b><div><span>&ldquo;' + esc(c[1]) + '&rdquo;</span><i>' + esc(c[3]) + ': ' + esc(c[4]) + '</i></div></div>';
+      });
+      if (volg.length) h = '<span class="lab">Het vaakst gekozen staat bovenaan</span>' + h;
+    } else if (!L.host) h = '<p class="tip">De begeleider laat zien welke zinnen het vaakst gekozen zijn.</p>';
+    d.uit.innerHTML = h;
+    d.toon.hidden = !L.host || zichtbaar; d.toon.disabled = keuzes.length === 0;
+    d.voet.textContent = 'Zonder naam. Je kiest een zin voor jezelf; je stuurt hem niet naar iemand.';
+    return;
+  }
+  // Zalf
+  SETS.zalf.forEach(function (c, n) {
+    if (d.filt && c[0] !== d.filt) return;
+    h += '<button type="button" class="kies" data-nr="' + (n + 1) + '" aria-pressed="' + (d.nr === n + 1) + '"><span>' + esc(c[1]) + '</span>' + (c[3] ? '<em>prijs</em>' : '') + '</button>';
+  });
+  d.lijst.innerHTML = h;
+  d.gekozen.innerHTML = d.nr ? '<div class="kaart compact" style="--k:' + SETINFO.zalf.kleur + '">' + kaartHTML('zalf', d.nr - 1) + '</div>' : '';
+  if (!L) {
+    d.form.hidden = true; d.teller.hidden = true; d.toon.hidden = true; d.eigen.innerHTML = ''; d.uit.innerHTML = '';
+    d.voet.textContent = 'Kies een kaart en geef het compliment hardop, met erbij wat je zag. In een live sessie geeft iedereen een kaart vanaf de eigen telefoon.';
+    return;
+  }
+  d.form.hidden = !d.nr;
+  var kaarten = Live.inbreng(d.stap, 'zalf').map(parseGeef).filter(Boolean);
+  var namen = Live.namen(d.stap).slice();
+  if (zichtbaar) kaarten.forEach(function (k) { if (k.voor && namen.map(function (x) { return x.toLowerCase(); }).indexOf(k.voor.toLowerCase()) < 0) namen.push(k.voor); });
+  var sleutel = namen.join('|') + '#' + d.voor.value;
+  if (sleutel !== d.namen) {
+    d.namen = sleutel; h = '';
+    namen.forEach(function (n) { h += '<button type="button" class="chip" data-naam="' + esc(n) + '" aria-pressed="' + (n.toLowerCase() === d.voor.value.trim().toLowerCase()) + '">' + esc(n) + '</button>'; });
+    d.voorChips.innerHTML = h; d.voorChips.hidden = !namen.length;
+  }
+  d.teller.hidden = false;
+  d.teller.textContent = kaarten.length + (kaarten.length === 1 ? ' kaart gegeven' : ' kaarten gegeven') + ' · ' + Live.aantal() + ' in de sessie';
+  h = '';
+  if (zichtbaar) {
+    var groepen = {}, volgorde = [];
+    kaarten.forEach(function (k) { var s = k.voor.toLowerCase(); if (!groepen[s]) { groepen[s] = { naam: k.voor, k: [] }; volgorde.push(s); } groepen[s].k.push(k); });
+    volgorde.sort();
+    volgorde.forEach(function (s) {
+      h += '<div class="voor"><span class="lab">Voor ' + esc(groepen[s].naam) + '</span>';
+      groepen[s].k.forEach(function (k) { h += gegevenHTML(k, L, true); });
+      h += '</div>';
+    });
+    d.uit.innerHTML = h; d.eigen.innerHTML = '';
+  } else {
+    d.uit.innerHTML = L.host ? '' : '<p class="tip">De kaarten verschijnen voor iedereen tegelijk, zodra de begeleider ze laat zien.</p>';
+    var mijnK = kaarten.filter(function (k) { return k.eigen; });
+    mijnK.forEach(function (k) { h += '<div class="voor"><span class="lab">Voor ' + esc(k.voor) + '</span>' + gegevenHTML(k, L, false) + '</div>'; });
+    d.eigen.innerHTML = mijnK.length ? '<span class="lab">Jouw kaarten, nog niet zichtbaar voor anderen</span>' + h : '';
+  }
+  d.toon.hidden = !L.host || zichtbaar; d.toon.disabled = kaarten.length === 0;
+  d.voet.textContent = zichtbaar ? 'Lees je eigen kaart voor en vertel erbij wat je zag. Met “bewaar” zet je een kaart bij Terug, alleen op dit toestel.' : 'Bij een compliment hoort een naam: voor wie het is, en als je wilt ook van wie.';
+}
+function gekregen() { try { return JSON.parse(lees('gekregen') || '[]') || []; } catch (e) { return []; } }
+function bewaarKaart(id) {
+  var L = liveHier(); if (!L || !kaartDelen) return;
+  var k = Live.inbreng(kaartDelen.stap, 'zalf').map(parseGeef).filter(function (x) { return x && x.id === id; })[0]; if (!k) return;
+  var c = SETS.zalf[k.nr - 1], lijst = gekregen();
+  if (lijst.some(function (x) { return x.id === id; })) { toast('Deze kaart staat al bij Terug.'); return; }
+  lijst.unshift({ id: id, k: c[1], s: c[0], voor: k.voor, t: k.verhaal, van: k.van, d: new Date().toISOString().slice(0, 10) });
+  bewaar('gekregen', JSON.stringify(lijst.slice(0, 60)));
+  tekenGekregen(); toast('Bewaard bij Terug, alleen op dit toestel.');
+}
+function tekenGekregen() {
+  var box = $('t-gekregen'); if (!box) return;
+  var lijst = gekregen(), h = '<span class="lab">Kaarten die ik heb bewaard</span>';
+  box.hidden = !lijst.length;
+  lijst.forEach(function (x, i) {
+    h += '<div class="gegeven"><b>' + esc(x.k) + '</b><span>' + esc(x.t) + '</span><i>voor ' + esc(x.voor) + (x.van ? ' · van ' + esc(x.van) : '') + ' · ' + esc(x.d) + '</i><div class="acties"><button type="button" data-kaartweg="' + i + '">verwijder</button></div></div>';
+  });
+  box.innerHTML = h;
+}
 
 /* --- live: balk, uitnodiging, voet --- */
 function uitnodigLink(L) { return basisUrl() + '#j-' + L.sid + '-' + L.code; }
@@ -696,12 +983,15 @@ $('s-print').addEventListener('click', function () {
   if (!SES) return;
   var h = '<h2>' + esc(SES.naam) + ' &middot; ' + esc(SES.duur) + '</h2><p>' + esc(SES.intro) + '</p>';
   SES.stappen.forEach(function (s, i) {
-    h += '<h3>' + (i + 1) + '. ' + esc(s.k) + '</h3>';
+    h += '<h3>' + (i + 1) + '. ' + esc(s.k) + (s.opt ? ' (optioneel)' : '') + '</h3>';
     if (s.b) h += '<p>' + esc(s.b) + '</p>';
     if (s.lees) h += '<p class="pq">&ldquo;' + esc(s.lees[0]) + '&rdquo;</p>';
     if (s.vragen) { h += '<ul>'; s.vragen.forEach(function (v) { h += '<li>' + esc(v) + '</li>'; }); h += '</ul>'; }
     if (s.kaart) { var c = SETS[s.kaart[0]][s.kaart[1] - 1]; h += '<p class="pq">' + esc(c[1]) + '</p><p>' + esc(c[3]) + ': ' + esc(c[4]) + '</p>'; }
     if (s.set) { h += '<ul>'; SETS[s.set[0]].forEach(function (c) { if (!s.set[1] || c[0] === s.set[1]) h += '<li>' + esc(c[1]) + '</li>'; }); h += '</ul>'; }
+    if (s.spiegel) { h += '<p>Bijvoorbeeld bij ' + esc(s.spiegel) + ':</p><ul>'; SETS.spiegel.forEach(function (c) { if (c[0] === s.spiegel) h += '<li>' + esc(c[1]) + '</li>'; }); h += '</ul>'; }
+    if (s.inb && s.inb[0] === 'zin') { h += '<ul>'; SETS.verband.forEach(function (c) { if (c[0] !== 'Samen voorbereiden' && (!s.inb[2] || c[0] === s.inb[2])) h += '<li>' + esc(c[1]) + '</li>'; }); h += '</ul>'; }
+    if (s.inb && s.inb[0] === 'geef') h += '<p>Gebruik de kaarten uit Zalf (vak 3).</p>';
     if (s.sec) h += '<p>Tijd: ' + fmt(s.sec) + '</p>';
     if (s.tip) h += '<p>' + esc(s.tip) + '</p>';
   });
@@ -775,6 +1065,11 @@ if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
 }
 
 /* ================= start ================= */
+tekenGekregen();
+$('t-gekregen').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-kaartweg]'); if (!b) return;
+  var lijst = gekregen(); lijst.splice(+b.getAttribute('data-kaartweg'), 1); bewaar('gekregen', JSON.stringify(lijst)); tekenGekregen();
+});
 trek();
 Live.hervat().then(route, route);
 route();

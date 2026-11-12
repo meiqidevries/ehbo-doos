@@ -231,6 +231,34 @@ nav svg{display:block}
 .kort{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.25rem;font-size:.9375rem}
 .kort li{margin:0;padding-left:.125rem}
 .kl .body .kort{margin-bottom:.75rem}
+.lab.opt{color:var(--soft);border:1px dashed var(--line);padding:.125rem .5rem;align-self:flex-start}
+.keuzelijst{display:flex;flex-direction:column;gap:.375rem}
+.kies{display:flex;gap:.625rem;align-items:center;justify-content:space-between;width:100%;text-align:left;min-height:2.75rem;padding:.625rem .75rem;border:1px solid var(--hair);background:var(--card);color:var(--ink);font-family:var(--body);font-size:.9375rem;line-height:1.35;cursor:pointer}
+.kies span{flex:1;min-width:0}
+.kies em{font-family:var(--mono);font-style:normal;font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.kies[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 4px 0 0 var(--rood);background:var(--sunk);font-weight:500}
+.kiezer{display:flex;flex-direction:column;gap:.625rem;border:1px dashed var(--line);padding:.875rem;background:var(--paper)}
+.kaart.groot h3{font-size:1.5rem;line-height:1.2}
+.gevolg.los{border-top:0;padding:.625rem .75rem;background:var(--card);border-left:4px solid var(--rood)}
+.tel{display:flex;gap:.75rem;align-items:flex-start;background:var(--card);border:1px solid var(--hair);padding:.625rem .75rem}
+.tel b{font-family:var(--mono);font-weight:500;font-size:1rem;min-width:2rem}
+.tel div{display:flex;flex-direction:column;gap:.25rem;min-width:0}
+.tel span{font-size:.9375rem}
+.tel i{font-style:normal;font-size:.8125rem;color:var(--soft)}
+.tel.top{border-color:var(--ink)}
+.tel.top span{font-family:var(--disp);font-weight:600;font-size:1.0625rem}
+.geefform,.namen{display:flex;flex-direction:column;gap:.5rem}
+.veldlab{font-size:.8125rem;font-weight:500;color:var(--soft)}
+.voor{display:flex;flex-direction:column;gap:.375rem}
+.gegeven{background:var(--card);border:1px solid var(--hair);border-left:4px solid var(--oranje);padding:.625rem .75rem;display:flex;flex-direction:column;gap:.25rem;overflow-wrap:anywhere}
+.gegeven b{font-family:var(--disp);font-weight:600;font-size:1rem}
+.gegeven span{font-size:.9375rem;white-space:pre-wrap}
+.gegeven i{font-style:normal;font-size:.8125rem;color:var(--soft)}
+.gegeven .acties{display:flex;gap:1rem}
+.gegeven .acties button{background:none;border:0;color:var(--soft);font-size:.8125rem;cursor:pointer;text-decoration:underline;padding:0;min-height:1.75rem;font-family:var(--body)}
+.melding.conclusie{display:flex;flex-direction:column;gap:.625rem;padding:1rem}
+.melding.conclusie h3{font-size:1.25rem}
+.kiesdeel{display:flex;flex-direction:column;gap:.75rem}
 </style>
 </head>
 <body>
@@ -312,7 +340,8 @@ nav svg{display:block}
       <p style="font-size:.9375rem"><b style="font-weight:500">Wanneer?</b> Vóór een gesprek waar je tegenop ziet. Vóór een post die je nog niet begrijpt. Vóór je iets aftekent. En voordat je een (AI-)tool gebruikt op klantgegevens.</p>
     </section>
     <div id="lmra" class="lijst"></div>
-    <section class="melding" id="lmra-uitkomst" hidden></section>
+    <p class="zacht" id="lmra-voortgang" hidden></p>
+    <section class="melding conclusie" id="lmra-uitkomst" hidden aria-live="polite"></section>
     <button class="btn breed" type="button" id="reset">Begin opnieuw</button>
     <details class="kl">
       <summary><span>Het origineel, op de bouwplaats</span></summary>
@@ -409,6 +438,7 @@ nav svg{display:block}
       <h2>Terugkijken</h2>
       <p class="zacht">Dit is alleen voor jou. Het blijft op dit toestel, komt niet in een dossier en telt niet mee in je beoordeling. Je kiest zelf of je er later iets van deelt.</p>
     </section>
+    <section class="card" id="t-gekregen" hidden></section>
     <div id="terugblokken" class="lijst"></div>
     <section class="card">
       <button class="btn breed" type="button" id="kopieer">Kopieer mijn aantekeningen</button>
