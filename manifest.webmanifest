@@ -3,7 +3,7 @@
   "short_name": "EHBO-doos",
   "description": "Signaleringsplan, pleisters, LMRA, kaarten en sessies voor je team, en een plek om terug te kijken.",
   "lang": "nl",
-  "start_url": "./",
+  "start_url": "./#nu",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

@@ -151,8 +151,29 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.8}
 .vragen div{display:flex;gap:.625rem}
 .vragen b{font-family:var(--mono);font-size:.75rem;color:var(--soft);padding-top:.25rem;font-weight:500}
 .tip{font-size:.875rem;color:var(--soft)}
-.klok{display:flex;align-items:center;gap:.75rem}
-.klok output{font-family:var(--mono);font-size:1.5rem;min-width:4.5rem}
+.klok{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.wijzerplaat{position:relative;width:6.5rem;height:6.5rem;flex:none}
+.wijzerplaat .ring{width:100%;height:100%}
+.wijzerplaat output{position:absolute;left:0;right:0;bottom:1.125rem;text-align:center;font-family:var(--mono);font-size:.9375rem;font-weight:500}
+.klokknop{display:flex;flex-direction:column;gap:.375rem;flex:1;min-width:8rem;align-items:flex-start}
+.ring{display:block;overflow:visible}
+.ring .baan{fill:none;stroke:var(--hair);stroke-width:3}
+.ring .boog{fill:none;stroke:var(--k,var(--blauw));stroke-width:3;stroke-linecap:butt;stroke-dasharray:100;stroke-dashoffset:100}
+.ring .naald{stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;transform-origin:18px 18px}
+.ring .as{fill:var(--ink)}
+.ring.groot .baan,.ring.groot .boog{stroke-width:2}
+.ring.groot .naald{stroke-width:1}
+.ring.groot .as{r:1}
+.klok.bijna .boog{stroke:var(--oranje)}
+.stapklok{margin-left:auto;display:inline-flex;align-items:center;gap:.375rem;background:none;border:0;padding:0 .125rem;color:var(--soft);font-family:var(--mono);font-size:.75rem;cursor:pointer;min-height:1.75rem}
+.stapklok .ring{width:1.375rem;height:1.375rem}
+.stapklok.bijna{color:var(--ink)}
+.stapklok.bijna .boog,.stapklok.op .boog{stroke:var(--oranje)}
+.stapklok.op{color:var(--oranje)}
+.stapklok[aria-pressed="true"]{opacity:.55}
+.stippen{display:inline-flex;gap:.1875rem;flex-wrap:wrap;margin-right:.5rem;vertical-align:middle}
+.stippen i{width:.5rem;height:.5rem;border-radius:50%;border:1px solid var(--line);background:transparent}
+.stippen i.aan{background:var(--k,var(--ink));border-color:var(--k,var(--ink))}
 
 /* live */
 .livebalk{border:1px solid var(--groen);background:var(--card);padding:.625rem .75rem;display:flex;align-items:center;gap:.625rem;flex-wrap:wrap;font-size:.875rem}
@@ -315,21 +336,113 @@ details.kl>summary .vink{font-family:var(--body);font-weight:700;color:var(--gro
 details.kl.vol>summary .vink{visibility:visible}
 .kl.vol .lamp{fill:var(--geel);fill-opacity:.45;stroke:var(--geel)}
 .melding.conclusie .staptek{align-self:flex-start;width:8rem}
+.thuis{display:flex;align-items:center;gap:.75rem;color:inherit;text-decoration:none;min-width:0}
+.deuren{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.625rem}
+.deur{display:flex;flex-direction:column;gap:.25rem;align-items:flex-start;text-align:left;padding:.875rem;border:1px solid var(--hair);border-top:5px solid var(--k,var(--line));background:var(--card);color:var(--ink);font-family:var(--body);cursor:pointer;min-width:0}
+.deur b{font-family:var(--disp);font-weight:700;font-size:1.125rem;line-height:1.15}
+.deur span{font-size:.8125rem;color:var(--soft);line-height:1.4}
+.deur em{font-family:var(--mono);font-style:normal;font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--k,var(--soft))}
+.deurtek{align-self:center;width:6rem;max-width:100%}
+.deurtek .tek{width:100%;height:auto}
+.busje.groot .tek{width:7rem;height:auto}
+.wijzer{display:grid;grid-template-columns:2rem minmax(0,1fr);column-gap:.75rem;align-items:center;width:100%;text-align:left;padding:.625rem .75rem;border:1px solid var(--hair);background:var(--paper);color:var(--ink);font-family:var(--body);cursor:pointer;min-height:3.25rem}
+.wijzer .pic{grid-column:1;grid-row:1/3}
+.wijzer b{grid-column:2;font-family:var(--disp);font-weight:600;font-size:1rem;line-height:1.2}
+.wijzer>span:last-child{font-size:.8125rem;color:var(--soft);grid-column:2}
+.lnk{background:none;border:0;padding:.5rem 0;color:var(--soft);font-family:var(--body);font-size:.8125rem;text-decoration:underline;cursor:pointer;min-height:2.75rem}
+.sesrij{display:flex;flex-direction:column;gap:.25rem;padding:.625rem .75rem;border:1px solid var(--hair);border-left:5px solid var(--k,var(--line));background:var(--paper)}
+.sesrij b{font-family:var(--disp);font-weight:600;font-size:1rem}
+.sesrij span{font-size:.8125rem;color:var(--soft)}
+.sesrij em{font-family:var(--mono);font-style:normal;font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.sesrij button{align-self:flex-start;background:none;border:0;padding:.25rem 0;color:var(--ink);text-decoration:underline;font-family:var(--body);font-size:.8125rem;cursor:pointer;min-height:2rem}
+@media (max-width:22rem){.deuren{grid-template-columns:minmax(0,1fr)}}
+.deur:active,.wijzer:active{transform:translateY(1px)}
+/* beweging: kort en één keer; uit voor wie minder beweging wil */
+@media (prefers-reduced-motion:no-preference){
+.view:not([hidden]){animation:komin .18s ease-out}
+.stapin{animation:stapin .26s ease-out}
+.draai{animation:draai .34s ease-out}
+.flits{animation:flits .8s ease-out}
+.puls{animation:plop .5s ease-out 2}
+.ring .naald{transition:transform .22s cubic-bezier(.3,1.9,.5,1)}
+.ring .boog{transition:stroke-dashoffset .3s linear,stroke .3s}
+.klok.bijna .wijzerplaat{animation:plop .5s ease-out infinite}
+.zone[aria-pressed="true"],.janee .btn[aria-pressed="true"]{animation:plop .24s ease-out}
+.stippen i.nieuw{animation:stip .45s cubic-bezier(.2,.9,.3,1.6)}
+.onthul>*{animation:popin .38s cubic-bezier(.2,.9,.3,1.25) both}
+.onthul>*:nth-child(2){animation-delay:.07s}.onthul>*:nth-child(3){animation-delay:.14s}.onthul>*:nth-child(4){animation-delay:.21s}
+.onthul>*:nth-child(5){animation-delay:.28s}.onthul>*:nth-child(6){animation-delay:.35s}.onthul>*:nth-child(n+7){animation-delay:.42s}
+.onthul .staaf i{animation:groei .7s cubic-bezier(.2,.8,.3,1) both;transform-origin:left center}
+}
+@keyframes komin{from{opacity:0}}
+@keyframes stapin{from{opacity:0;transform:translateX(.625rem)}}
+@keyframes draai{from{opacity:0;transform:perspective(40rem) rotateY(70deg)}}
+@keyframes plop{50%{transform:scale(1.06)}}
+@keyframes stip{from{transform:scale(0)}60%{transform:scale(1.6)}}
+@keyframes popin{from{opacity:0;transform:translateY(.5rem) scale(.97)}}
+@keyframes groei{from{transform:scaleX(0)}}
+@keyframes flits{0%{box-shadow:0 0 0 0 var(--k,var(--oranje))}35%{box-shadow:0 0 0 .3125rem var(--k,var(--oranje))}100%{box-shadow:0 0 0 .75rem transparent}}
 </style>
 </head>
 <body>
 <div class="wrap" id="wrap">
   <header class="top">
-    <svg width="32" height="32" viewBox="0 0 34 34" role="img" aria-label="EHBO-kruis">
+    <a class="thuis" href="#start" data-ga="start" aria-label="Naar het begin">
+    <svg width="32" height="32" viewBox="0 0 34 34" aria-hidden="true">
       <rect x="12.5" y="2" width="9" height="30" rx="2" fill="var(--rood)"></rect>
       <rect x="2" y="12.5" width="30" height="9" rx="2" fill="var(--rood)"></rect>
     </svg>
     <div><h1 id="kop">EHBO-doos</h1><p id="onderkop">Voor als het spannend wordt</p></div>
+    </a>
     <button type="button" class="taalknop" id="taalknop" data-notr aria-label="Switch to English">EN</button>
   </header>
 
+  <!-- START: over de doos, met twee ingangen -->
+  <div class="view" id="v-start" hidden>
+    <section class="card">
+      <div class="busje groot" id="st-busje"></div>
+      <span class="lab">Beroepsproduct van Busje Oranje</span>
+      <h2>Een EHBO-doos voor de busy season</h2>
+      <p>Zes vakken voor het omgaan met spanning tijdens de busy season. Elk vak is direct te gebruiken, zonder uitleg vooraf.</p>
+    </section>
+    <div class="deuren">
+      <button class="deur" type="button" data-ga="ik" style="--k:var(--groen)"><span class="deurtek" id="st-ik"></span><em>Voor medewerkers</em><b>Voor jezelf</b><span>Merk hoe je erbij zit, neem een time-out, check voordat je begint en kijk terug.</span></button>
+      <button class="deur" type="button" data-ga="leiding" style="--k:var(--blauw)"><span class="deurtek" id="st-leiding"></span><em>Voor leidinggevenden</em><b>Voor wie leiding geeft</b><span>De handleiding, en vier kant-en-klare sessies voor je team.</span></button>
+    </div>
+    <button class="btn vol breed" type="button" data-ga="nu">Meteen beginnen: hoe sta je er nu voor?</button>
+    <section class="card">
+      <span class="lab">De zes vakken</span>
+      <p style="font-size:.9375rem">De doos volgt het verloop van een werkdag: eerst merken, dan opvangen, dan samen, en pas daarna terugkijken. Tik op een vak om het te openen.</p>
+      <div class="lijst"><div class="rij"><b>Eerst merken</b><span>Waar sta je, en kun je dit nu goed doen?</span></div><div class="rij"><b>Dan opvangen</b><span>Even afstand nemen, of iets bespreekbaar maken.</span></div><div class="rij"><b>Dan samen</b><span>Elkaar zien, en de vraag stellen die niemand stelt.</span></div><div class="rij"><b>Pas daarna terugkijken</b><span>Wat veroorzaakte dit, en wat veranderen we?</span></div></div>
+      <div id="o-vakken"></div>
+      <p class="zacht">Spanning is niet alleen een welzijnsthema maar ook een kwaliteitsrisico: onder druk vernauwt de aandacht, spreken mensen zich minder uit en worden fouten later gemeld.</p>
+    </section>
+    <section class="card">
+      <span class="lab">Doet je team een sessie?</span>
+      <p class="zacht">Scan de QR-code van je begeleider, of vul de code in bij Team.</p>
+      <button class="btn breed" type="button" data-ga="team">Naar Team</button>
+    </section>
+    <p class="onder"><button class="lnk" type="button" data-ga="over">Over deze app: beginscherm, delen en je gegevens</button></p>
+  </div>
+
+  <!-- IK: wegwijzer voor medewerkers -->
+  <div class="view" id="v-ik" hidden>
+    <button class="terug" type="button" data-ga="start">&larr; Terug naar het begin</button>
+    <section class="card">
+      <span class="lab">Voor jezelf</span>
+      <h2>Wat je wanneer gebruikt</h2>
+      <p class="zacht">Alles wat je hier invult, blijft op dit toestel. Er is geen account en niemand kijkt mee.</p>
+      <div class="lijst" id="ik-lijst"></div>
+    </section>
+    <section class="card">
+      <span class="lab">Handig</span>
+      <p class="zacht">Zet de doos op je beginscherm, dan heb je hem bij de hand op het moment dat het nodig is.</p>
+      <button class="btn breed" type="button" data-ga="over">Zo zet je hem op je beginscherm</button>
+    </section>
+  </div>
+
   <!-- NU: merken en opvangen -->
-  <div class="view" id="v-nu">
+  <div class="view" id="v-nu" hidden>
     <section class="card">
       <span class="lab">Thermometer</span>
       <h2>Hoe sta je er nu voor?</h2>
@@ -340,6 +453,7 @@ details.kl.vol>summary .vink{visibility:visible}
       <span class="lab">Pleister</span>
       <h2>Neem een time-out</h2>
       <div id="p-strip"></div>
+      <p class="zacht">Op elke kaart staat hoe lang hij duurt, zodat je snel kunt kiezen.</p>
       <div class="rijtje" role="group" aria-label="Hoeveel tijd heb je">
         <button class="btn" type="button" data-tijd="60 sec" aria-pressed="true">60 seconden</button>
         <button class="btn" type="button" data-tijd="10 min" aria-pressed="false">10 minuten</button>
@@ -396,6 +510,7 @@ details.kl.vol>summary .vink{visibility:visible}
       <h2>Voordat je begint</h2>
       <p class="zacht">De Last Minute Risico Analyse van de bouwplaats, vertaald naar de controlepraktijk.</p>
       <p style="font-size:.9375rem"><b style="font-weight:500">Wanneer?</b> Vóór een gesprek waar je tegenop ziet. Vóór een post die je nog niet begrijpt. Vóór je iets aftekent. En voordat je een (AI-)tool gebruikt op klantgegevens.</p>
+      <p class="zacht">Beantwoord je een vraag met nee, dan zeg je dat hardop en regel je wat ontbreekt voordat je verdergaat.</p>
     </section>
     <div id="lmra" class="lijst"></div>
     <div class="helmen" id="lmra-helmen" aria-hidden="true"></div>
@@ -479,10 +594,16 @@ details.kl.vol>summary .vink{visibility:visible}
 
   <!-- LEIDING -->
   <div class="view" id="v-leiding" hidden>
-    <button class="terug" type="button" data-ga="team">&larr; Terug naar Team</button>
+    <button class="terug" type="button" data-ga="start">&larr; Terug naar het begin</button>
     <section class="card">
       <span class="lab">Het hele idee in één alinea</span>
       <p>Deze doos maakt een team niet vanzelf weerbaarder; hij maakt zichtbaar wat er al speelt. Elk vak vraagt iemand iets te doen wat ongemakkelijk is: toegeven dat het te veel wordt, een fout melden, een vraag stellen die niemand stelt. Of dat veilig voelt, bepaal jij voor een groot deel: niet met wat je over de doos zegt, maar met hoe je reageert wanneer iemand hem voor het eerst gebruikt.</p>
+    </section>
+    <section class="card">
+      <span class="lab">Zo werken de vier sessies</span>
+      <ol class="kort"><li>Kies een sessie. Stap 1 laat zien wat er komt.</li><li>Doe hem samen op één scherm, of start een live sessie: het team scant de QR-code en doet mee op de eigen telefoon.</li><li>Jij klikt op Volgende; ieders telefoon volgt vanzelf.</li><li>Stemmen en antwoorden komen zonder naam binnen. Jij bepaalt wanneer ze zichtbaar worden.</li><li>Optionele stappen sla je over met Volgende.</li></ol>
+      <div class="lijst" id="l-sessies"></div>
+      <p class="zacht">Het volledige overzicht staat op stap 1 van elke sessie.</p>
     </section>
     <section class="card"><span class="lab">Drie dingen die alleen jij kunt doen</span><div id="l-strip"></div><p class="zacht">Eén pagina om te lezen; daarna komt het aan op doen.</p></section>
     <section class="card"><span class="lab">Wat jij als eerste doet, en waarom het anders niet werkt</span><div id="l-rijen"></div></section>
@@ -515,15 +636,7 @@ details.kl.vol>summary .vink{visibility:visible}
 
   <!-- OVER -->
   <div class="view" id="v-over" hidden>
-    <button class="terug" type="button" data-ga="nu">&larr; Terug</button>
-    <section class="card">
-      <div class="busje" id="o-busje"></div>
-      <span class="lab">De zes vakken</span>
-      <p>De doos volgt het verloop van een werkdag: eerst merken, dan opvangen, dan samen, en pas daarna terugkijken. Elk vak is direct te gebruiken, zonder uitleg vooraf.</p>
-      <div class="lijst"><div class="rij"><b>Eerst merken</b><span>Waar sta je, en kun je dit nu goed doen?</span></div><div class="rij"><b>Dan opvangen</b><span>Even afstand nemen, of iets bespreekbaar maken.</span></div><div class="rij"><b>Dan samen</b><span>Elkaar zien, en de vraag stellen die niemand stelt.</span></div><div class="rij"><b>Pas daarna terugkijken</b><span>Wat veroorzaakte dit, en wat veranderen we?</span></div></div>
-      <div id="o-vakken"></div>
-      <p class="zacht">Spanning is niet alleen een welzijnsthema maar ook een kwaliteitsrisico: onder druk vernauwt de aandacht, spreken mensen zich minder uit en worden fouten later gemeld.</p>
-    </section>
+    <button class="terug" type="button" data-ga="start">&larr; Terug naar het begin</button>
     <section class="card">
       <span class="lab">Op je beginscherm</span>
       <p style="font-size:.9375rem">Zo staat de doos als app op je telefoon, en werkt hij ook zonder internet.</p>
@@ -557,6 +670,7 @@ details.kl.vol>summary .vink{visibility:visible}
 
 <script src="en.js"></script>
 <script src="i18n.js"></script>
+<script src="config.js"></script>
 <script src="kaarten.js"></script>
 <script src="tekeningen.js"></script>
 <script src="qr.js"></script>

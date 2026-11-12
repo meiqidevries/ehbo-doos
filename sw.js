@@ -1,8 +1,8 @@
 /* EHBO-doos · werkt ook zonder internet.
  * De pagina zelf halen we bij voorkeur vers op (zodat een nieuwe versie meteen zichtbaar is);
  * lukt dat niet, dan komt hij uit de opslag van het toestel. */
-var VERSIE = 'ehbo-doos-2026-11-12f';
-var SCHIL = ['./', 'index.html', 'app.js', 'kaarten.js', 'tekeningen.js', 'en.js', 'i18n.js', 'live.js', 'qr.js', 'manifest.webmanifest',
+var VERSIE = 'ehbo-doos-2026-11-12g';
+var SCHIL = ['./', 'index.html', 'app.js', 'config.js', 'kaarten.js', 'tekeningen.js', 'en.js', 'i18n.js', 'live.js', 'qr.js', 'manifest.webmanifest',
   'fonts/fraunces.woff2', 'fonts/plex-sans-400.woff2', 'fonts/plex-sans-500.woff2', 'fonts/plex-mono-500.woff2',
   'icons/favicon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 

@@ -10,6 +10,7 @@ Eén web-app voor op je telefoon. Geen account, geen installatie via een app-win
 
 | Tabblad | Vak uit de doos | Wat je er doet |
 |---|---|---|
+| *(begin)* | Over de doos | Twee ingangen: voor medewerkers en voor wie leiding geeft |
 | **Nu** | Thermometer, Pleister | Waar sta je nu, en een time-out van 60 seconden of 10 minuten |
 | **Plan** | Thermometer | Je signaleringsplan in vier kleuren, met het werkraam |
 | **Check** | LMRA | Vijf vragen voordat je ergens aan begint |
@@ -27,14 +28,18 @@ Hoe dat technisch werkt:
 3. De doorgeefserver ziet alleen de kanaalnaam en onleesbare tekst, en geeft die door aan de andere deelnemers.
 4. Er is geen database. De stand van de sessie bestaat alleen op de toestellen van de deelnemers, zolang de sessie loopt.
 
-**Doorgeefserver.** De pilot gebruikt de openbare server van [ntfy](https://ntfy.sh) (open source). Dat is een gratis dienst zonder garanties en met limieten per netwerkadres. Voor een definitieve versie hoort hier een eigen server te staan; ntfy is daarvoor zelf te hosten. Het adres staat op één plek: de regel `var RELAY = ...` bovenaan `live.js`.
+**Doorgeefserver.** De pilot gebruikt de openbare server van [ntfy](https://ntfy.sh) (open source). Dat is een gratis dienst zonder garanties en met limieten per netwerkadres. Voor een definitieve versie hoort hier een eigen server te staan; ntfy is daarvoor zelf te hosten. Het adres staat op één plek: `config.js`. Zie `OVERDRACHT.md`.
 
 Zonder live sessie werkt alles ook: de begeleider zegt dan het stapnummer, of deelt het scherm.
 
 ## Bestanden
 
+- `OVERDRACHT.md` — voor wie de app gaat hosten en beheren
+- `config.js` — instellingen voor de beheerder (adres van de doorgeefserver)
 - `index.html` — opmaak en vormgeving
 - `app.js` — de app
+- `tekeningen.js` — de tekeningen en pictogrammen (eigen werk)
+- `en.js`, `i18n.js` — de Engelse versie
 - `kaarten.js` — de kaartteksten, automatisch overgenomen uit de doos (niet met de hand wijzigen)
 - `live.js` — live sessies
 - `sw.js`, `manifest.webmanifest`, `icons/` — op het beginscherm zetten en offline werken

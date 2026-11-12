@@ -13,7 +13,8 @@
  */
 (function () {
   'use strict';
-  var RELAY = 'https://ntfy.sh';
+  // Het adres van de doorgeefserver staat in config.js, zodat de beheerder het kan aanpassen zonder deze code te wijzigen.
+  var RELAY = (window.EHBO_CONFIG && window.EHBO_CONFIG.relay) || 'https://ntfy.sh';
 
   // Alleen bij lokaal testen mag het adres worden overschreven (?relay=http://localhost:8787).
   try {
@@ -26,7 +27,7 @@
   var ALFABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // zonder I, L, O, 0 en 1: die lees je verkeerd over
   var MAX_TEKST = 280, MAX_PER_STAP = 5, MAX_BERICHT = 2200, MAX_KAARTEN = 3;
   // Soorten inbreng en hoe lang de waarde mag zijn. 'kies' is alleen voor de begeleider.
-  var SOORTEN = { kleur: 12, tekst: MAX_TEKST, zin: 4, kies: 4, zalf: 400, namen: 300 };
+  var SOORTEN = { kleur: 12, tekst: MAX_TEKST, zin: 4, kies: 4, zalf: 400, namen: 300, klok: 16 };
   var enc = new TextEncoder(), dec = new TextDecoder();
   var S = null;            // de lopende sessie, of null
   var luisteraars = [];
@@ -166,7 +167,7 @@
       case 'in':
         if (typeof m.id !== 'string' || m.id.indexOf(m.c + ':') !== 0 || S.weg[m.id]) break;
         if (!SOORTEN[m.k]) break;
-        if ((m.k === 'kies' || m.k === 'namen') && S.hostId && m.c !== S.hostId) break;
+        if ((m.k === 'kies' || m.k === 'namen' || m.k === 'klok') && S.hostId && m.c !== S.hostId) break;
         var v = String(m.v == null ? '' : m.v).slice(0, SOORTEN[m.k]);
         if (!v) break;
         var had = S.items[m.id], n = +m.n || 0;
@@ -336,6 +337,22 @@
     best.v.split(/[,;\n]+/).forEach(function (x) { x = x.trim().slice(0, 40); if (x && r.indexOf(x) < 0 && r.length < 24) r.push(x); });
     return r;
   }
+  // Stilteklok: de begeleider start hem, en hij loopt op elk scherm tot hetzelfde eindmoment.
+  function zetKlok(stap, eind) {
+    if (!S || !S.host) return;
+    var id = S.ik + ':t' + stap, n = Date.now(), v = String(Math.round(eind) || 0);
+    S.items[id] = { s: stap, k: 'klok', v: v, c: S.ik, n: n };
+    stuur({ t: 'in', id: id, s: stap, k: 'klok', v: v, n: n }); meld('in');
+  }
+  function klokVan(stap) {
+    if (!S) return 0;
+    var best = null;
+    Object.keys(S.items).forEach(function (id) {
+      var it = S.items[id];
+      if (it.s === stap && it.k === 'klok' && (!S.hostId || it.c === S.hostId) && (!best || it.n > best.n)) best = it;
+    });
+    return best ? (+best.v || 0) : 0;
+  }
   function haalWeg(id) {
     if (!S || !S.host) return;
     S.weg[id] = 1; delete S.items[id]; stuur({ t: 'weg', id: id }); meld('in');
@@ -358,7 +375,7 @@
     beschikbaar: beschikbaar, nieuweCode: nieuweCode, normCode: normCode, toonCode: toonCode,
     start: start, doeMee: doeMee, hervat: hervat, stop: stop,
     zetStap: zetStap, laatZien: laatZien, stem: stem, antwoord: antwoord, trekIn: trekIn,
-    kiesZin: kiesZin, geef: geef, kies: kies, gekozen: gekozen, haalWeg: haalWeg, zetNamen: zetNamen, namen: namen,
+    kiesZin: kiesZin, geef: geef, kies: kies, gekozen: gekozen, haalWeg: haalWeg, zetNamen: zetNamen, namen: namen, zetKlok: zetKlok, klok: klokVan,
     inbreng: inbreng, mijn: mijn,
     sessie: function () { return S; },
     aantal: function () { return S ? Object.keys(S.wie).length : 0; },

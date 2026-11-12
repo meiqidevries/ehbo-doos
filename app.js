@@ -20,6 +20,15 @@ function toast(tekst) {
   var t = $('toast'); t.textContent = tekst; t.hidden = false;
   clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.hidden = true; }, 2600);
 }
+var RUSTIG = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+/* speelse accenten: kort, één keer, en uit als iemand minder beweging wil */
+function opnieuw(elm, klasse) { if (!elm || RUSTIG) return; elm.classList.remove(klasse); void elm.offsetWidth; elm.classList.add(klasse); }
+function flits(elm) { opnieuw(elm, 'flits'); }
+function tril(patroon) { try { if (navigator.vibrate) navigator.vibrate(patroon); } catch (e) {} }
+function ring(klasse) {
+  return '<svg class="ring ' + klasse + '" viewBox="0 0 36 36" aria-hidden="true"><circle class="baan" cx="18" cy="18" r="15"></circle>' +
+    '<circle class="boog" cx="18" cy="18" r="15" pathLength="100" transform="rotate(-90 18 18)"></circle><line class="naald" x1="18" y1="18" x2="18" y2="7"></line><circle class="as" cx="18" cy="18" r="1.6"></circle></svg>';
+}
 function kopieer(tekst, gelukt) {
   if (window.EHBO_vertaalTekst) tekst = window.EHBO_vertaalTekst(tekst);
   function terugval() {
@@ -153,7 +162,7 @@ var VAKKEN = [
 
 var ANONIEM = 'Liever schrijven dan zeggen? Deel je antwoord zonder naam.';
 function laag(i) { return { k: BIJSLUITER[i][0], b: BIJSLUITER[i][1], ijs: i, min: 5, vragen: BIJSLUITER[i][2], inb: ['tekst', 'Wat wil jij hierover kwijt? Zonder naam.'] }; }
-function klantvraag(n, nr) { return { k: 'Vraag ' + n + ' van 6', min: 3, tek: n === 1 ? ['verband', 2] : null, kaart: ['verband', nr], inb: ['tekst', 'Jullie antwoord, of een voorstel.'] }; }
+function klantvraag(n, nr) { return { k: 'Vraag ' + n + ' van 6', min: 3, tek: ['klant', n - 1], kaart: ['verband', nr], inb: ['tekst', 'Jullie antwoord, of een voorstel.'] }; }
 var GEEF = 'Kies een kaart en geef die aan een collega.', KIESZIN = 'Kies één zin. Er gaat geen naam mee.';
 var SPIEGELTIP = 'Waarom deze vragen: ethische grenzen worden zelden in één besluit overschreden. Ze schuiven op, vraag voor vraag.';
 var SESSIES = [
@@ -193,7 +202,7 @@ var SESSIES = [
 { id: 'terug', naam: 'Na afloop: de opdracht nabespreken', duur: '30 min', kleur: 'var(--groen)',
   intro: 'Eerst wat goed ging, dan langs vier lagen naar de oorzaak.',
   stappen: [
-   { k: 'Welkom', overzicht: 1, ijs: -1, b: 'Jullie beginnen met wat goed ging. Daarna werk je van boven naar beneden: wat er gebeurde is het makkelijkste deel, wat het veroorzaakte zit eronder. Doe dit ook als het goed ging.', tip: 'Laag 3 en 4 gaan over hoe wij het hebben georganiseerd, niet over wie wat te laat aanleverde.' },
+   { k: 'Welkom', overzicht: 1, ijs: -1, b: 'Jullie beginnen met wat goed ging. Daarna werk je van boven naar beneden: wat boven water komt is één gebeurtenis, wat het veroorzaakt zit eronder. Doe dit ook als het goed ging.', tip: 'Laag 3 en 4 gaan over hoe wij het hebben georganiseerd, niet over wie wat te laat aanleverde.' },
    { k: 'Zalf: begin met wat goed ging', min: 4, tek: ['sessie', 'prijs'], b: 'Voordat je kijkt naar wat beter kan: geef een collega een kaart voor iets wat je in deze opdracht zag. Dit is het moment voor een prijs.', inb: ['geef', GEEF] },
    laag(0), laag(1), laag(2), laag(3),
    { k: 'En dan: één ingreep', min: 3, tek: ['leiding', 2], b: 'Wat is de kleinste verandering met het grootste effect? Wie regelt die, en wanneer kijken we of het werkte?', inb: ['tekst', 'Welke ingreep stel jij voor?'] },
@@ -296,6 +305,7 @@ function trek() {
   kaartBox.innerHTML = '<span class="lab">' + esc(k.t === '60 sec' ? '60 seconden' : '10 minuten') + '</span><h3>' + esc(k.k) + '</h3><p>' + esc(k.u) + '</p><span class="nr">' + k.n + ' / 12</span>';
   $('ademblok').hidden = (k.n !== 1);
   stopAdem();
+  opnieuw(kaartBox, 'draai');
 }
 $('nogeen').addEventListener('click', trek);
 $('grens').innerHTML = '<b style="font-weight:500">' + esc(GRENS.k) + '.</b> ' + esc(GRENS.u);
@@ -388,6 +398,7 @@ LMRA.forEach(function (v, i) {
   var hm = el('span', 'helm'); hm.innerHTML = ico('helm'); $('lmra-helmen').appendChild(hm);
   d.appendChild(el('p', 'zacht', v[1]));
   if (v[2]) d.appendChild(el('p', 'vb', v[2]));
+  if (i === 4) d.appendChild(el('p', 'zacht', 'Deze vraag verwijst naar je signaleringsplan. Zonder dat plan kun je deze vraag niet goed beantwoorden.'));
   if (i === 4) { var l = el('button', 'btn klein', 'Bekijk waar ik nu sta'); l.type = 'button'; l.style.alignSelf = 'flex-start'; l.addEventListener('click', function () { ga('nu'); }); d.appendChild(l); }
   var jn = el('div', 'janee');
   [['ja', 'Ja'], ['nee', 'Nee, nog niet']].forEach(function (a) {
@@ -544,7 +555,7 @@ $('k-filters').addEventListener('click', function (e) { var b = e.target.closest
 alle('#k-sets [data-set]', function (b) { b.addEventListener('click', function () { ga('kaarten-' + b.getAttribute('data-set')); }); });
 
 /* ================= SESSIE ================= */
-var SES = null, IX = 0, klok = null, zelfBladeren = false, uitnodigingOpen = false, inbrengDelen = null;
+var SES = null, IX = 0, klok = null, klokEind = 0, stapTik = null, stapTijd = null, zelfBladeren = false, uitnodigingOpen = false, inbrengDelen = null;
 
 function fmt(s) { var m = Math.floor(s / 60), r = s % 60; return m + ':' + (r < 10 ? '0' : '') + r; }
 function stopKlok() { if (klok) { clearInterval(klok); klok = null; } }
@@ -556,7 +567,7 @@ function tekenStap() {
   $('s-naam').textContent = SES.naam;
   $('s-tel').textContent = 'stap ' + (IX + 1) + ' van ' + SES.stappen.length;
   $('s-balk').style.width = Math.round((IX + 1) / SES.stappen.length * 100) + '%';
-  h += '<div class="soort"><span>' + esc(soortVan(s)) + '</span>' + (s.min ? '<span>' + s.min + ' min</span>' : '') + (s.opt ? '<span class="opt">Optioneel</span>' : '') + '</div>';
+  h += '<div class="soort"><span>' + esc(soortVan(s)) + '</span>' + (s.opt ? '<span class="opt">Optioneel</span>' : '') + (s.min ? '<button type="button" class="stapklok" id="s-stapklok" aria-pressed="false" aria-label="Tijd voor deze stap. Tik om te pauzeren.">' + ring('klein') + '<output>' + fmt(s.min * 60) + '</output></button>' : '') + '</div>';
   if (s.tek && tekening(s.tek)) h += '<div class="staptek">' + tekening(s.tek) + '</div>';
   h += '<h2>' + esc(s.k) + '</h2>';
   if (s.b) h += '<p>' + esc(s.b) + '</p>';
@@ -575,30 +586,103 @@ function tekenStap() {
     } else lijst.forEach(function (n) { h += '<div class="kaart compact" style="--k:' + SETINFO[set].kleur + '">' + kaartHTML(set, n, 1) + '</div>'; });
   }
   if (s.spiegel) h += '<div id="s-spiegel" class="lijst"></div>';
-  if (s.sec) h += '<div class="klok"><button class="btn" type="button" id="s-klok">Start ' + (s.sec >= 60 ? (s.sec / 60) + ' min' : s.sec + ' sec') + '</button><output id="s-tijd">' + fmt(s.sec) + '</output></div>';
+  if (s.sec) h += '<div class="klok" id="s-stilte"><div class="wijzerplaat">' + ring('groot') + '<output id="s-tijd">' + fmt(s.sec) + '</output></div><div class="klokknop"><button class="btn" type="button" id="s-klok">Start ' + (s.sec >= 60 ? (s.sec / 60) + ' min' : s.sec + ' sec') + '</button><p class="zacht" id="s-klokuitleg" hidden>De begeleider start de klok. Hij loopt op elk scherm gelijk.</p></div></div>';
   h += '<div id="s-inbreng"></div>';
   if (s.tip) h += '<p class="tip">' + esc(s.tip) + '</p>';
   $('s-stap').innerHTML = h;
-  stopKlok();
-  if ($('s-klok')) $('s-klok').addEventListener('click', function () { loopKlok(s.sec); });
+  stopKlok(); klokEind = 0;
+  if ($('s-klok')) $('s-klok').addEventListener('click', klokKlik);
+  var sleutel = SES.id + ':' + IX, nieuweStap = !stapTijd || stapTijd.sleutel !== sleutel;
+  if (nieuweStap) { stapTijd = { sleutel: sleutel, t: Date.now(), p: 0, op: 0 }; opnieuw($('s-stap'), 'stapin'); }
+  startStapklok(s);
   if ($('s-andere')) $('s-andere').addEventListener('click', tekenStap);
   inbrengDelen = null; kaartDelen = null; spiegelDelen = null; bouwSpiegel(); bouwInbreng();
   if (s.slot) bouwSlot();
-  tekenLive(); tekenVoet();
+  tekenLive(); tekenVoet(); syncKlok();
   var doel = '#sessie-' + SES.id + '-' + (IX + 1);
   if (location.hash !== doel) { try { history.replaceState(null, '', doel); } catch (e) {} }
   window.scrollTo(0, 0);
 }
-function loopKlok(sec) {
+/* de stapklok: hoeveel tijd deze stap ongeveer vraagt. Tikt mee, dwingt niets af. */
+function stopStapklok() { if (stapTik) { clearInterval(stapTik); stapTik = null; } }
+function startStapklok(s) {
+  stopStapklok();
+  var knop = $('s-stapklok'); if (!knop || !s.min) return;
+  var st = stapTijd, totaal = s.min * 60, out = knop.querySelector('output'), boog = knop.querySelector('.boog'), naald = knop.querySelector('.naald');
+  function teken(tik) {
+    var verstreken = Math.max(0, Math.floor(((st.p || Date.now()) - st.t) / 1000)), rest = totaal - verstreken;
+    out.textContent = rest >= 0 ? fmt(rest) : '+' + fmt(-rest);
+    boog.style.strokeDashoffset = String(100 - Math.min(100, verstreken / totaal * 100));
+    naald.style.transform = 'rotate(' + (verstreken * 6) + 'deg)';
+    knop.classList.toggle('bijna', rest <= 30 && rest > 0);
+    knop.classList.toggle('op', rest <= 0);
+    knop.setAttribute('aria-pressed', String(!!st.p));
+    if (rest <= 0 && !st.op) { st.op = 1; if (tik) { opnieuw(knop, 'puls'); tril(40); } }
+  }
+  teken(false);
+  stapTik = setInterval(function () { if (!st.p) teken(true); }, 1000);
+  knop.addEventListener('click', function () {
+    if (st.p) { st.t += Date.now() - st.p; st.p = 0; } else st.p = Date.now();
+    teken(false); toast(st.p ? 'Klok gepauzeerd' : 'Klok loopt weer');
+  });
+}
+/* de stilteklok: aftellen naar een eindmoment, zodat hij in een live sessie op elk scherm gelijk loopt */
+function tekenKlok(sec, rest) {
+  var out = $('s-tijd'), blok = $('s-stilte'); if (!out || !blok) return;
+  out.textContent = rest > 0 ? fmt(rest) : (rest === 0 ? 'klaar' : fmt(sec));
+  var deel = rest < 0 ? 1 : rest / sec;
+  blok.querySelector('.boog').style.strokeDashoffset = String(100 - deel * 100);
+  blok.querySelector('.naald').style.transform = 'rotate(' + (rest < 0 ? 0 : (sec - rest) * 6) + 'deg)';
+  blok.classList.toggle('loopt', rest > 0);
+  blok.classList.toggle('bijna', rest > 0 && rest <= 5);
+}
+function loopKlok(sec, eind) {
   stopKlok();
-  var rest = sec, out = $('s-tijd'), knop = $('s-klok'); if (!out) return;
-  knop.textContent = 'Stop'; out.textContent = fmt(rest);
-  klok = setInterval(function () {
-    rest--;
-    if (rest <= 0) { stopKlok(); out.textContent = 'klaar'; knop.textContent = 'Opnieuw'; knop.onclick = function () { loopKlok(sec); }; return; }
-    out.textContent = fmt(rest);
-  }, 1000);
-  knop.onclick = function () { stopKlok(); out.textContent = fmt(sec); knop.textContent = 'Start opnieuw'; knop.onclick = function () { loopKlok(sec); }; };
+  var knop = $('s-klok'), L = liveHier(); if (!$('s-tijd')) return;
+  klokEind = eind || (Date.now() + sec * 1000);
+  if (L && L.host && !eind) Live.zetKlok(IX, klokEind);
+  knop.textContent = 'Stop';
+  function tik() {
+    var rest = Math.min(sec, Math.max(0, Math.ceil((klokEind - Date.now()) / 1000)));
+    tekenKlok(sec, rest);
+    if (!rest) { stopKlok(); klokEind = 0; knop.textContent = 'Opnieuw'; flits($('s-stap')); tril([60, 50, 60]); }
+  }
+  tik(); if (klokEind) klok = setInterval(tik, 250);
+}
+function klokKlik() {
+  var s = SES.stappen[IX], L = liveHier();
+  if (klok) { stopKlok(); klokEind = 0; if (L && L.host) Live.zetKlok(IX, 0); tekenKlok(s.sec, -1); $('s-klok').textContent = 'Start opnieuw'; }
+  else loopKlok(s.sec);
+}
+function syncKlok() {
+  var L = liveHier(), s = SES && SES.stappen[IX]; if (!s || !s.sec || !$('s-tijd')) return;
+  var gast = !!(L && !L.host);
+  $('s-klok').hidden = gast; $('s-klokuitleg').hidden = !gast;
+  if (!L) return;
+  var eind = Live.klok(IX);
+  if (eind > Date.now() + 500) { if (Math.abs(eind - klokEind) > 1500) loopKlok(s.sec, eind); }
+  else if (!eind && klok && gast) { stopKlok(); klokEind = 0; tekenKlok(s.sec, -1); }
+}
+/* stippen naast de teller: wie heeft al iets ingestuurd, zonder te laten zien wie */
+function inzenders(lijst) { var w = {}; lijst.forEach(function (x) { w[String(x.id).split(':')[0]] = 1; }); return Object.keys(w).length; }
+function zetTeller(d, n, tekst) {
+  var totaal = Live.aantal(), h = '', i; n = Math.min(n, totaal);
+  if (totaal > 0 && totaal <= 16) {
+    h = '<span class="stippen" aria-hidden="true">';
+    for (i = 0; i < totaal; i++) h += '<i class="' + (i < n ? 'aan' : '') + (i === n - 1 && d.vorigN != null && n > d.vorigN ? ' nieuw' : '') + '"></i>';
+    h += '</span>';
+  }
+  d.teller.innerHTML = h + '<span>' + esc(tekst) + '</span>';
+  if (d.vorigN != null && n > d.vorigN) tril(12);
+  d.vorigN = n;
+}
+/* het moment waarop de begeleider de inbreng laat zien */
+function onthul(d, zichtbaar) {
+  if (zichtbaar && d.wasZichtbaar === false) {
+    d.uit.classList.add('onthul'); flits(d.uit.parentNode); tril(25);
+    setTimeout(function () { d.uit.classList.remove('onthul'); }, 1400);
+  }
+  d.wasZichtbaar = !!zichtbaar;
 }
 
 /* --- inbreng: stemmen en antwoorden, alleen in een live sessie --- */
@@ -652,10 +736,11 @@ function ververInbreng() {
   ververSpiegel(); ververKaart();
   var d = inbrengDelen, L = liveHier(); if (!d || !L) return;
   var zichtbaar = Live.zichtbaar(d.stap), h = '';
+  syncKlok(); onthul(d, zichtbaar);
   if (d.soort === 'kleur' || d.soort === 'uitslag') {
     var stemmen = Live.inbreng(d.stap, 'kleur'), mijn = Live.mijn(d.stap, 'kleur')[0];
     if (d.keuze) Array.prototype.forEach.call(d.keuze.children, function (b) { b.setAttribute('aria-pressed', String(!!mijn && mijn.v === b.getAttribute('data-kleur'))); });
-    d.teller.textContent = stemmen.length + (stemmen.length === 1 ? ' stem' : ' stemmen') + ' binnen · ' + Live.aantal() + ' in de sessie';
+    zetTeller(d, stemmen.length, stemmen.length + (stemmen.length === 1 ? ' stem' : ' stemmen') + ' binnen · ' + Live.aantal() + ' in de sessie');
     if (zichtbaar) {
       var max = 1, tel = {}; stemmen.forEach(function (x) { tel[x.v] = (tel[x.v] || 0) + 1; if (tel[x.v] > max) max = tel[x.v]; });
       ZONES.forEach(function (z) { var n = tel[z.id] || 0; h += '<div class="staaf" style="--z:' + z.kleur + '"><span>' + z.naam + '</span><i style="width:' + Math.round(n / max * 100) + '%"></i><b>' + n + '</b></div>'; });
@@ -666,7 +751,7 @@ function ververInbreng() {
     d.toon.disabled = stemmen.length === 0;
   } else {
     var antw = Live.inbreng(d.stap, 'tekst'), eigen = Live.mijn(d.stap, 'tekst');
-    d.teller.textContent = antw.length + (antw.length === 1 ? ' antwoord' : ' antwoorden') + ' binnen · ' + Live.aantal() + ' in de sessie';
+    zetTeller(d, inzenders(antw), antw.length + (antw.length === 1 ? ' antwoord' : ' antwoorden') + ' binnen · ' + Live.aantal() + ' in de sessie');
     if (zichtbaar) {
       antw.forEach(function (x) { h += '<div class="antw"><span>' + esc(x.v) + '</span>' + (x.eigen ? '<button type="button" data-weg="' + esc(x.id) + '">trek terug</button>' : '') + '</div>'; });
       d.uit.innerHTML = h; d.eigen.innerHTML = '';
@@ -890,7 +975,8 @@ function ververKaart() {
     }
     var keuzes = Live.inbreng(d.stap, 'zin');
     d.teller.hidden = false;
-    d.teller.textContent = keuzes.length + ' van ' + Live.aantal() + ' hebben gekozen';
+    onthul(d, zichtbaar);
+    zetTeller(d, keuzes.length, keuzes.length + ' van ' + Live.aantal() + ' hebben gekozen');
     h = '';
     if (zichtbaar) {
       var tel = {}, volg = [];
@@ -930,7 +1016,8 @@ function ververKaart() {
     d.voorChips.innerHTML = h; d.voorChips.hidden = !namen.length;
   }
   d.teller.hidden = false;
-  d.teller.textContent = kaarten.length + (kaarten.length === 1 ? ' kaart gegeven' : ' kaarten gegeven') + ' · ' + Live.aantal() + ' in de sessie';
+  onthul(d, zichtbaar);
+  zetTeller(d, inzenders(Live.inbreng(d.stap, 'zalf')), kaarten.length + (kaarten.length === 1 ? ' kaart gegeven' : ' kaarten gegeven') + ' · ' + Live.aantal() + ' in de sessie');
   h = '';
   if (zichtbaar) {
     var groepen = {}, volgorde = [];
@@ -1115,9 +1202,9 @@ var TABS = [['nu', 'Nu', 'M3 12h4l2-6 3 12 2-6h5'],
             ['check', 'Check', 'M3 10l4 4 10-10'],
             ['team', 'Team', 'M7 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM14 9a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM2 17c0-3 2-5 5-5s5 2 5 5M13 12c3 0 5 2 5 5'],
             ['terug', 'Terug', 'M4 10a6 6 0 1 1 2 4.5M4 6v4h4']];
-var VIEWS = ['nu', 'plan', 'check', 'team', 'sessie', 'kaarten', 'leiding', 'terug', 'over'];
-var TABVAN = { sessie: 'team', kaarten: 'team', leiding: 'team', over: 'nu' };
-var KOPPEN = { kaarten: ['Losse kaarten', 'Zalf, Verband en Spiegel'], leiding: ['Voor wie leiding geeft', 'Het onderdeel dat de zes vakken met elkaar verbindt'], over: ['Over de EHBO-doos', 'Zes vakken, één app'] };
+var VIEWS = ['start', 'ik', 'nu', 'plan', 'check', 'team', 'sessie', 'kaarten', 'leiding', 'terug', 'over'];
+var TABVAN = { sessie: 'team', kaarten: 'team', leiding: 'team', over: '-', start: '-', ik: '-' };
+var KOPPEN = { kaarten: ['Losse kaarten', 'Zalf, Verband en Spiegel'], leiding: ['Voor wie leiding geeft', 'Het onderdeel dat de zes vakken met elkaar verbindt'], over: ['Over de EHBO-doos', 'Zes vakken, één app'], ik: ['Voor jezelf', 'Wegwijzer voor medewerkers'] };
 TABS.forEach(function (t) {
   var b = el('button'); b.type = 'button'; b.setAttribute('data-ga', t[0]);
   b.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="' + t[2] + '"/></svg><span>' + t[1] + '</span>';
@@ -1130,11 +1217,11 @@ function toon(view) {
   $('navbalk').hidden = (view === 'sessie'); $('voet').hidden = (view !== 'sessie');
   var k = KOPPEN[view] || ['EHBO-doos', 'Voor als het spannend wordt'];
   $('kop').textContent = k[0]; $('onderkop').textContent = k[1];
-  if (view !== 'sessie') { stopKlok(); houdWakker(false); } else houdWakker(true);
+  if (view !== 'sessie') { stopKlok(); stopStapklok(); stapTijd = null; houdWakker(false); } else houdWakker(true);
 }
 function ga(doel) { if (location.hash === '#' + doel) route(); else location.hash = '#' + doel; }
 function route() {
-  var h = decodeURIComponent((location.hash || '').replace(/^#/, '')) || 'nu', d = h.split('-');
+  var h = decodeURIComponent((location.hash || '').replace(/^#/, '')) || 'start', d = h.split('-');
   if (d[0] === 'j' && d.length >= 3) {            // uitnodigingslink: #j-<sessie>-<code>
     var code = Live.normCode(d[d.length - 1]), sid = d[1];
     try { history.replaceState(null, '', '#sessie-' + sid + '-1'); } catch (e) {}
@@ -1155,7 +1242,7 @@ function route() {
     if (d[2] != null && kSoorten()[+d[2] - 1]) { KFILT = kSoorten()[+d[2] - 1]; KIX = 0; }
     toon('kaarten'); tekenKaarten(); window.scrollTo(0, 0); return;
   }
-  if (VIEWS.indexOf(h) < 0 || h === 'sessie') h = 'nu';
+  if (VIEWS.indexOf(h) < 0 || h === 'sessie') h = 'start';
   toon(h);
   if (h === 'team') tekenTeamLive();
   window.scrollTo(0, 0);
@@ -1177,7 +1264,32 @@ if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
 /* ================= tekeningen op vaste plekken ================= */
 if ($('p-strip')) $('p-strip').innerHTML = strip('pleister', ['Je merkt het eerst in je lijf, niet in je agenda', 'Tien minuten pauze levert meer op dan tien minuten doorploeteren', 'Een pauze die je niet hoeft te verstoppen']);
 if ($('l-strip')) $('l-strip').innerHTML = strip('leiding', ['Jij gaat als eerste, en niet altijd in het groen', 'Jij laat de stilte vallen', 'Jij doet er zichtbaar iets mee']);
-if ($('o-busje')) $('o-busje').innerHTML = T.busje || '';
+if ($('st-busje')) $('st-busje').innerHTML = T.busje || '';
+if ($('st-ik')) $('st-ik').innerHTML = (T.sessie && T.sessie.stem) || '';
+if ($('st-leiding')) $('st-leiding').innerHTML = (T.leiding && T.leiding[0]) || '';
+/* wegwijzer voor medewerkers */
+(function () {
+  var rijen = [
+    ['nu', 'pols', 'Nu: hoe sta je ervoor?', 'De thermometer in vier kleuren, en een time-out van zestig seconden of tien minuten.'],
+    ['plan', 'plan', 'Plan: mijn signaleringsplan', 'Vul het in op een rustig moment. Dan weet je wat je nodig hebt, en weten anderen wat helpt.'],
+    ['check', 'helm', 'Check: zestig seconden vooraf', 'Vijf vragen voordat je ergens aan begint, met een conclusie.'],
+    ['terug', 'terug', 'Terug: kijk terug voor jezelf', 'Wat gebeurde er, waar lag het aan, en wat is de les? Alleen voor jou.'],
+    ['team', 'team', 'Team: doe mee met een sessie', 'Scan de QR-code van je begeleider, of blader zelf door de kaarten.']
+  ], h = '';
+  rijen.forEach(function (r) { h += '<button class="wijzer" type="button" data-ga="' + r[0] + '"><span class="pic">' + ico(r[1]) + '</span><b>' + esc(r[2]) + '</b><span>' + esc(r[3]) + '</span></button>'; });
+  if ($('ik-lijst')) $('ik-lijst').innerHTML = h;
+})();
+/* handleiding: de vier sessies in het kort */
+(function () {
+  var opbouw = {
+    start: 'Opwarmen, verwachtingen, één zin afspreken, Verband, jij begint, afsluiten. Optioneel: Spiegel en Zalf.',
+    week: 'Kleur van de week, de verdeling, Zalf, Verband, afsluiten. Optioneel: Spiegel.',
+    klant: 'Opwarmen, de zes vragen, afsluiten. Optioneel: Spiegel.',
+    terug: 'Zalf, de vier lagen, één ingreep, wat we niet meer doen, afsluiten. Optioneel: Spiegel.'
+  }, h = '';
+  SESSIES.forEach(function (s) { h += '<div class="sesrij" style="--k:' + s.kleur + '"><em>' + esc(s.duur) + '</em><b>' + esc(s.naam) + '</b><span>' + esc(opbouw[s.id]) + '</span><button type="button" data-ga="sessie-' + s.id + '-1">Open deze sessie</button></div>'; });
+  if ($('l-sessies')) $('l-sessies').innerHTML = h;
+})();
 
 /* ================= start ================= */
 tekenGekregen();
