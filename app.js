@@ -21,6 +21,7 @@ function toast(tekst) {
   clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.hidden = true; }, 2600);
 }
 function kopieer(tekst, gelukt) {
+  if (window.EHBO_vertaalTekst) tekst = window.EHBO_vertaalTekst(tekst);
   function terugval() {
     var ta = el('textarea'); ta.value = tekst; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta); ta.select();

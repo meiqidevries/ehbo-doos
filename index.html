@@ -277,6 +277,8 @@ nav svg{display:block}
 .ijsberg [data-laag]{opacity:.3}
 .ijsberg.alle [data-laag],.ijsberg [data-laag].aan{opacity:1}
 .busje .tek{width:4.5rem;height:2.5rem}
+.taalknop{margin-left:auto;min-width:2.75rem;min-height:2.25rem;padding:.25rem .5rem;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;cursor:pointer}
+@media print{.taalknop{display:none}}
 </style>
 </head>
 <body>
@@ -287,6 +289,7 @@ nav svg{display:block}
       <rect x="2" y="12.5" width="30" height="9" rx="2" fill="var(--rood)"></rect>
     </svg>
     <div><h1 id="kop">EHBO-doos</h1><p id="onderkop">Voor als het spannend wordt</p></div>
+    <button type="button" class="taalknop" id="taalknop" data-notr aria-label="Switch to English">EN</button>
   </header>
 
   <!-- NU: merken en opvangen -->
@@ -512,6 +515,8 @@ nav svg{display:block}
 <div class="toast" id="toast" hidden role="status"></div>
 <div id="printblok"></div>
 
+<script src="en.js"></script>
+<script src="i18n.js"></script>
 <script src="kaarten.js"></script>
 <script src="tekeningen.js"></script>
 <script src="qr.js"></script>

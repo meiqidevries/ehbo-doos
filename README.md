@@ -45,3 +45,15 @@ Zonder live sessie werkt alles ook: de begeleider zegt dan het stapnummer, of de
 ## Aanpassen
 
 Teksten van de kaarten komen uit de doos. Overige teksten staan bovenaan `app.js` onder ‘inhoud’. Verhoog na een wijziging de regel `VERSIE` in `sw.js`, zodat telefoons de nieuwe versie ophalen.
+
+## Interactief in een live sessie
+
+- **Zalf**: iedereen geeft een collega een kaart vanaf de eigen telefoon, met erbij wat je zag. De begeleider laat alle kaarten tegelijk zien.
+- **Verband**: iedereen kiest zonder naam één zin; daarna zie je welke zinnen het vaakst gekozen zijn.
+- **Spiegel**: de begeleider kiest één vraag, die op ieders scherm verschijnt. Deze stappen zijn optioneel.
+
+## Engels
+
+Rechtsboven staat een knop EN/NL. De Engelse teksten staan in `en.js`; `i18n.js` vervangt de teksten op het scherm.
+Deelnemers in één live sessie kunnen elk hun eigen taal gebruiken.
+
