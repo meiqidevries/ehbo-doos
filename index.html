@@ -279,6 +279,28 @@ nav svg{display:block}
 .busje .tek{width:4.5rem;height:2.5rem}
 .taalknop{margin-left:auto;min-width:2.75rem;min-height:2.25rem;padding:.25rem .5rem;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;cursor:pointer}
 @media print{.taalknop{display:none}}
+.soort{display:flex;flex-wrap:wrap;gap:.375rem}
+.soort span{font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;padding:.1875rem .5rem;border:1px solid var(--line);color:var(--soft);background:var(--paper)}
+.soort span:first-child{border-color:var(--k,var(--line));color:var(--ink)}
+.soort .opt{border-style:dashed}
+.staptek{align-self:center;width:9.5rem;max-width:60%}
+.staptek .tek{width:100%;height:auto}
+.overzicht{display:flex;flex-direction:column;gap:.375rem}
+.ovz{display:grid;grid-template-columns:1.5rem minmax(0,1fr);column-gap:.5rem;row-gap:.125rem;align-items:baseline;width:100%;text-align:left;padding:.5rem .625rem;border:1px solid var(--hair);background:var(--paper);color:var(--ink);font-family:var(--body);font-size:.9375rem}
+button.ovz{cursor:pointer;min-height:2.75rem}
+.ovz b{font-family:var(--mono);font-weight:500;font-size:.75rem;color:var(--soft);grid-row:span 2}
+.ovz span{font-weight:500}
+.ovz em{font-style:normal;font-size:.75rem;color:var(--soft);grid-column:2}
+.kleurkeuze .tek{width:2.125rem;height:2.5rem}
+.kleurkeuze.stil .zone{cursor:default}
+.gegeven em{font-family:var(--mono);font-style:normal;font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--oranje)}
+.gegeven.prijs{border-left-width:6px}
+.slot{display:flex;flex-direction:column;gap:.375rem;border-top:1px solid var(--hair);padding-top:.75rem}
+.slotsom{font-family:var(--disp);font-weight:600;font-size:1.0625rem}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+.confetti i{position:absolute;top:-1rem;width:.5rem;height:.875rem;opacity:.9;animation:val 2.1s ease-in forwards}
+@keyframes val{to{top:105%;transform:rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){.confetti{display:none}}
 </style>
 </head>
 <body>

@@ -152,52 +152,70 @@ var VAKKEN = [
 ];
 
 var ANONIEM = 'Liever schrijven dan zeggen? Deel je antwoord zonder naam.';
-function laag(i) { return { k: BIJSLUITER[i][0], b: BIJSLUITER[i][1], ijs: i, vragen: BIJSLUITER[i][2], inb: ['tekst', 'Wat wil jij hierover kwijt? Zonder naam.'] }; }
-function klantvraag(n, nr) { return { k: 'Vraag ' + n + ' van 6', kaart: ['verband', nr], inb: ['tekst', 'Jullie antwoord, of een voorstel.'] }; }
+function laag(i) { return { k: BIJSLUITER[i][0], b: BIJSLUITER[i][1], ijs: i, min: 5, vragen: BIJSLUITER[i][2], inb: ['tekst', 'Wat wil jij hierover kwijt? Zonder naam.'] }; }
+function klantvraag(n, nr) { return { k: 'Vraag ' + n + ' van 6', min: 3, tek: n === 1 ? ['verband', 2] : null, kaart: ['verband', nr], inb: ['tekst', 'Jullie antwoord, of een voorstel.'] }; }
+var GEEF = 'Kies een kaart en geef die aan een collega.', KIESZIN = 'Kies één zin. Er gaat geen naam mee.';
+var SPIEGELTIP = 'Waarom deze vragen: ethische grenzen worden zelden in één besluit overschreden. Ze schuiven op, vraag voor vraag.';
 var SESSIES = [
 { id: 'start', naam: 'Start van de opdracht', duur: '20 min', kleur: 'var(--blauw)',
-  intro: 'Voordat het dossier er is. Nu kan het antwoord nog iets veranderen.',
+  intro: 'Afspreken hoe jullie met elkaar omgaan als het spannend wordt.',
   stappen: [
-   { k: 'Voordat je begint', b: 'Eén iemand begeleidt en leest voor. Doen jullie dit live, dan volgt ieders telefoon vanzelf de stap van de begeleider.', tip: 'Antwoorden leg je niet vast. Deze vragen zijn geen controlemiddel: belandt een antwoord in een dossier of beoordeling, dan worden de antwoorden daarna voorzichtiger.' },
-   { k: 'Waarom nu, en niet achteraf', lees: ['Ethische grenzen worden zelden in één besluit overschreden. Ze schuiven op, vraag voor vraag, tot niemand meer kan aanwijzen waar het misging.', 'Lees voor'], b: 'Daarom stel je deze vragen aan het begin van de opdracht, wanneer het antwoord nog iets kan veranderen.' },
-   { k: 'Spiegel: één vraag bij de acceptatie', b: 'De begeleider kiest één vraag en leest die voor. Laat daarna twee minuten stilte vallen; pas dan praten jullie.', spiegel: 'Opdrachtacceptatie', sec: 120, inb: ['tekst', ANONIEM] },
-   { k: 'Spiegel: nog één vraag', opt: 1, b: 'Als er tijd is. Voorlezen, twee minuten stilte, en niemand hoeft een antwoord af te maken.', spiegel: 'Risicoanalyse', sec: 120, inb: ['tekst', ANONIEM] },
-   { k: 'De zin die de rest makkelijker maakt', lees: ['Ik wil iets zeggen waar ik een beetje bang voor ben.', 'Uit Verband'], b: 'Spreek af dat deze zin in dit team altijd mag. Wie hem hoort, bedankt eerst, vraagt door, en komt er binnen een week op terug met wat ermee is gedaan.' },
-   { k: 'Verband: welke zin wil jij hier kunnen zeggen?', opt: 1, b: 'Iedereen kiest één zin die in dit team makkelijker gezegd zou moeten kunnen worden. Bespreek daarna de zin die het vaakst is gekozen.', inb: ['zin', 'Kies één zin. Er gaat geen naam mee.', ''] },
-   { k: 'De leidinggevende begint', b: 'Een team wordt veiliger wanneer degene met de meeste invloed als eerste iets ongemakkelijks vraagt. De begeleider geeft daarom als eerste een antwoord dat ook voor de begeleider zelf ongemakkelijk is.', tip: 'Veiligheid ontstaat niet doordat junioren moediger worden, maar doordat de leidinggevende laat zien dat het kan.' },
-   { k: 'Zalf: begin met een compliment', opt: 1, b: 'Iedereen kan een collega een kaart geven, met erbij wat je zag. Denk aan de vorige opdracht, of aan de voorbereiding van deze.', inb: ['geef', 'Kies een kaart en geef die aan een collega.'], tip: 'Eén prijs per teamoverleg is genoeg, anders verliezen ze hun waarde.' },
-   { k: 'Afsluiten', b: 'Eén afspraak uit dit gesprek. Wie bewaakt die afspraak, en wanneer kijken jullie of die heeft gewerkt?', inb: ['tekst', 'Welke afspraak neem jij mee?'] }
+   { k: 'Welkom', overzicht: 1, tek: ['sessie', 'welkom'], b: 'In twintig minuten spreken jullie af hoe je in deze opdracht met elkaar omgaat als het spannend wordt. Eén iemand begeleidt en leest voor.', tip: 'Je hoeft niets hardop te zeggen wat je niet wilt. Stemmen en schrijven gaan zonder naam, en antwoorden worden niet vastgelegd.' },
+   { k: 'Opwarmen: hoe begin jij aan deze opdracht?', min: 2, tek: ['sessie', 'stem'], b: 'Kies de kleur die past bij hoe je er nu in zit. Zonder toelichting; er is geen goed of fout antwoord.', inb: ['kleur', 'Hoe begin jij aan deze opdracht?'], tip: 'Zo zie je met hoeveel ruimte dit team begint. Kijk naar de verdeling, niet naar personen.' },
+   { k: 'Waar kijk je naar uit, en wat vind je spannend?', min: 4, tek: ['leiding', 1], b: 'Schrijf één ding op waar je naar uitkijkt in deze opdracht, en één ding dat je spannend vindt. De begeleider laat alles tegelijk zien; bespreek wat opvalt.', inb: ['tekst', 'Eén ding waar je naar uitkijkt, en één ding dat je spannend vindt.'] },
+   { k: 'Eén zin die hier altijd mag', min: 3, tek: ['verband', 1], lees: ['Ik wil iets zeggen waar ik een beetje bang voor ben.', 'Uit Verband'], b: 'Spreek af dat deze zin in dit team altijd mag. Wie hem hoort, bedankt eerst, vraagt door, en komt er binnen een week op terug met wat ermee is gedaan.' },
+   { k: 'Verband: welke zin wil jij hier kunnen zeggen?', min: 3, tek: ['verband', 0], b: 'Iedereen kiest één zin die in dit team makkelijker gezegd zou moeten kunnen worden. Bespreek daarna de zin die het vaakst is gekozen.', inb: ['zin', KIESZIN, ''] },
+   { k: 'De leidinggevende begint', min: 2, tek: ['leiding', 0], b: 'Een team wordt veiliger wanneer degene met de meeste invloed als eerste iets ongemakkelijks zegt. De begeleider vertelt daarom als eerste één ding dat hij of zij zelf lastig vindt in deze opdracht.', tip: 'Veiligheid ontstaat niet doordat junioren moediger worden, maar doordat de leidinggevende laat zien dat het kan.' },
+   { k: 'Spiegel: één vraag om over na te denken', opt: 1, min: 4, tek: ['spiegel', 2], b: 'Voor als er tijd is, en pas nu de rest gelopen is. De begeleider kiest één vraag en leest die voor. Daarna twee minuten stilte; niemand hoeft hardop te antwoorden.', spiegel: 'Opdrachtacceptatie', sec: 120, inb: ['tekst', ANONIEM], tip: SPIEGELTIP },
+   { k: 'Zalf: geef een compliment mee', opt: 1, min: 3, tek: ['zalf', 0], b: 'Iedereen kan een collega een kaart geven, met erbij wat je zag. Denk aan de vorige opdracht, of aan de voorbereiding van deze.', inb: ['geef', GEEF] },
+   { k: 'Afsluiten', slot: 1, min: 2, tek: ['sessie', 'klaar'], b: 'Eén afspraak uit dit gesprek. Wie bewaakt die afspraak, en wanneer kijken jullie of die heeft gewerkt?', inb: ['tekst', 'Welke afspraak neem jij mee?'] }
   ] },
 { id: 'week', naam: 'Weekafsluiting in de busy season', duur: '15 min', kleur: 'var(--oranje)',
   intro: 'Een kwartier aan het eind van een overleg dat al gepland staat.',
   stappen: [
-   { k: 'Voordat je begint', b: 'Een kwartier, aan het eind van een overleg dat al gepland staat. Eén iemand begeleidt.', tip: 'Kijk straks naar de verdeling, niet naar personen.' },
-   { k: 'Het rondje', b: 'Iedereen geeft aan welke kleur deze week had: groen, geel, oranje of rood. Zonder toelichting.', sec: 60, inb: ['kleur', 'Welke kleur had jouw week?'], tip: 'Live gaat dit anoniem: iedereen kiest op de eigen telefoon en de begeleider laat daarna de verdeling zien. Zonder live sessie noemt ieder hardop een kleur.' },
-   { k: 'Kijk naar de verdeling', b: 'Niet wíé er in oranje of rood staat, maar hoeveel. Staat iemand drie keer in één week in oranje of rood, dan is het geen pleisterprobleem meer, maar een planningsprobleem.', uitslag: 1 },
-   { k: 'Verband: welke zin had jij kunnen gebruiken?', b: 'Iedereen kiest één zin die deze week van pas was gekomen. Bespreek daarna de zin die het vaakst is gekozen: wat hield ons tegen om dit te zeggen?', inb: ['zin', 'Kies één zin. Er gaat geen naam mee.', 'Het gaat over de druk'] },
-   { k: 'Zalf: geef een kaart', b: 'Geef een collega een compliment, met erbij wat je zag. Een kaart zonder toelichting is een sticker.', inb: ['geef', 'Kies een kaart en geef die aan een collega.'], tip: 'Eén prijs per teamoverleg is genoeg, anders verliezen ze hun waarde.' },
-   { k: 'Spiegel: één vraag', opt: 1, b: 'Als er tijd is: de begeleider kiest één vraag die past bij de fase waarin de opdracht zit. Voorlezen, twee minuten stilte, en dan pas praten.', spiegel: 'Teamdynamiek', sec: 120, inb: ['tekst', ANONIEM] },
-   { k: 'Afsluiten', b: 'Wat gaat er volgende week van de lijst af? Een afsluiting die alleen dingen toevoegt, maakt de week drukker.', inb: ['tekst', 'Wat kan er wat jou betreft af?'] }
+   { k: 'Welkom', overzicht: 1, tek: ['sessie', 'welkom'], b: 'Een kwartier, aan het eind van een overleg dat al gepland staat. Eerst kijken hoe de week was, dan een compliment, en pas daarna wat lastig was.', tip: 'Stemmen en kiezen gaan zonder naam. Kijk naar de verdeling, niet naar personen.' },
+   { k: 'Het rondje: welke kleur had jouw week?', min: 2, tek: ['sessie', 'stem'], b: 'Iedereen geeft aan welke kleur deze week had: groen, geel, oranje of rood. Zonder toelichting.', inb: ['kleur', 'Welke kleur had jouw week?'], tip: 'Live gaat dit anoniem: iedereen kiest op de eigen telefoon en de begeleider laat daarna de verdeling zien. Zonder live sessie noemt ieder hardop een kleur.' },
+   { k: 'Kijk naar de verdeling', min: 2, b: 'Niet wíé er in oranje of rood staat, maar hoeveel. Staat iemand drie keer in één week in oranje of rood, dan is het geen pleisterprobleem meer, maar een planningsprobleem.', uitslag: 1 },
+   { k: 'Zalf: geef een kaart', min: 4, tek: ['zalf', 0], b: 'Eerst wat goed ging. Geef een collega een compliment, met erbij wat je zag. Een kaart zonder toelichting is een sticker.', inb: ['geef', GEEF], tip: 'Eén prijs per teamoverleg is genoeg, anders verliezen ze hun waarde.' },
+   { k: 'Verband: welke zin had jij kunnen gebruiken?', min: 3, tek: ['verband', 0], b: 'Iedereen kiest één zin die deze week van pas was gekomen. Bespreek daarna de zin die het vaakst is gekozen: wat hield ons tegen om dit te zeggen?', inb: ['zin', KIESZIN, 'Het gaat over de druk'] },
+   { k: 'Spiegel: één vraag om over na te denken', opt: 1, min: 4, tek: ['spiegel', 2], b: 'Voor als er tijd is. De begeleider kiest één vraag die past bij de fase waarin de opdracht zit. Voorlezen, twee minuten stilte, en dan pas praten.', spiegel: 'Teamdynamiek', sec: 120, inb: ['tekst', ANONIEM], tip: SPIEGELTIP },
+   { k: 'Afsluiten', slot: 1, min: 2, tek: ['sessie', 'klaar'], b: 'Wat gaat er volgende week van de lijst af? Een afsluiting die alleen dingen toevoegt, maakt de week drukker.', inb: ['tekst', 'Wat kan er wat jou betreft af?'] }
   ] },
 { id: 'klant', naam: 'Een lastig klantgesprek voorbereiden', duur: '20 min', kleur: 'var(--rood)',
   intro: 'Zes vragen die je mét je team beantwoordt, vóór het gesprek.',
   stappen: [
-   { k: 'Voordat je begint', b: 'Niemand hoeft alleen een lastig klantgesprek in. Deze zes vragen beantwoord je mét je team, vóór het gesprek.', tip: 'De vragen horen bij elkaar; sla er geen over.' },
+   { k: 'Welkom', overzicht: 1, tek: ['sessie', 'klant'], b: 'Niemand hoeft alleen een lastig klantgesprek in. In twintig minuten beantwoorden jullie samen zes vragen, zodat iedereen weet wat de boodschap is en wie wat doet.', tip: 'De zes vragen horen bij elkaar; sla er geen over.' },
+   { k: 'Opwarmen: hoe kijk je tegen dit gesprek aan?', min: 2, tek: ['sessie', 'stem'], b: 'Kies de kleur die past bij hoe je tegen dit gesprek aankijkt. Zo zie je meteen of je de enige bent die ertegen opziet.', inb: ['kleur', 'Hoe kijk je tegen dit gesprek aan?'], tip: 'Zonder live sessie noemt ieder hardop een kleur.' },
    klantvraag(1, 19), klantvraag(2, 20), klantvraag(3, 21), klantvraag(4, 22), klantvraag(5, 23), klantvraag(6, 24),
-   { k: 'Spiegel: één vraag over het klantcontact', opt: 1, b: 'Als er tijd is: de begeleider kiest één vraag. Voorlezen, twee minuten stilte, en dan pas praten.', spiegel: 'Klantcontact', sec: 120, inb: ['tekst', ANONIEM] },
-   { k: 'Afsluiten', b: 'Herhaal hardop: de boodschap in één zin, de ondergrens, wie het woord voert, en wie wie spreekt na afloop.' }
+   { k: 'Spiegel: één vraag om over na te denken', opt: 1, min: 4, tek: ['spiegel', 2], b: 'Voor als er tijd is. De begeleider kiest één vraag. Voorlezen, twee minuten stilte, en dan pas praten.', spiegel: 'Klantcontact', sec: 120, inb: ['tekst', ANONIEM], tip: SPIEGELTIP },
+   { k: 'Afsluiten', slot: 1, min: 2, tek: ['sessie', 'klaar'], b: 'Herhaal hardop: de boodschap in één zin, de ondergrens, wie het woord voert, en wie wie spreekt na afloop.' }
   ] },
 { id: 'terug', naam: 'Na afloop: de opdracht nabespreken', duur: '30 min', kleur: 'var(--groen)',
-  intro: 'Langs vier lagen, van gebeurtenis tot aanname. Ook als het goed ging.',
+  intro: 'Eerst wat goed ging, dan langs vier lagen naar de oorzaak.',
   stappen: [
-   { k: 'Eén afspraak vooraf', ijs: -1, b: 'Je werkt van boven naar beneden: wat er gebeurde is het makkelijkste deel, wat het veroorzaakte zit eronder. Doe dit ook als het goed ging.', tip: 'Laag 3 en 4 gaan over hoe wij het hebben georganiseerd, niet over wie wat te laat aanleverde.' },
+   { k: 'Welkom', overzicht: 1, ijs: -1, b: 'Jullie beginnen met wat goed ging. Daarna werk je van boven naar beneden: wat er gebeurde is het makkelijkste deel, wat het veroorzaakte zit eronder. Doe dit ook als het goed ging.', tip: 'Laag 3 en 4 gaan over hoe wij het hebben georganiseerd, niet over wie wat te laat aanleverde.' },
+   { k: 'Zalf: begin met wat goed ging', min: 4, tek: ['sessie', 'prijs'], b: 'Voordat je kijkt naar wat beter kan: geef een collega een kaart voor iets wat je in deze opdracht zag. Dit is het moment voor een prijs.', inb: ['geef', GEEF] },
    laag(0), laag(1), laag(2), laag(3),
-   { k: 'En dan: één ingreep', b: 'Wat is de kleinste verandering met het grootste effect? Wie regelt die, en wanneer kijken we of het werkte?', inb: ['tekst', 'Welke ingreep stel jij voor?'] },
-   { k: 'Wat we níét meer doen', b: 'Een evaluatie die alleen dingen toevoegt, maakt het volgend jaar drukker. Spreek daarom ook af waarmee jullie stoppen.', inb: ['tekst', 'Waarmee kunnen we stoppen?'] },
-   { k: 'Spiegel: één vraag achteraf', opt: 1, b: 'Als er tijd is: de begeleider kiest één vraag. Voorlezen, twee minuten stilte, en dan pas praten.', spiegel: 'Professionele moed', sec: 120, inb: ['tekst', ANONIEM] },
-   { k: 'Zalf: sluit af met een compliment', opt: 1, b: 'Iedereen kan een collega een kaart geven, met erbij wat je zag in deze opdracht.', inb: ['geef', 'Kies een kaart en geef die aan een collega.'] }
+   { k: 'En dan: één ingreep', min: 3, tek: ['leiding', 2], b: 'Wat is de kleinste verandering met het grootste effect? Wie regelt die, en wanneer kijken we of het werkte?', inb: ['tekst', 'Welke ingreep stel jij voor?'] },
+   { k: 'Wat we níét meer doen', min: 2, b: 'Een evaluatie die alleen dingen toevoegt, maakt het volgend jaar drukker. Spreek daarom ook af waarmee jullie stoppen.', inb: ['tekst', 'Waarmee kunnen we stoppen?'] },
+   { k: 'Spiegel: één vraag om over na te denken', opt: 1, min: 4, tek: ['spiegel', 2], b: 'Voor als er tijd is. De begeleider kiest één vraag. Voorlezen, twee minuten stilte, en dan pas praten.', spiegel: 'Professionele moed', sec: 120, inb: ['tekst', ANONIEM], tip: SPIEGELTIP },
+   { k: 'Afsluiten', slot: 1, min: 1, tek: ['sessie', 'klaar'], b: 'Herhaal hardop de ene ingreep en waarmee jullie stoppen. Wie bewaakt het, en wanneer kijken jullie terug?' }
   ] }
 ];
+/* wat voor soort stap is dit: voor het overzicht en het label boven de stap */
+function soortVan(s) {
+  var k = s.inb ? s.inb[0] : null;
+  if (k === 'kleur') return 'Stemmen · anoniem';
+  if (k === 'zin') return 'Zin kiezen · anoniem';
+  if (k === 'geef') return 'Kaart geven';
+  if (s.spiegel) return 'Vraag van de begeleider';
+  if (s.kaart || (s.ijs != null && s.vragen)) return 'Samen beantwoorden';
+  if (k === 'tekst') return 'Schrijven · anoniem';
+  if (s.overzicht) return 'Uitleg';
+  if (s.lees) return 'Voorlezen en afspreken';
+  return 'Bespreken';
+}
+function tekening(t) { if (!t) return ''; var set = T[t[0]]; return (set && set[t[1]]) || ''; }
 function sessie(id) { for (var i = 0; i < SESSIES.length; i++) if (SESSIES[i].id === id) return SESSIES[i]; return null; }
 
 var SETS = { zalf: K.ZALF, verband: K.VERBAND, spiegel: K.SPIEGEL };
@@ -519,9 +537,12 @@ function tekenStap() {
   $('s-naam').textContent = SES.naam;
   $('s-tel').textContent = 'stap ' + (IX + 1) + ' van ' + SES.stappen.length;
   $('s-balk').style.width = Math.round((IX + 1) / SES.stappen.length * 100) + '%';
-  if (s.opt) h += '<span class="lab opt">Optioneel · overslaan kan met Volgende</span>';
+  h += '<div class="soort"><span>' + esc(soortVan(s)) + '</span>' + (s.min ? '<span>' + s.min + ' min</span>' : '') + (s.opt ? '<span class="opt">Optioneel</span>' : '') + '</div>';
+  if (s.tek && tekening(s.tek)) h += '<div class="staptek">' + tekening(s.tek) + '</div>';
   h += '<h2>' + esc(s.k) + '</h2>';
   if (s.b) h += '<p>' + esc(s.b) + '</p>';
+  if (s.opt) h += '<p class="tip">Overslaan kan: ga door met Volgende.</p>';
+  if (s.overzicht) h += overzichtHTML();
   if (s.ijs != null) h += ijsberg(s.ijs);
   if (s.lees) h += '<div class="lees"><span class="lab">' + esc(s.lees[1]) + '</span><q>' + esc(s.lees[0]) + '</q></div>';
   if (s.vragen) { h += '<div class="vragen">'; for (i = 0; i < s.vragen.length; i++) h += '<div><b>' + (i + 1) + '</b><span>' + esc(s.vragen[i]) + '</span></div>'; h += '</div>'; }
@@ -543,6 +564,7 @@ function tekenStap() {
   if ($('s-klok')) $('s-klok').addEventListener('click', function () { loopKlok(s.sec); });
   if ($('s-andere')) $('s-andere').addEventListener('click', tekenStap);
   inbrengDelen = null; kaartDelen = null; spiegelDelen = null; bouwSpiegel(); bouwInbreng();
+  if (s.slot) bouwSlot();
   tekenLive(); tekenVoet();
   var doel = '#sessie-' + SES.id + '-' + (IX + 1);
   if (location.hash !== doel) { try { history.replaceState(null, '', doel); } catch (e) {} }
@@ -569,6 +591,11 @@ function bouwInbreng() {
   kaartDelen = null;
   if (soort === 'zin') { bouwZin(box, s); return; }
   if (soort === 'geef') { bouwGeef(box, s); return; }
+  if (!L && soort === 'kleur') {
+    var rij = el('div', 'kleurkeuze stil');
+    ZONES.forEach(function (z) { var f = el('div', 'zone'); f.style.setProperty('--z', z.kleur); f.innerHTML = '<i></i>' + ((T.zone && T.zone[z.id]) || '') + '<span>' + esc(z.naam) + '</span>'; rij.appendChild(f); });
+    box.appendChild(rij);
+  }
   if (!L) return;
   if (!soort) return;
   var w = el('div', 'inbreng'), d = { soort: soort, stap: s.uitslag != null ? s.uitslag : IX };
@@ -577,7 +604,7 @@ function bouwInbreng() {
     d.keuze = el('div', 'kleurkeuze');
     ZONES.forEach(function (z) {
       var b = el('button', 'zone'); b.type = 'button'; b.style.setProperty('--z', z.kleur); b.setAttribute('data-kleur', z.id); b.setAttribute('aria-pressed', 'false');
-      b.appendChild(el('i')); b.appendChild(el('span', null, z.naam));
+      b.innerHTML = '<i></i>' + ((T.zone && T.zone[z.id]) || '') + '<span>' + esc(z.naam) + '</span>';
       b.addEventListener('click', function () { Live.stem(IX, z.id); });
       d.keuze.appendChild(b);
     });
@@ -639,6 +666,53 @@ $('s-stap').addEventListener('click', function (e) {
   b = e.target.closest('[data-haal]'); if (b) { Live.haalWeg(b.getAttribute('data-haal')); return; }
   b = e.target.closest('[data-bewaar]'); if (b) bewaarKaart(b.getAttribute('data-bewaar'));
 });
+
+/* --- overzicht van de sessie, en een feestelijk einde --- */
+function magBladeren() { var L = liveHier(); return !L || L.host; }
+function overzichtHTML() {
+  var h = '<div class="overzicht"><span class="lab">In deze sessie</span>', kan = magBladeren();
+  SES.stappen.forEach(function (st, i) {
+    if (!i) return;
+    h += '<' + (kan ? 'button type="button"' : 'div') + ' class="ovz" data-naar="' + i + '"><b>' + (i + 1) + '</b><span>' + esc(st.k) + '</span><em>' + esc(soortVan(st)) + (st.opt ? ' · optioneel' : '') + '</em></' + (kan ? 'button' : 'div') + '>';
+  });
+  return h + '</div><p class="tip">' + (liveHier() ? 'Live: iedereen doet mee op de eigen telefoon en volgt vanzelf de stap van de begeleider.' : 'Samen op één scherm, of live met ieder op de eigen telefoon: start dan hierboven een live sessie.') + '</p>';
+}
+$('s-stap').addEventListener('click', function (e) {
+  var b = e.target.closest('button[data-naar]'); if (!b || !magBladeren()) return;
+  IX = +b.getAttribute('data-naar'); var L = liveHier(); if (L && L.host) Live.zetStap(IX); tekenStap();
+});
+var gevierd = {};
+function confetti() {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var laag = el('div', 'confetti'), kleuren = ['var(--rood)', 'var(--oranje)', 'var(--geel)', 'var(--groen)', 'var(--blauw)'], i, p;
+  laag.setAttribute('aria-hidden', 'true');
+  for (i = 0; i < 36; i++) {
+    p = el('i'); p.style.left = (Math.random() * 100) + '%'; p.style.background = kleuren[i % kleuren.length];
+    p.style.animationDelay = (Math.random() * .5) + 's'; p.style.transform = 'rotate(' + Math.round(Math.random() * 360) + 'deg)';
+    laag.appendChild(p);
+  }
+  document.body.appendChild(laag);
+  setTimeout(function () { if (laag.parentNode) laag.parentNode.removeChild(laag); }, 2600);
+}
+function vier(sleutel) { if (gevierd[sleutel]) return; gevierd[sleutel] = 1; confetti(); }
+function bouwSlot() {
+  var L = liveHier(), box = el('div', 'slot'), stemmen = 0, antw = 0, kaarten = 0, zinnen = 0;
+  if (L) {
+    SES.stappen.forEach(function (st, i) {
+      stemmen += Live.inbreng(i, 'kleur').length; antw += Live.inbreng(i, 'tekst').length;
+      kaarten += Live.inbreng(i, 'zalf').length; zinnen += Live.inbreng(i, 'zin').length;
+    });
+    var delen = [];
+    if (kaarten) delen.push(kaarten + (kaarten === 1 ? ' compliment' : ' complimenten'));
+    if (zinnen) delen.push(zinnen + (zinnen === 1 ? ' gekozen zin' : ' gekozen zinnen'));
+    if (antw) delen.push(antw + (antw === 1 ? ' antwoord' : ' antwoorden'));
+    if (stemmen) delen.push(stemmen + (stemmen === 1 ? ' stem' : ' stemmen'));
+    if (delen.length) { box.appendChild(el('span', 'lab', 'Dit hebben jullie samen gedaan')); box.appendChild(el('p', 'slotsom', delen.join(' · '))); }
+  }
+  box.appendChild(el('p', 'tip', 'Klaar. Goed gedaan: dit gesprek voeren is het werk, niet een extraatje.'));
+  $('s-stap').appendChild(box);
+  vier('slot-' + SES.id + '-' + (L ? L.code : ''));
+}
 
 /* --- kaarten in een sessie ---
  * Spiegel: de begeleider kiest één vraag, die op ieders scherm komt.
@@ -773,7 +847,7 @@ function bouwGeef(box, s) {
 }
 function gegevenHTML(k, L, zichtbaar) {
   var c = SETS.zalf[k.nr - 1]; if (!c) return '';
-  return '<div class="gegeven"><b>' + esc(c[1]) + '</b><span>' + esc(k.verhaal) + '</span>' + (k.van ? '<i>van ' + esc(k.van) + '</i>' : '') +
+  return '<div class="gegeven' + (c[3] ? ' prijs' : '') + '">' + (c[3] ? '<em>prijs</em>' : '') + '<b>' + esc(c[1]) + '</b><span>' + esc(k.verhaal) + '</span>' + (k.van ? '<i>van ' + esc(k.van) + '</i>' : '') +
     '<div class="acties">' + (zichtbaar ? '<button type="button" data-bewaar="' + esc(k.id) + '">bewaar</button>' : '') +
     (k.eigen ? '<button type="button" data-weg="' + esc(k.id) + '">trek terug</button>' : (L && L.host ? '<button type="button" data-haal="' + esc(k.id) + '">haal weg</button>' : '')) + '</div></div>';
 }
@@ -849,6 +923,7 @@ function ververKaart() {
       h += '</div>';
     });
     d.uit.innerHTML = h; d.eigen.innerHTML = '';
+    if (kaarten.length) vier('zalf-' + L.code + '-' + d.stap);
   } else {
     d.uit.innerHTML = L.host ? '' : '<p class="tip">De kaarten verschijnen voor iedereen tegelijk, zodra de begeleider ze laat zien.</p>';
     var mijnK = kaarten.filter(function (k) { return k.eigen; });
@@ -999,7 +1074,7 @@ $('s-print').addEventListener('click', function () {
   if (!SES) return;
   var h = '<h2>' + esc(SES.naam) + ' &middot; ' + esc(SES.duur) + '</h2><p>' + esc(SES.intro) + '</p>';
   SES.stappen.forEach(function (s, i) {
-    h += '<h3>' + (i + 1) + '. ' + esc(s.k) + (s.opt ? ' (optioneel)' : '') + '</h3>';
+    h += '<h3>' + (i + 1) + '. ' + esc(s.k) + (s.opt ? ' (optioneel)' : '') + '</h3><p class="pq">' + esc(soortVan(s)) + (s.min ? ' · ' + s.min + ' min' : '') + '</p>';
     if (s.b) h += '<p>' + esc(s.b) + '</p>';
     if (s.lees) h += '<p class="pq">&ldquo;' + esc(s.lees[0]) + '&rdquo;</p>';
     if (s.vragen) { h += '<ul>'; s.vragen.forEach(function (v) { h += '<li>' + esc(v) + '</li>'; }); h += '</ul>'; }
