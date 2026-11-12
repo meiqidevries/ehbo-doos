@@ -4,7 +4,7 @@
  */
 (function () {
 'use strict';
-var K = window.EHBO_KAARTEN, Live = window.EHBOLive;
+var K = window.EHBO_KAARTEN, Live = window.EHBOLive, T = window.EHBO_TEKENINGEN || {};
 var VERSIE = 'Versie november 2026';
 
 /* ================= gereedschap ================= */
@@ -41,6 +41,20 @@ function qrSvg(tekst) {
   } catch (e) { return ''; }
 }
 function basisUrl() { return location.origin + location.pathname; }
+/* drie tekeningen naast elkaar, elk met een onderschrift */
+function strip(naam, onderschriften) {
+  var t = T[naam]; if (!t) return '';
+  var h = '<div class="strip">';
+  onderschriften.forEach(function (o, i) { h += '<figure>' + (t[i] || '') + '<figcaption>' + esc(o) + '</figcaption></figure>'; });
+  return h + '</div>';
+}
+function ijsberg(laag) {
+  if (!T.ijsberg) return '';
+  var svg = laag < 0 ? T.ijsberg.replace('tek ijsberg', 'tek ijsberg alle') : T.ijsberg.replace('data-laag="' + laag + '"', 'data-laag="' + laag + '" class="aan"');
+  var h = '<div class="ijs">' + svg + '<ol>';
+  BIJSLUITER.forEach(function (b, i) { h += '<li' + (i === laag ? ' class="aan"' : '') + '>' + esc(b[0].replace(/^\d+\s*·\s*/, '')) + '</li>'; });
+  return h + '</ol></div>';
+}
 
 /* ================= inhoud ================= */
 var ZONES = [
@@ -137,7 +151,7 @@ var VAKKEN = [
 ];
 
 var ANONIEM = 'Liever schrijven dan zeggen? Deel je antwoord zonder naam.';
-function laag(i) { return { k: BIJSLUITER[i][0], b: BIJSLUITER[i][1], vragen: BIJSLUITER[i][2], inb: ['tekst', 'Wat wil jij hierover kwijt? Zonder naam.'] }; }
+function laag(i) { return { k: BIJSLUITER[i][0], b: BIJSLUITER[i][1], ijs: i, vragen: BIJSLUITER[i][2], inb: ['tekst', 'Wat wil jij hierover kwijt? Zonder naam.'] }; }
 function klantvraag(n, nr) { return { k: 'Vraag ' + n + ' van 6', kaart: ['verband', nr], inb: ['tekst', 'Jullie antwoord, of een voorstel.'] }; }
 var SESSIES = [
 { id: 'start', naam: 'Start van de opdracht', duur: '20 min', kleur: 'var(--blauw)',
@@ -175,7 +189,7 @@ var SESSIES = [
 { id: 'terug', naam: 'Na afloop: de opdracht nabespreken', duur: '30 min', kleur: 'var(--groen)',
   intro: 'Langs vier lagen, van gebeurtenis tot aanname. Ook als het goed ging.',
   stappen: [
-   { k: 'Eén afspraak vooraf', b: 'Je werkt van boven naar beneden: wat er gebeurde is het makkelijkste deel, wat het veroorzaakte zit eronder. Doe dit ook als het goed ging.', tip: 'Laag 3 en 4 gaan over hoe wij het hebben georganiseerd, niet over wie wat te laat aanleverde.' },
+   { k: 'Eén afspraak vooraf', ijs: -1, b: 'Je werkt van boven naar beneden: wat er gebeurde is het makkelijkste deel, wat het veroorzaakte zit eronder. Doe dit ook als het goed ging.', tip: 'Laag 3 en 4 gaan over hoe wij het hebben georganiseerd, niet over wie wat te laat aanleverde.' },
    laag(0), laag(1), laag(2), laag(3),
    { k: 'En dan: één ingreep', b: 'Wat is de kleinste verandering met het grootste effect? Wie regelt die, en wanneer kijken we of het werkte?', inb: ['tekst', 'Welke ingreep stel jij voor?'] },
    { k: 'Wat we níét meer doen', b: 'Een evaluatie die alleen dingen toevoegt, maakt het volgend jaar drukker. Spreek daarom ook af waarmee jullie stoppen.', inb: ['tekst', 'Waarmee kunnen we stoppen?'] },
@@ -212,7 +226,7 @@ function kaartHTML(set, i, zonderLabel) {
 var zoneBox = $('zones'), advies = $('advies');
 ZONES.forEach(function (z) {
   var b = el('button', 'zone'); b.type = 'button'; b.setAttribute('aria-pressed', 'false'); b.style.setProperty('--z', z.kleur);
-  b.appendChild(el('i')); b.appendChild(el('span', null, z.naam));
+  b.innerHTML = '<i></i>' + ((T.zone && T.zone[z.id]) || '') + '<span>' + esc(z.naam) + '</span>';
   b.addEventListener('click', function () { kiesZone(z, b); });
   zoneBox.appendChild(b);
 });
@@ -220,7 +234,7 @@ function kiesZone(z, knop) {
   Array.prototype.forEach.call(zoneBox.children, function (c) { c.setAttribute('aria-pressed', String(c === knop)); });
   advies.hidden = false; advies.innerHTML = ''; advies.style.setProperty('--z', z.kleur);
   advies.appendChild(el('span', 'lab', z.naam + ' · ' + z.onder));
-  var q = el('q', null, z.quote); advies.appendChild(q);
+  var sp = el('div', 'spreek'); sp.innerHTML = (T.zone && T.zone[z.id]) || ''; sp.appendChild(el('q', null, z.quote)); advies.appendChild(sp);
   var r1 = el('div', 'rij'); r1.appendChild(el('b', null, 'Dit merk je misschien')); r1.appendChild(el('span', null, z.merk));
   var r2 = el('div', 'rij'); r2.appendChild(el('b', null, 'Wat je nu nodig hebt')); r2.appendChild(el('span', null, z.nodig));
   advies.appendChild(r1); advies.appendChild(r2);
@@ -301,7 +315,8 @@ $('bureau-dicht').addEventListener('click', function () { $('bureau').hidden = t
 /* ================= PLAN ================= */
 BANDEN.forEach(function (b) {
   var d = el('div', 'band'); d.style.setProperty('--z', b[1]);
-  d.appendChild(el('b', null, b[0])); d.appendChild(el('span', null, b[2])); $('banden').appendChild(d);
+  var tk = el('div', 'bandtek'); tk.innerHTML = (T.raam && T.raam[BANDEN.indexOf(b)]) || ''; d.appendChild(tk);
+  var tx = el('div', 'bandtxt'); tx.appendChild(el('b', null, b[0])); tx.appendChild(el('span', null, b[2])); d.appendChild(tx); $('banden').appendChild(d);
 });
 var PLANVELDEN = [['m', 'Wat merk ik', 'pm'], ['n', 'Wat heb ik nodig', 'pn'], ['a', 'Wat kun jij doen', 'pa']];
 ZONES.forEach(function (z) {
@@ -472,6 +487,7 @@ function kLijst() { var r = []; SETS[KSET].forEach(function (c, i) { if (!KFILT 
 function tekenKaarten() {
   alle('#k-sets [data-set]', function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === KSET)); });
   $('k-uitleg').textContent = SETINFO[KSET].uit;
+  $('k-strip').innerHTML = strip(KSET, SETINFO[KSET].kort);
   var h = '<button class="chip" type="button" data-f="" aria-pressed="' + (KFILT === '' ? 'true' : 'false') + '">Alle</button>';
   kSoorten().forEach(function (s) { h += '<button class="chip" type="button" data-f="' + esc(s) + '" aria-pressed="' + (KFILT === s ? 'true' : 'false') + '">' + esc(s) + '</button>'; });
   $('k-filters').innerHTML = h;
@@ -479,9 +495,7 @@ function tekenKaarten() {
   var box = $('k-kaart'); box.style.setProperty('--k', SETINFO[KSET].kleur); box.innerHTML = kaartHTML(KSET, l[KIX]);
   var c = SETS[KSET][l[KIX]];
   $('k-kopieer').hidden = !(KSET === 'verband' && c[2]);
-  h = '<ol class="kort">';
-  SETINFO[KSET].kort.forEach(function (r) { h += '<li>' + esc(r) + '</li>'; });
-  h += '</ol>';
+  h = '';
   SETINFO[KSET].regels.forEach(function (r) { h += '<div class="rij"><b>' + esc(r[0]) + '</b><span>' + esc(r[1]) + '</span></div>'; });
   $('k-regeltekst').innerHTML = h;
 }
@@ -507,6 +521,7 @@ function tekenStap() {
   if (s.opt) h += '<span class="lab opt">Optioneel · overslaan kan met Volgende</span>';
   h += '<h2>' + esc(s.k) + '</h2>';
   if (s.b) h += '<p>' + esc(s.b) + '</p>';
+  if (s.ijs != null) h += ijsberg(s.ijs);
   if (s.lees) h += '<div class="lees"><span class="lab">' + esc(s.lees[1]) + '</span><q>' + esc(s.lees[0]) + '</q></div>';
   if (s.vragen) { h += '<div class="vragen">'; for (i = 0; i < s.vragen.length; i++) h += '<div><b>' + (i + 1) + '</b><span>' + esc(s.vragen[i]) + '</span></div>'; h += '</div>'; }
   if (s.kaart) h += '<div class="kaart" style="--k:' + SETINFO[s.kaart[0]].kleur + '">' + kaartHTML(s.kaart[0], s.kaart[1] - 1) + '</div>';
@@ -1063,6 +1078,11 @@ $('installeer').addEventListener('click', function () { if (!installVraag) retur
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
   window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
 }
+
+/* ================= tekeningen op vaste plekken ================= */
+if ($('p-strip')) $('p-strip').innerHTML = strip('pleister', ['Je merkt het eerst in je lijf, niet in je agenda', 'Tien minuten pauze levert meer op dan tien minuten doorploeteren', 'Een pauze die je niet hoeft te verstoppen']);
+if ($('l-strip')) $('l-strip').innerHTML = strip('leiding', ['Jij gaat als eerste, en niet altijd in het groen', 'Jij laat de stilte vallen', 'Jij doet er zichtbaar iets mee']);
+if ($('o-busje')) $('o-busje').innerHTML = T.busje || '';
 
 /* ================= start ================= */
 tekenGekregen();

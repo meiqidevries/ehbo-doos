@@ -259,6 +259,24 @@ nav svg{display:block}
 .melding.conclusie{display:flex;flex-direction:column;gap:.625rem;padding:1rem}
 .melding.conclusie h3{font-size:1.25rem}
 .kiesdeel{display:flex;flex-direction:column;gap:.75rem}
+.tek{display:block;color:var(--ink);overflow:visible}
+.zone .tek{width:2.125rem;height:2.5rem}
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+.strip figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:.25rem;text-align:center}
+.strip .tek{width:100%;max-width:9.5rem;height:auto}
+.strip figcaption{font-size:.75rem;line-height:1.3;color:var(--soft)}
+.spreek{display:flex;gap:.625rem;align-items:center}
+.spreek .tek{width:2.75rem;height:3.25rem;flex:0 0 auto}
+.band{display:flex;flex-direction:row;gap:.75rem;align-items:center}
+.bandtek{flex:0 0 auto}.bandtek .tek{width:2.5rem;height:3rem}
+.bandtxt{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.ijs{display:flex;gap:1rem;align-items:center}
+.ijs .tek{width:5rem;height:auto;flex:0 0 auto}
+.ijs ol{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.375rem;font-size:.9375rem;color:var(--soft)}
+.ijs li.aan{color:var(--ink);font-weight:500}
+.ijsberg [data-laag]{opacity:.3}
+.ijsberg.alle [data-laag],.ijsberg [data-laag].aan{opacity:1}
+.busje .tek{width:4.5rem;height:2.5rem}
 </style>
 </head>
 <body>
@@ -282,7 +300,7 @@ nav svg{display:block}
     <section class="card">
       <span class="lab">Pleister</span>
       <h2>Neem een time-out</h2>
-      <p class="zacht">Je merkt spanning eerst in je lijf, niet in je agenda. Tien minuten pauze levert meer op dan tien minuten doorploeteren.</p>
+      <div id="p-strip"></div>
       <div class="rijtje" role="group" aria-label="Hoeveel tijd heb je">
         <button class="btn" type="button" data-tijd="60 sec" aria-pressed="true">60 seconden</button>
         <button class="btn" type="button" data-tijd="10 min" aria-pressed="false">10 minuten</button>
@@ -407,6 +425,7 @@ nav svg{display:block}
       <button class="btn" type="button" data-set="spiegel">Spiegel</button>
     </div>
     <p class="zacht" id="k-uitleg"></p>
+    <div id="k-strip"></div>
     <div class="chips" id="k-filters"></div>
     <div class="kaart" id="k-kaart" aria-live="polite"></div>
     <div class="rijtje">
@@ -424,7 +443,7 @@ nav svg{display:block}
       <span class="lab">Het hele idee in één alinea</span>
       <p>Deze doos maakt een team niet vanzelf weerbaarder; hij maakt zichtbaar wat er al speelt. Elk vak vraagt iemand iets te doen wat ongemakkelijk is: toegeven dat het te veel wordt, een fout melden, een vraag stellen die niemand stelt. Of dat veilig voelt, bepaal jij voor een groot deel: niet met wat je over de doos zegt, maar met hoe je reageert wanneer iemand hem voor het eerst gebruikt.</p>
     </section>
-    <section class="card"><span class="lab">Drie dingen die alleen jij kunt doen</span><ol class="kort"><li>Jij gaat als eerste, en niet altijd in het groen</li><li>Jij laat de stilte vallen</li><li>Jij doet er zichtbaar iets mee</li></ol><p class="zacht">Eén pagina om te lezen; daarna komt het aan op doen.</p></section>
+    <section class="card"><span class="lab">Drie dingen die alleen jij kunt doen</span><div id="l-strip"></div><p class="zacht">Eén pagina om te lezen; daarna komt het aan op doen.</p></section>
     <section class="card"><span class="lab">Wat jij als eerste doet, en waarom het anders niet werkt</span><div id="l-rijen"></div></section>
     <section class="card"><span class="lab">Vier manieren waarop je de doos onderuit haalt</span><div id="l-sloop" class="lijst"></div></section>
     <section class="card"><span class="lab">Het ritme</span><div id="l-ritme"></div></section>
@@ -455,6 +474,7 @@ nav svg{display:block}
   <div class="view" id="v-over" hidden>
     <button class="terug" type="button" data-ga="nu">&larr; Terug</button>
     <section class="card">
+      <div class="busje" id="o-busje"></div>
       <span class="lab">De zes vakken</span>
       <p>De doos volgt het verloop van een werkdag: eerst merken, dan opvangen, dan samen, en pas daarna terugkijken. Elk vak is direct te gebruiken, zonder uitleg vooraf.</p>
       <div class="lijst"><div class="rij"><b>Eerst merken</b><span>Waar sta je, en kun je dit nu goed doen?</span></div><div class="rij"><b>Dan opvangen</b><span>Even afstand nemen, of iets bespreekbaar maken.</span></div><div class="rij"><b>Dan samen</b><span>Elkaar zien, en de vraag stellen die niemand stelt.</span></div><div class="rij"><b>Pas daarna terugkijken</b><span>Wat veroorzaakte dit, en wat veranderen we?</span></div></div>
@@ -493,6 +513,7 @@ nav svg{display:block}
 <div id="printblok"></div>
 
 <script src="kaarten.js"></script>
+<script src="tekeningen.js"></script>
 <script src="qr.js"></script>
 <script src="live.js"></script>
 <script src="app.js"></script>
